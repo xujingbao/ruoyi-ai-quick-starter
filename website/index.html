@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>RuoYi AI Quick Starter - AI 快速开发框架 | 基于 RuoYi 的企业级 AI 开发解决方案</title>
+    <meta name="title" content="RuoYi AI Quick Starter - AI 快速开发框架 | 基于 RuoYi 的企业级 AI 开发解决方案">
+    <meta name="description" content="RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。">
+    <meta name="keywords" content="RuoYi,AI开发框架,快速开发,全栈开发,Spring Boot,Vue 3,企业级框架,AI辅助开发,代码生成,前后端分离,uni-app,移动端开发">
+    <meta name="author" content="RuoYi AI Quick Starter Team">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="zh-CN">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ai-quick.dev/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ai-quick.dev/">
+    <meta property="og:title" content="RuoYi AI Quick Starter - AI 快速开发框架">
+    <meta property="og:description" content="基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署。">
+    <meta property="og:image" content="https://ai-quick.dev/logo.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:site_name" content="RuoYi AI Quick Starter">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://ai-quick.dev/">
+    <meta name="twitter:title" content="RuoYi AI Quick Starter - AI 快速开发框架">
+    <meta name="twitter:description" content="基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法。">
+    <meta name="twitter:image" content="https://ai-quick.dev/logo.svg">
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="logo.svg">
+    <meta name="theme-color" content="#409EFF">
+    <meta name="msapplication-TileColor" content="#409EFF">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "RuoYi AI Quick Starter",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web, Mobile",
+      "description": "基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。",
+      "url": "https://ai-quick.dev/",
+      "author": {
+        "@type": "Organization",
+        "name": "RuoYi AI Quick Starter Team",
+        "url": "https://ai-quick.dev/"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "softwareVersion": "1.0",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "1"
+      },
+      "featureList": [
+        "AI 辅助开发",
+        "全栈开发支持",
+        "前后端统一仓库",
+        "多端部署",
+        "快速代码生成",
+        "企业级功能模块"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "RuoYi AI Quick Starter",
+      "url": "https://ai-quick.dev/",
+      "description": "基于 RuoYi 成熟框架的 AI 快速开发框架",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ai-quick.dev/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "RuoYi AI Quick Starter",
+      "url": "https://ai-quick.dev/",
+      "logo": "https://ai-quick.dev/logo.svg",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "xu_jb@suixingpay.com",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://gitee.com/xujingbao/ruoyi-ai-quick-starter"
+      ]
+    }
+    </script>
+    
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#409EFF',
+                        secondary: '#67C23A',
+                        accent: '#E6A23C',
+                        dark: '#303133',
+                        light: '#606266',
+                        bgLight: '#F5F7FA',
+                    },
+                    fontFamily: {
+                        sans: [
+                            '-apple-system',
+                            'BlinkMacSystemFont',
+                            'Segoe UI',
+                            'PingFang SC',
+                            'Hiragino Sans GB',
+                            'Microsoft YaHei',
+                            'Helvetica Neue',
+                            'Helvetica',
+                            'Arial',
+                            'sans-serif',
+                        ],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .btn-hover { 
+                @apply transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95; 
+            }
+            .card-hover { 
+                @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-md; 
+            }
+            .section-padding { 
+                @apply py-16 md:py-24; 
+            }
+            .section-title { 
+                @apply text-[clamp(1.5rem,3vw,2rem)] font-bold text-dark text-center mb-12 relative; 
+            }
+            .section-title::after { 
+                @apply content-[''] w-16 h-1 bg-primary absolute left-1/2 -translate-x-1/2 bottom-[-4px]; 
+            }
+            .fade-in {
+                animation: fadeIn 0.6s ease-in-out;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .smooth-scroll {
+                scroll-behavior: smooth;
+            }
+            .tech-icon {
+                width: 32px;
+                height: 32px;
+                flex-shrink: 0;
+                transition: transform 0.3s ease;
+                object-fit: contain;
+            }
+            .tech-icon:hover {
+                transform: scale(1.15);
+            }
+            .preview-image-container {
+                position: relative;
+            }
+            .image-modal {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                backdrop-filter: blur(5px);
+            }
+            .image-modal.active {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .image-modal-content {
+                max-width: 90%;
+                max-height: 90%;
+                position: relative;
+            }
+            .image-modal-content img {
+                max-width: 100%;
+                max-height: 90vh;
+                object-fit: contain;
+                border-radius: 8px;
+            }
+            .image-modal-close {
+                position: absolute;
+                top: -40px;
+                right: 0;
+                color: white;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.2);
+                transition: background-color 0.3s;
+            }
+            .image-modal-close:hover {
+                background-color: rgba(255, 255, 255, 0.3);
+            }
+            .link-disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        }
+        
+        /* 字体渲染优化 */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            font-feature-settings: "kern" 1;
+            font-kerning: normal;
+            letter-spacing: 0.01em;
+            line-height: 1.6;
+        }
+        
+        /* 标题字体优化 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        /* 代码字体优化 */
+        code, kbd {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Consolas', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="font-sans text-dark bg-white smooth-scroll">
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 transition-all duration-300" id="header">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo -->
+                <a href="https://ai-quick.dev/" class="flex items-center group" aria-label="RuoYi AI Quick Starter 首页">
+                    <img src="logo.svg" alt="Logo" class="w-10 h-10 mr-3 group-hover:scale-110 transition-transform duration-300">
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-xl md:text-2xl font-bold text-dark">RuoYi AI Quick Starter</h1>
+                        <span class="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full font-medium" data-i18n="hero.tagline">AI原生企业应用框架</span>
+                    </div>
+                </a>
+
+                <!-- 桌面端导航 -->
+                <nav class="hidden md:flex items-center space-x-8" aria-label="主导航">
+                    <a href="#features" class="text-light hover:text-primary transition-colors duration-200" data-i18n="nav.features">核心特性</a>
+                    <a href="#preview" class="text-light hover:text-primary transition-colors duration-200" data-i18n="nav.preview">界面预览</a>
+                    <a href="#tech" class="text-light hover:text-primary transition-colors duration-200" data-i18n="nav.tech">技术栈</a>
+                    <a href="#philosophy" class="text-light hover:text-primary transition-colors duration-200" data-i18n="nav.philosophy">开发理念</a>
+                    <a href="#quickstart" class="text-light hover:text-primary transition-colors duration-200" data-i18n="nav.quickstart">快速开始</a>
+                    <div class="flex items-center gap-3 ml-4">
+                        <!-- Language Switcher -->
+                        <button 
+                            id="langSwitcher"
+                            class="w-10 h-10 flex items-center justify-center bg-bgLight hover:bg-primary/10 rounded-full text-light hover:text-primary transition-all duration-200 hover:scale-110"
+                            aria-label="切换语言"
+                            title="切换语言 / Switch Language"
+                        >
+                            <span id="langText" class="text-sm font-medium">中</span>
+                        </button>
+                        <a 
+                            href="#"
+                            aria-disabled="true"
+                            tabindex="-1"
+                            onclick="return false;"
+                            class="w-10 h-10 flex items-center justify-center bg-bgLight rounded-full text-light link-disabled"
+                            aria-label="GitHub"
+                            title="GitHub"
+                        >
+                            <i class="fab fa-github text-lg" aria-hidden="true"></i>
+                        </a>
+                        <a 
+                            href="https://gitee.com/xujingbao/ruoyi-ai-quick-starter" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="w-10 h-10 flex items-center justify-center bg-bgLight hover:bg-primary/10 rounded-full text-light hover:text-primary transition-all duration-200 hover:scale-110"
+                            aria-label="Gitee"
+                            title="Gitee"
+                        >
+                            <i class="fab fa-git-alt text-lg" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </nav>
+
+                <!-- 移动端导航 -->
+                <div class="flex items-center md:hidden gap-2">
+                    <!-- Language Switcher Mobile -->
+                    <button 
+                        id="langSwitcherMobile"
+                        class="w-9 h-9 flex items-center justify-center bg-primary/10 hover:bg-primary/20 rounded-full text-primary transition-all duration-200"
+                        aria-label="切换语言"
+                        title="切换语言 / Switch Language"
+                    >
+                        <span id="langTextMobile" class="text-xs font-medium">中</span>
+                    </button>
+                    <a 
+                        href="#"
+                        aria-disabled="true"
+                        tabindex="-1"
+                        onclick="return false;"
+                        class="w-9 h-9 flex items-center justify-center bg-primary/10 rounded-full text-primary link-disabled"
+                        aria-label="GitHub"
+                    >
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                    </a>
+                    <a 
+                        href="https://gitee.com/xujingbao/ruoyi-ai-quick-starter" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        class="w-9 h-9 flex items-center justify-center bg-primary/10 hover:bg-primary/20 rounded-full text-primary transition-all duration-200"
+                        aria-label="Gitee"
+                    >
+                        <i class="fab fa-git-alt" aria-hidden="true"></i>
+                    </a>
+                    <button 
+                        id="menuBtn" 
+                        class="text-dark focus:outline-none focus:ring-2 focus:ring-primary rounded p-2 ml-2"
+                        aria-label="打开菜单"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-bars text-xl" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <nav 
+            id="mobileMenu" 
+            class="hidden md:hidden bg-white shadow-md transition-all duration-300"
+            aria-label="移动端导航"
+        >
+            <div class="container mx-auto px-4 py-3 space-y-3">
+                <a href="#features" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.features">核心特性</a>
+                <a href="#preview" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.preview">界面预览</a>
+                <a href="#scenarios" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.scenarios">使用场景</a>
+                <a href="#tech" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.tech">技术栈</a>
+                <a href="#philosophy" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.philosophy">开发理念</a>
+                <a href="#quickstart" class="block py-2 text-light hover:text-primary transition-colors" onclick="closeMobileMenu()" data-i18n="nav.quickstart">快速开始</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 首屏英雄区 -->
+    <section class="pt-32 md:pt-40 pb-20 md:pb-28 bg-gradient-to-br from-primary via-blue-600 to-purple-600 text-white fade-in" aria-label="产品介绍">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="w-full md:w-1/2 mb-10 md:mb-0">
+                    <div class="mb-6">
+                        <h2 class="text-[clamp(1.8rem,4vw,2.8rem)] font-bold leading-tight mb-6">
+                            <span data-i18n="hero.title">RuoYi AI Quick Starter</span><br>
+                            <span class="text-white/95" data-i18n="hero.subtitle">AI 快速开发框架</span>
+                        </h2>
+                    </div>
+                    <p class="text-white/90 text-lg md:text-xl mb-8 max-w-3xl leading-relaxed" data-i18n="hero.description">
+                        基于 RuoYi 成熟框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
+                        <a 
+                            href="#quickstart" 
+                            class="bg-white text-primary px-8 py-3 rounded-lg text-lg font-medium btn-hover w-full sm:w-auto text-center shadow-lg"
+                            aria-label="快速开始"
+                            data-i18n="hero.quickStart"
+                        >
+                            快速开始
+                        </a>
+                        <a 
+                            href="https://ai-quick.dev/" 
+                            class="bg-white/10 backdrop-blur-sm text-white border border-white/30 px-8 py-3 rounded-lg text-lg font-medium btn-hover w-full sm:w-auto text-center"
+                            aria-label="查看文档"
+                            data-i18n="hero.viewDocs"
+                        >
+                            查看文档
+                        </a>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4 text-sm text-white/80">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-code text-white/60" aria-hidden="true"></i>
+                            <span>Spring Boot 3.x + Vue 3</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-mobile-alt text-white/60" aria-hidden="true"></i>
+                            <span data-i18n="hero.mobileSupport">支持 uni-app 移动端</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 relative">
+                    <div class="rounded-xl overflow-hidden shadow-xl transform transition-all duration-700 hover:scale-[1.02] bg-white/10 backdrop-blur-sm p-8">
+                        <div class="text-center">
+                            <i class="fas fa-code text-6xl text-white/80 mb-4"></i>
+                            <p class="text-white/90 text-lg" data-i18n="hero.aiCodeGen">AI 智能代码生成</p>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4 bg-white/20 backdrop-blur-sm text-white text-sm px-3 py-1 rounded-full shadow-md" data-i18n="hero.fullstack">全栈开发</div>
+                    <div class="absolute bottom-4 right-4 bg-secondary/80 text-white text-sm px-3 py-1 rounded-full shadow-md" data-i18n="hero.aiAssist">AI 辅助</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心特性区 -->
+    <section id="features" class="section-padding bg-bgLight" aria-label="核心特性">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="section-title" data-i18n="features.title">核心特性 · 让 AI 成为你的最佳开发伙伴</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-box text-blue-500 text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.enterprise.title">企业级功能</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.enterprise.desc">基于 Ruoyi 成熟框架，在保留核心功能的同时删除了过时模块，进行了诸多优化升级。内置用户权限管理、系统监控、定时任务、操作日志等企业级功能模块，开箱即用，为项目提供稳定可靠的基础支撑。</p>
+                </article>
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-robot text-primary text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.aiDev.title">AI 辅助开发基础</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.aiDev.desc">AI 友好设计的开发框架，提供规范化的项目结构和配置，使用 AI 工具开发时更符合规范、更可控。可快速生成模块的完整代码，预配置调试启动项，支持断点调试，大幅提升 AI 辅助开发效率。</p>
+                </article>
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-brain text-pink-500 text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.aiComponents.title">AI 原生组件</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.aiComponents.desc">融合了 AI 原生产品开发所需的基础组件，包括 AI 大模型网关、Spring AI、RAG、工作流编排、对话助手、AI 编辑器等，为快速构建 AI 应用提供完整的组件生态，降低 AI 应用开发门槛。</p>
+                </article>
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-rocket text-secondary text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.fullstack.title">全栈开发支持</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.fullstack.desc">前后端工程统一在同一仓库，便于 AI 理解完整业务上下文，实现真正的全栈开发。减少前后端联调环节，提升开发效率，确保前后端代码的协调一致性。</p>
+                </article>
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-mobile-alt text-accent text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.multiPlatform.title">多端支持</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.multiPlatform.desc">支持 Web（Vue 3）和移动端（uni-app）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。</p>
+                </article>
+                <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex items-center gap-3 mb-4">
+                        <i class="fas fa-file-code text-purple-500 text-xl" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold" data-i18n="features.standards.title">开发规范</h4>
+                    </div>
+                    <p class="text-light leading-relaxed" data-i18n="features.standards.desc">提供完善的开发规范文档，包括枚举使用规范、业务参数配置规范等。特别针对 AI 协作开发，采用 Specification 驱动开发（SDD）方法，通过规格说明作为"单一事实来源"，引导 AI 生成符合预期、质量可控的代码。</p>
+                </article>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 预览展示区域 -->
+    <section id="preview" class="section-padding bg-white" aria-label="预览展示">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="section-title" data-i18n="preview.title">界面预览 · 多端展示</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
+                <!-- 管理界面预览 -->
+                <div class="fade-in">
+                    <h4 class="text-xl font-bold text-dark mb-4 text-center lg:text-left">
+                        <i class="fas fa-desktop text-primary mr-2" aria-hidden="true"></i>
+                        <span data-i18n="preview.webTitle">Web 管理界面</span>
+                    </h4>
+                    <div class="bg-bgLight rounded-xl p-4 shadow-sm card-hover">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative" id="adminContainer">
+                            <img 
+                                src="admin.png" 
+                                alt="Web 管理界面预览" 
+                                id="adminImage"
+                                class="w-full h-auto object-contain cursor-pointer"
+                                loading="lazy"
+                                onclick="openImageModal('admin.png', 'Web 管理界面')"
+                                onload="adjustMobileHeight()"
+                            >
+                            <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 移动端预览 -->
+                <div class="fade-in">
+                    <h4 class="text-xl font-bold text-dark mb-4 text-center lg:text-left">
+                        <i class="fas fa-mobile-alt text-secondary mr-2" aria-hidden="true"></i>
+                        <span data-i18n="preview.mobileTitle">移动端应用</span>
+                    </h4>
+                    <div class="flex justify-center lg:justify-start">
+                        <div class="bg-bgLight rounded-xl p-4 shadow-sm card-hover">
+                            <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative" id="mobileContainer" style="width: 300px; max-width: 100%;">
+                                <img 
+                                    src="mobile.png" 
+                                    alt="移动端应用预览" 
+                                    class="w-full h-full object-contain cursor-pointer"
+                                    loading="lazy"
+                                    onclick="openImageModal('mobile.png', '移动端应用')"
+                                    onload="adjustMobileHeight()"
+                                >
+                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+                                    <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                    <span data-i18n="preview.viewOriginal">查看原图</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术栈区域 -->
+    <section id="tech" class="section-padding" aria-label="技术栈">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="section-title" data-i18n="tech.title">技术栈 · 现代化的技术选型</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <article class="bg-bgLight p-6 rounded-xl fade-in">
+                    <div class="flex items-center gap-3 mb-5">
+                        <i class="fas fa-server text-primary text-lg" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold text-primary" data-i18n="tech.backend">后端技术</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/spring-original.svg" alt="Spring Boot" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.springBoot">Spring Boot 3.x - 核心框架</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/spring-original.svg" alt="Spring Security" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.springSecurity">Spring Security - 安全框架</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/java-original.svg" alt="MyBatis" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.mybatis">MyBatis - ORM 框架</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/redis-original.svg" alt="Redis" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.redis">Redis - 缓存数据库</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/mysql-original.svg" alt="MySQL" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.mysql">MySQL - 关系型数据库</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/java-original.svg" alt="Quartz" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.quartz">Quartz - 定时任务调度</span>
+                        </li>
+                    </ul>
+                </article>
+                <article class="bg-bgLight p-6 rounded-xl fade-in">
+                    <div class="flex items-center gap-3 mb-5">
+                        <i class="fas fa-desktop text-secondary text-lg" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold text-secondary" data-i18n="tech.frontend">客户端技术</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/vuejs-original.svg" alt="Vue 3" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.vue3">Vue 3 - 渐进式框架</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/element-plus.svg" alt="Element Plus" class="tech-icon" onerror="this.style.display='none'; this.nextElementSibling.style.marginLeft='0';">
+                            <span class="flex-1" data-i18n="tech.items.elementPlus">Element Plus - 组件库</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/vite-original.svg" alt="Vite" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.vite">Vite - 构建工具</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/pnpm-original-wordmark.svg" alt="pnpm" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.pnpm">pnpm - 包管理器</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/vuejs-original.svg" alt="Pinia" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.pinia">Pinia - 状态管理</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/uni-app.svg" alt="uni-app" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.uniapp">uni-app - 跨平台框架</span>
+                        </li>
+                    </ul>
+                </article>
+                <article class="bg-bgLight p-6 rounded-xl fade-in">
+                    <div class="flex items-center gap-3 mb-5">
+                        <i class="fas fa-cloud text-accent text-lg" aria-hidden="true"></i>
+                        <h4 class="text-xl font-bold text-accent" data-i18n="tech.deployment">集成部署技术</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/docker-original.svg" alt="Docker" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.docker">Docker - 容器化部署</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/nginx-original.svg" alt="Nginx" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.nginx">Nginx - Web 服务器</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/kubernetes-original.svg" alt="Kubernetes" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.kubernetes">Kubernetes - 容器编排</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/jenkins-original.svg" alt="Jenkins" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.jenkins">Jenkins - CI/CD 工具</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/git-original.svg" alt="Git" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.git">Git - 版本控制</span>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 开发理念区域 -->
+    <section id="philosophy" class="section-padding bg-gradient-to-br from-primary to-purple-600 text-white" aria-label="开发理念">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h3 class="text-[clamp(1.5rem,3vw,2rem)] font-bold mb-8 relative pb-4" data-i18n="philosophy.title">
+                    开发理念
+                    <span class="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-white"></span>
+                </h3>
+                <div class="text-base md:text-lg leading-relaxed text-white/95 space-y-5 text-left max-w-3xl mx-auto">
+                    <p class="indent-0" data-i18n="philosophy.p1">
+                        基于 RuoYi 成熟框架，我们构建了一个 AI 友好的开发环境。框架采用前后端统一仓库架构，让 AI 工具能够理解完整的业务上下文，实现真正的全栈开发。通过规范化的项目结构、清晰的代码组织和完善的文档体系，AI 能够更准确地理解项目需求，生成符合规范的代码。
+                    </p>
+                    <p class="indent-0" data-i18n="philosophy.p2">
+                        框架集成了 AI 原生组件和规范驱动开发（SDD）方法，通过规格说明作为"单一事实来源"，引导 AI 生成高质量、可维护的代码。我们支持 Web（Vue 3）和移动端（uni-app）多端部署，一套代码多端运行，大幅降低开发成本。
+                    </p>
+                    <p class="indent-0" data-i18n="philosophy.p3">
+                        借助 AI 辅助开发能力，开发者可以快速生成模块的完整代码，从数据库设计到前后端接口，从页面组件到业务逻辑，实现端到端的代码生成。这不仅提升了开发效率，更确保了代码质量和一致性，助力团队快速交付高质量的企业级应用。
+                    </p>
+                </div>
+                <div class="mt-8 pt-6 border-t border-white/20">
+                    <p class="text-sm text-white/80 mb-4 text-center" data-i18n="philosophy.resources">相关资源：</p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm">
+                        <a 
+                            href="https://doc.ruoyi.vip/ruoyi/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.ruoyiDocs"
+                        >
+                            RuoYi 官方文档
+                        </a>
+                        <span class="text-white/40">|</span>
+                        <a 
+                            href="https://cursor.com/cn/docs" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.cursorDocs"
+                        >
+                            Cursor 文档
+                        </a>
+                        <span class="text-white/40">|</span>
+                        <a 
+                            href="https://zhuanlan.zhihu.com/p/1976070658233492911" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.sdd"
+                        >
+                            规范驱动开发
+                        </a>
+                        <span class="text-white/40">|</span>
+                        <a 
+                            href="https://kiro.dev/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.kiro"
+                        >
+                            Kiro
+                        </a>
+                        <span class="text-white/40">|</span>
+                        <a 
+                            href="https://openspec.dev/" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.openspec"
+                        >
+                            OpenSpec
+                        </a>
+                        <span class="text-white/40">|</span>
+                        <a 
+                            href="https://github.com/github/spec-kit" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="text-white/90 hover:text-white underline transition-colors"
+                            data-i18n="philosophy.speckit"
+                        >
+                            Spec Kit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 快速开始区域 -->
+    <section id="quickstart" class="section-padding bg-bgLight" aria-label="快速开始">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="section-title" data-i18n="quickstart.title">快速开始 · 几分钟内开始开发</h3>
+            <div class="max-w-3xl mx-auto mt-12 space-y-6">
+                <article class="group flex gap-6 p-6 bg-white rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                        1
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold mb-2 text-dark" data-i18n="quickstart.step1.title">环境准备</h4>
+                        <p class="text-light leading-relaxed" data-i18n="quickstart.step1.desc">确保已安装 JDK 17+、Maven 3.6+、Node.js 18+、pnpm 8+、MySQL 8.0+、Redis 6.0+</p>
+                    </div>
+                </article>
+                <article class="group flex gap-6 p-6 bg-white rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                        2
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold mb-2 text-dark" data-i18n="quickstart.step2.title">下载代码</h4>
+                        <p class="text-light leading-relaxed mb-3" data-i18n="quickstart.step2.desc">从 Gitee 克隆或下载项目代码到本地</p>
+                    </div>
+                </article>
+                <article class="group flex gap-6 p-6 bg-white rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                        3
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold mb-2 text-dark" data-i18n="quickstart.step3.title">初始化数据库</h4>
+                        <p class="text-light leading-relaxed mb-3" data-i18n="quickstart.step3.desc">执行 <code class="bg-gray-100 px-2 py-1 rounded text-sm">sql</code> 目录下的数据库初始化脚本，并修改 <code class="bg-gray-100 px-2 py-1 rounded text-sm">application-dev.yml</code> 中的数据库连接信息</p>
+                    </div>
+                </article>
+                <article class="group flex gap-6 p-6 bg-white rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                        4
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold mb-2 text-dark" data-i18n="quickstart.step4.title">启动服务</h4>
+                        <p class="text-light leading-relaxed" data-i18n="quickstart.step4.desc">在 IDE 中按 <kbd class="bg-gray-100 px-2 py-1 rounded text-sm font-mono">F5</kbd>，选择 "RuoYi Backend" 启动后端，选择 "RuoYi Frontend" 启动前端</p>
+                    </div>
+                </article>
+                <article class="group flex gap-6 p-6 bg-white rounded-xl shadow-sm card-hover fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-bold text-xl group-hover:bg-primary group-hover:text-white transition-colors">
+                        5
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-xl font-bold mb-2 text-dark" data-i18n="quickstart.step5.title">访问系统</h4>
+                        <p class="text-light leading-relaxed" data-i18n="quickstart.step5.desc">前端地址：http://localhost，API 文档：http://localhost:8080/swagger-ui.html</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12" aria-label="页脚信息">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h5 class="text-lg font-bold mb-4" data-i18n="footer.about">关于项目</h5>
+                    <p class="text-gray-400 text-sm leading-relaxed" data-i18n="footer.aboutDesc">
+                        基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。
+                    </p>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold mb-4" data-i18n="footer.quickLinks">快速链接</h5>
+                    <ul class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                        <li><a href="#features" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.features">核心特性</a></li>
+                        <li><a href="#preview" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.preview">界面预览</a></li>
+                        <li><a href="#scenarios" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.scenarios">使用场景</a></li>
+                        <li><a href="#tech" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.tech">技术栈</a></li>
+                        <li><a href="#philosophy" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.philosophy">开发理念</a></li>
+                        <li><a href="#quickstart" class="text-gray-400 hover:text-white transition-colors" data-i18n="nav.quickstart">快速开始</a></li>
+                        <li><a href="https://ai-quick.dev/" class="text-gray-400 hover:text-white transition-colors" data-i18n="hero.viewDocs">查看文档</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-lg font-bold mb-4" data-i18n="footer.contact">联系方式</h5>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-envelope text-gray-400" aria-hidden="true"></i>
+                            <a href="mailto:xu_jb@suixingpay.com" class="text-gray-400 hover:text-white transition-colors">xu_jb@suixingpay.com</a>
+                        </li>
+                        <!-- <li class="flex items-center gap-2">
+                            <i class="fab fa-qq text-gray-400" aria-hidden="true"></i>
+                            <span class="text-gray-400">QQ群：123456789</span>
+                        </li> -->
+                        <li class="flex items-center gap-2">
+                            <i class="fab fa-github text-gray-400" aria-hidden="true"></i>
+                            <a href="#" aria-disabled="true" tabindex="-1" onclick="return false;" class="text-gray-400 link-disabled">GitHub</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fab fa-git-alt text-gray-400" aria-hidden="true"></i>
+                            <a href="https://gitee.com/xujingbao/ruoyi-ai-quick-starter" class="text-gray-400 hover:text-white transition-colors" target="_blank">Gitee</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-400">
+                <p>&copy; 2025 RuoYi AI Quick Starter. <span data-i18n="footer.copyright">保留所有权利.</span></p>
+                <p class="mt-2" data-i18n="footer.tagline">基于 RuoYi 的 AI 快速开发框架</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 图片查看模态框 -->
+    <div id="imageModal" class="image-modal" onclick="closeImageModal(event)">
+        <div class="image-modal-content" onclick="event.stopPropagation()">
+            <span class="image-modal-close" onclick="closeImageModal(event)">&times;</span>
+            <img id="modalImage" src="" alt="" />
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 国际化翻译对象
+        const translations = {
+            zh: {
+                nav: {
+                    features: "核心特性",
+                    preview: "界面预览",
+                    scenarios: "使用场景",
+                    tech: "技术栈",
+                    philosophy: "开发理念",
+                    quickstart: "快速开始"
+                },
+                hero: {
+                    title: "RuoYi AI Quick Starter",
+                    subtitle: "AI 快速开发框架",
+                    tagline: "AI原生企业应用框架",
+                    description: "基于 RuoYi 成熟框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。",
+                    quickStart: "快速开始",
+                    viewDocs: "查看文档",
+                    aiCodeGen: "AI 智能代码生成",
+                    fullstack: "全栈开发",
+                    aiAssist: "AI 辅助",
+                    mobileSupport: "支持 uni-app 移动端"
+                },
+                features: {
+                    title: "核心特性 · 让 AI 成为你的最佳开发伙伴",
+                    enterprise: {
+                        title: "企业级功能",
+                        desc: "基于 Ruoyi 成熟框架，在保留核心功能的同时删除了过时模块，进行了诸多优化升级。内置用户权限管理、系统监控、定时任务、操作日志等企业级功能模块，开箱即用，为项目提供稳定可靠的基础支撑。"
+                    },
+                    aiDev: {
+                        title: "AI 辅助开发基础",
+                        desc: "AI 友好设计的开发框架，提供规范化的项目结构和配置，使用 AI 工具开发时更符合规范、更可控。可快速生成模块的完整代码，预配置调试启动项，支持断点调试，大幅提升 AI 辅助开发效率。"
+                    },
+                    aiComponents: {
+                        title: "AI 原生组件",
+                        desc: "融合了 AI 原生产品开发所需的基础组件，包括 AI 大模型网关、Spring AI、RAG、工作流编排、对话助手、AI 编辑器等，为快速构建 AI 应用提供完整的组件生态，降低 AI 应用开发门槛。"
+                    },
+                    fullstack: {
+                        title: "全栈开发支持",
+                        desc: "前后端工程统一在同一仓库，便于 AI 理解完整业务上下文，实现真正的全栈开发。减少前后端联调环节，提升开发效率，确保前后端代码的协调一致性。"
+                    },
+                    multiPlatform: {
+                        title: "多端支持",
+                        desc: "支持 Web（Vue 3）和移动端（uni-app）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。"
+                    },
+                    standards: {
+                        title: "开发规范",
+                        desc: "提供完善的开发规范文档，包括枚举使用规范、业务参数配置规范等。特别针对 AI 协作开发，采用 Specification 驱动开发（SDD）方法，通过规格说明作为\"单一事实来源\"，引导 AI 生成符合预期、质量可控的代码。"
+                    }
+                },
+                preview: {
+                    title: "界面预览 · 多端展示",
+                    webTitle: "Web 管理界面",
+                    mobileTitle: "移动端应用",
+                    viewOriginal: "查看原图"
+                },
+                tech: {
+                    title: "技术栈 · 现代化的技术选型",
+                    backend: "后端技术",
+                    frontend: "客户端技术",
+                    deployment: "集成部署技术",
+                    items: {
+                        springBoot: "Spring Boot 3.x - 核心框架",
+                        springSecurity: "Spring Security - 安全框架",
+                        mybatis: "MyBatis - ORM 框架",
+                        redis: "Redis - 缓存数据库",
+                        mysql: "MySQL - 关系型数据库",
+                        quartz: "Quartz - 定时任务调度",
+                        vue3: "Vue 3 - 渐进式框架",
+                        elementPlus: "Element Plus - 组件库",
+                        vite: "Vite - 构建工具",
+                        pnpm: "pnpm - 包管理器",
+                        pinia: "Pinia - 状态管理",
+                        uniapp: "uni-app - 跨平台框架",
+                        docker: "Docker - 容器化部署",
+                        nginx: "Nginx - Web 服务器",
+                        kubernetes: "Kubernetes - 容器编排",
+                        jenkins: "Jenkins - CI/CD 工具",
+                        git: "Git - 版本控制"
+                    }
+                },
+                philosophy: {
+                    title: "开发理念",
+                    p1: "基于 RuoYi 成熟框架，我们构建了一个 AI 友好的开发环境。框架采用前后端统一仓库架构，让 AI 工具能够理解完整的业务上下文，实现真正的全栈开发。通过规范化的项目结构、清晰的代码组织和完善的文档体系，AI 能够更准确地理解项目需求，生成符合规范的代码。",
+                    p2: "框架集成了 AI 原生组件和规范驱动开发（SDD）方法，通过规格说明作为\"单一事实来源\"，引导 AI 生成高质量、可维护的代码。我们支持 Web（Vue 3）和移动端（uni-app）多端部署，一套代码多端运行，大幅降低开发成本。",
+                    p3: "借助 AI 辅助开发能力，开发者可以快速生成模块的完整代码，从数据库设计到前后端接口，从页面组件到业务逻辑，实现端到端的代码生成。这不仅提升了开发效率，更确保了代码质量和一致性，助力团队快速交付高质量的企业级应用。",
+                    resources: "相关资源：",
+                    ruoyiDocs: "RuoYi 官方文档",
+                    cursorDocs: "Cursor 文档",
+                    sdd: "规范驱动开发",
+                    kiro: "Kiro",
+                    openspec: "OpenSpec",
+                    speckit: "Spec Kit"
+                },
+                quickstart: {
+                    title: "快速开始 · 几分钟内开始开发",
+                    step1: {
+                        title: "环境准备",
+                        desc: "确保已安装 JDK 17+、Maven 3.6+、Node.js 18+、pnpm 8+、MySQL 8.0+、Redis 6.0+"
+                    },
+                    step2: {
+                        title: "下载代码",
+                        desc: "从 Gitee 克隆或下载项目代码到本地",
+                        descHtml: "从 <a href=\"https://gitee.com/xujingbao/ruoyi-ai-quick-starter\" class=\"text-primary hover:underline\" target=\"_blank\" rel=\"noopener noreferrer\">Gitee</a> 克隆或下载项目代码到本地"
+                    },
+                    step3: {
+                        title: "初始化数据库",
+                        desc: "执行 sql 目录下的数据库初始化脚本，并修改 application-dev.yml 中的数据库连接信息"
+                    },
+                    step4: {
+                        title: "启动服务",
+                        desc: "在 IDE 中按 F5，选择 \"RuoYi Backend\" 启动后端，选择 \"RuoYi Frontend\" 启动前端"
+                    },
+                    step5: {
+                        title: "访问系统",
+                        desc: "前端地址：http://localhost，API 文档：http://localhost:8080/swagger-ui.html",
+                        descHtml: "前端地址：<a href=\"http://localhost\" class=\"text-primary hover:underline\">http://localhost</a>，API 文档：<a href=\"http://localhost:8080/swagger-ui.html\" class=\"text-primary hover:underline\" target=\"_blank\">http://localhost:8080/swagger-ui.html</a>"
+                    }
+                },
+                footer: {
+                    about: "关于项目",
+                    aboutDesc: "基于 RuoYi 成熟框架的 AI 快速开发框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。",
+                    quickLinks: "快速链接",
+                    contact: "联系方式",
+                    copyright: "保留所有权利.",
+                    tagline: "基于 RuoYi 的 AI 快速开发框架"
+                }
+            },
+            en: {
+                nav: {
+                    features: "Features",
+                    preview: "Preview",
+                    scenarios: "Scenarios",
+                    tech: "Tech Stack",
+                    philosophy: "Philosophy",
+                    quickstart: "Quick Start"
+                },
+                hero: {
+                    title: "RuoYi AI Quick Starter",
+                    subtitle: "AI Rapid Development Framework",
+                    tagline: "AI Native Enterprise Application Framework",
+                    description: "Based on the mature RuoYi framework, AI-friendly design, unified frontend and backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web and mobile multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
+                    quickStart: "Quick Start",
+                    viewDocs: "View Docs",
+                    aiCodeGen: "AI Intelligent Code Generation",
+                    fullstack: "Full-Stack Development",
+                    aiAssist: "AI Assistance",
+                    mobileSupport: "Supports uni-app Mobile"
+                },
+                features: {
+                    title: "Core Features · Let AI Be Your Best Development Partner",
+                    enterprise: {
+                        title: "Enterprise Features",
+                        desc: "Based on the mature Ruoyi framework, we've removed outdated modules while retaining core functionality and made numerous optimizations. Built-in enterprise-level functional modules such as user permission management, system monitoring, scheduled tasks, and operation logs, ready to use out of the box, providing stable and reliable foundation support for projects."
+                    },
+                    aiDev: {
+                        title: "AI-Assisted Development Foundation",
+                        desc: "An AI-friendly development framework that provides standardized project structure and configuration, making development with AI tools more compliant and controllable. Can quickly generate complete module code, pre-configured debugging startup items, supports breakpoint debugging, significantly improving AI-assisted development efficiency."
+                    },
+                    aiComponents: {
+                        title: "AI Native Components",
+                        desc: "Integrates basic components required for AI native product development, including AI large model gateway, Spring AI, RAG, workflow orchestration, conversational assistant, AI editor, etc., providing a complete component ecosystem for rapid AI application development and lowering the threshold for AI application development."
+                    },
+                    fullstack: {
+                        title: "Full-Stack Development Support",
+                        desc: "Frontend and backend projects unified in the same repository, facilitating AI understanding of complete business context, enabling true full-stack development. Reduces frontend-backend integration steps, improves development efficiency, and ensures coordination and consistency of frontend and backend code."
+                    },
+                    multiPlatform: {
+                        title: "Multi-Platform Support",
+                        desc: "Supports Web (Vue 3) and mobile (uni-app) multi-platform development, one codebase runs on multiple platforms. Covers Web and mobile application scenarios, meeting enterprise-level multi-platform business needs, reducing multi-platform development costs."
+                    },
+                    standards: {
+                        title: "Development Standards",
+                        desc: "Provides comprehensive development standard documentation, including enumeration usage standards, business parameter configuration standards, etc. Specifically for AI collaborative development, adopts Specification-Driven Development (SDD) method, using specification descriptions as the \"single source of truth\" to guide AI to generate code that meets expectations and is quality-controllable."
+                    }
+                },
+                preview: {
+                    title: "Preview · Multi-Platform Display",
+                    webTitle: "Web Management Interface",
+                    mobileTitle: "Mobile Application",
+                    viewOriginal: "View Original"
+                },
+                tech: {
+                    title: "Tech Stack · Modern Technology Selection",
+                    backend: "Backend Technology",
+                    frontend: "Client Technology",
+                    deployment: "Integration & Deployment Technology",
+                    items: {
+                        springBoot: "Spring Boot 3.x - Core Framework",
+                        springSecurity: "Spring Security - Security Framework",
+                        mybatis: "MyBatis - ORM Framework",
+                        redis: "Redis - Cache Database",
+                        mysql: "MySQL - Relational Database",
+                        quartz: "Quartz - Scheduled Task Scheduler",
+                        vue3: "Vue 3 - Progressive Framework",
+                        elementPlus: "Element Plus - Component Library",
+                        vite: "Vite - Build Tool",
+                        pnpm: "pnpm - Package Manager",
+                        pinia: "Pinia - State Management",
+                        uniapp: "uni-app - Cross-Platform Framework",
+                        docker: "Docker - Container Deployment",
+                        nginx: "Nginx - Web Server",
+                        kubernetes: "Kubernetes - Container Orchestration",
+                        jenkins: "Jenkins - CI/CD Tool",
+                        git: "Git - Version Control"
+                    }
+                },
+                philosophy: {
+                    title: "Development Philosophy",
+                    p1: "Based on the mature RuoYi framework, we've built an AI-friendly development environment. The framework adopts a unified frontend-backend repository architecture, enabling AI tools to understand complete business context and achieve true full-stack development. Through standardized project structure, clear code organization, and comprehensive documentation, AI can more accurately understand project requirements and generate code that complies with standards.",
+                    p2: "The framework integrates AI native components and Specification-Driven Development (SDD) methods, using specification descriptions as the \"single source of truth\" to guide AI to generate high-quality, maintainable code. We support Web (Vue 3) and mobile (uni-app) multi-platform deployment, one codebase runs on multiple platforms, significantly reducing development costs.",
+                    p3: "With AI-assisted development capabilities, developers can quickly generate complete module code, from database design to frontend-backend interfaces, from page components to business logic, achieving end-to-end code generation. This not only improves development efficiency but also ensures code quality and consistency, helping teams quickly deliver high-quality enterprise-level applications.",
+                    resources: "Related Resources:",
+                    ruoyiDocs: "RuoYi Official Docs",
+                    cursorDocs: "Cursor Docs",
+                    sdd: "Specification-Driven Development",
+                    kiro: "Kiro",
+                    openspec: "OpenSpec",
+                    speckit: "Spec Kit"
+                },
+                quickstart: {
+                    title: "Quick Start · Start Developing in Minutes",
+                    step1: {
+                        title: "Environment Setup",
+                        desc: "Ensure JDK 17+, Maven 3.6+, Node.js 18+, pnpm 8+, MySQL 8.0+, Redis 6.0+ are installed"
+                    },
+                    step2: {
+                        title: "Download Code",
+                        desc: "Clone or download project code from Gitee to local",
+                        descHtml: "Clone or download project code from <a href=\"https://gitee.com/xujingbao/ruoyi-ai-quick-starter\" class=\"text-primary hover:underline\" target=\"_blank\" rel=\"noopener noreferrer\">Gitee</a> to local"
+                    },
+                    step3: {
+                        title: "Initialize Database",
+                        desc: "Execute database initialization script in sql directory and modify database connection information in application-dev.yml"
+                    },
+                    step4: {
+                        title: "Start Services",
+                        desc: "Press F5 in IDE, select \"RuoYi Backend\" to start backend, select \"RuoYi Frontend\" to start frontend"
+                    },
+                    step5: {
+                        title: "Access System",
+                        desc: "Frontend: http://localhost, API Docs: http://localhost:8080/swagger-ui.html",
+                        descHtml: "Frontend: <a href=\"http://localhost\" class=\"text-primary hover:underline\">http://localhost</a>, API Docs: <a href=\"http://localhost:8080/swagger-ui.html\" class=\"text-primary hover:underline\" target=\"_blank\">http://localhost:8080/swagger-ui.html</a>"
+                    }
+                },
+                footer: {
+                    about: "About Project",
+                    aboutDesc: "AI rapid development framework based on mature RuoYi framework, AI-friendly design, unified frontend-backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web and mobile multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
+                    quickLinks: "Quick Links",
+                    contact: "Contact",
+                    copyright: "All rights reserved.",
+                    tagline: "AI Rapid Development Framework based on RuoYi"
+                }
+            }
+        };
+
+        // 语言切换功能
+        let currentLang = localStorage.getItem('lang') || 'zh';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+            
+            // 更新语言切换按钮文本
+            const langText = document.getElementById('langText');
+            const langTextMobile = document.getElementById('langTextMobile');
+            if (langText) langText.textContent = lang === 'zh' ? '中' : 'EN';
+            if (langTextMobile) langTextMobile.textContent = lang === 'zh' ? '中' : 'EN';
+            
+            // 更新所有带 data-i18n 属性的元素
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = translations[lang];
+                for (const k of keys) {
+                    value = value?.[k];
+                }
+                if (value !== undefined) {
+                    // 检查是否有 HTML 版本（用于包含链接的文本）
+                    if (typeof value === 'object' && value.descHtml) {
+                        element.innerHTML = value.descHtml;
+                    } else if (typeof value === 'string') {
+                        element.textContent = value;
+                    }
+                }
+            });
+            
+            // 特殊处理包含 HTML 的内容
+            const step2Desc = document.querySelector('[data-i18n="quickstart.step2.desc"]');
+            const step5Desc = document.querySelector('[data-i18n="quickstart.step5.desc"]');
+            if (step2Desc && translations[lang].quickstart.step2.descHtml) {
+                step2Desc.innerHTML = translations[lang].quickstart.step2.descHtml;
+            }
+            if (step5Desc && translations[lang].quickstart.step5.descHtml) {
+                step5Desc.innerHTML = translations[lang].quickstart.step5.descHtml;
+            }
+        }
+
+        // 初始化语言
+        setLanguage(currentLang);
+
+        // 语言切换按钮事件
+        document.getElementById('langSwitcher')?.addEventListener('click', () => {
+            setLanguage(currentLang === 'zh' ? 'en' : 'zh');
+        });
+        document.getElementById('langSwitcherMobile')?.addEventListener('click', () => {
+            setLanguage(currentLang === 'zh' ? 'en' : 'zh');
+        });
+
+        // 移动端菜单控制
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        let isMenuOpen = false;
+
+        function toggleMobileMenu() {
+            isMenuOpen = !isMenuOpen;
+            mobileMenu.classList.toggle('hidden', !isMenuOpen);
+            menuBtn.setAttribute('aria-expanded', isMenuOpen);
+            
+            // 切换图标
+            const icon = menuBtn.querySelector('i');
+            if (isMenuOpen) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function closeMobileMenu() {
+            if (isMenuOpen) {
+                toggleMobileMenu();
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMobileMenu);
+
+        // 点击外部关闭菜单
+        document.addEventListener('click', (e) => {
+            if (isMenuOpen && !mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // 导航栏滚动效果
+        let lastScroll = 0;
+        const header = document.getElementById('header');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = header.offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight;
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                        closeMobileMenu();
+                    }
+                }
+            });
+        });
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // 图片查看模态框功能
+        function openImageModal(imageSrc, imageAlt) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modalImage.alt = imageAlt;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal(event) {
+            event.stopPropagation();
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // 按 ESC 键关闭模态框
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('imageModal');
+                if (modal.classList.contains('active')) {
+                    closeImageModal(e);
+                }
+            }
+        });
+
+        // 调整移动端容器高度以适应 admin 容器
+        function adjustMobileHeight() {
+            const adminContainer = document.getElementById('adminContainer');
+            const mobileContainer = document.getElementById('mobileContainer');
+            if (adminContainer && mobileContainer) {
+                // 等待图片加载完成后再获取高度
+                setTimeout(() => {
+                    const adminHeight = adminContainer.offsetHeight;
+                    mobileContainer.style.height = adminHeight + 'px';
+                }, 100);
+            }
+        }
+
+        // 窗口大小改变时重新调整
+        window.addEventListener('resize', adjustMobileHeight);
+        
+        // 页面加载完成后也调整一次
+        window.addEventListener('load', () => {
+            adjustMobileHeight();
+        });
+    </script>
+</body>
+</html>
