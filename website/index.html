@@ -681,10 +681,6 @@
                             <span class="flex-1" data-i18n="tech.items.pnpm">pnpm - 包管理器</span>
                         </li>
                         <li class="flex items-center gap-4 text-light group">
-                            <img src="tech/vuejs-original.svg" alt="Pinia" class="tech-icon">
-                            <span class="flex-1" data-i18n="tech.items.pinia">Pinia - 状态管理</span>
-                        </li>
-                        <li class="flex items-center gap-4 text-light group">
                             <img src="tech/uni-app.svg" alt="uni-app" class="tech-icon">
                             <span class="flex-1" data-i18n="tech.items.uniapp">uni-app - 跨平台框架</span>
                         </li>
@@ -1130,7 +1126,6 @@
                         elementPlus: "Element Plus - 组件库",
                         vite: "Vite - 构建工具",
                         pnpm: "pnpm - 包管理器",
-                        pinia: "Pinia - 状态管理",
                         uniapp: "uni-app - 跨平台框架",
                         reactNative: "React Native - 原生跨端框架",
                         docker: "Docker - 容器化部署",
@@ -1296,7 +1291,6 @@
                         elementPlus: "Element Plus - Component Library",
                         vite: "Vite - Build Tool",
                         pnpm: "pnpm - Package Manager",
-                        pinia: "Pinia - State Management",
                         uniapp: "uni-app - Cross-Platform Framework",
                         reactNative: "React Native - Native Cross-Platform Framework",
                         docker: "Docker - Container Deployment",
@@ -1489,7 +1483,39 @@
         // 页面加载动画
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
+            // 页面加载完成后，异步预加载原图
+            preloadOriginalImages();
         });
+
+        // 预加载原图（不影响页面加载）
+        function preloadOriginalImages() {
+            // 收集所有需要预加载的原图路径
+            const originalImages = [];
+            document.querySelectorAll('img[data-original]').forEach(img => {
+                const originalSrc = img.getAttribute('data-original');
+                if (originalSrc) {
+                    originalImages.push(originalSrc);
+                }
+            });
+
+            // 使用 requestIdleCallback 在浏览器空闲时预加载，如果浏览器不支持则使用 setTimeout
+            const preloadImage = (src) => {
+                const img = new Image();
+                img.src = src;
+            };
+
+            if ('requestIdleCallback' in window) {
+                // 浏览器空闲时预加载
+                requestIdleCallback(() => {
+                    originalImages.forEach(src => preloadImage(src));
+                }, { timeout: 2000 });
+            } else {
+                // 降级方案：延迟预加载
+                setTimeout(() => {
+                    originalImages.forEach(src => preloadImage(src));
+                }, 1000);
+            }
+        }
 
         // 图片查看模态框功能
         function openImageModal(imageSrc, imageAlt) {
