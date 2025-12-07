@@ -390,7 +390,7 @@
                         </h2>
                     </div>
                     <p class="text-white/90 text-lg md:text-xl mb-8 max-w-3xl leading-relaxed" data-i18n="hero.description">
-                        基于 RuoYi 成熟框架的<span class="inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。
+                        基于 RuoYi 成熟框架的<span class="inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web（Vue 3）和移动端（uni-app、React Native）多端部署，可快速生成模块完整代码，助力快速交付。
                     </p>
                     <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
                         <a 
@@ -417,7 +417,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <i class="fas fa-mobile-alt text-white/60" aria-hidden="true"></i>
-                            <span data-i18n="hero.mobileSupport">支持 uni-app 移动端</span>
+                            <span data-i18n="hero.mobileSupport">支持 uni-app、React Native 移动端</span>
                         </div>
                     </div>
                 </div>
@@ -473,7 +473,7 @@
                         <i class="fas fa-mobile-alt text-accent text-xl" aria-hidden="true"></i>
                         <h4 class="text-xl font-bold" data-i18n="features.multiPlatform.title">多端支持</h4>
                     </div>
-                    <p class="text-light leading-relaxed" data-i18n="features.multiPlatform.desc">支持 Web（Vue 3）和移动端（uni-app）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。</p>
+                    <p class="text-light leading-relaxed" data-i18n="features.multiPlatform.desc">支持 Web（Vue 3）和移动端（uni-app、React Native）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。</p>
                 </article>
                 <article class="bg-white p-6 rounded-xl shadow-sm card-hover fade-in">
                     <div class="flex items-center gap-3 mb-4">
@@ -491,123 +491,115 @@
     <section id="preview" class="section-padding bg-white" aria-label="预览展示">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="section-title" data-i18n="preview.title">界面预览 · 多端展示</h3>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-12">
-                <!-- Web 管理界面预览 -->
-                <div class="fade-in">
-                    <h4 class="text-xl font-bold text-dark mb-6 text-center lg:text-left">
-                        <i class="fas fa-desktop text-primary mr-2" aria-hidden="true"></i>
-                        <span data-i18n="preview.webTitle">Web 管理界面</span>
-                    </h4>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                            <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative">
-                                <img 
-                                    src="admin.png" 
-                                    alt="Web 管理界面预览 1" 
-                                    class="w-full h-auto object-contain cursor-pointer"
-                                    loading="lazy"
-                                    onclick="openImageModal('admin.png', 'Web 管理界面 - 预览 1')"
-                                    onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+1'"
-                                >
-                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                    <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                    <span data-i18n="preview.viewOriginal">查看原图</span>
-                                </div>
+            <!-- Web 管理界面预览 -->
+            <div class="fade-in mt-12 mb-16">
+                <h4 class="text-xl md:text-2xl font-bold text-dark mb-8 flex items-center justify-center lg:justify-start gap-2">
+                    <i class="fas fa-desktop text-primary w-6 flex-shrink-0" aria-hidden="true"></i>
+                    <span data-i18n="preview.webTitle">Web 管理界面</span>
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-full">
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/admin.png" 
+                                alt="Web 管理界面预览 1" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/admin.png', 'Web 管理界面 - 预览 1')"
+                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+1'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
-                        <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                            <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative">
-                                <img 
-                                    src="admin-2.png" 
-                                    alt="Web 管理界面预览 2" 
-                                    class="w-full h-auto object-contain cursor-pointer"
-                                    loading="lazy"
-                                    onclick="openImageModal('admin-2.png', 'Web 管理界面 - 预览 2')"
-                                    onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+2'"
-                                >
-                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                    <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                    <span data-i18n="preview.viewOriginal">查看原图</span>
-                                </div>
+                    </div>
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/admin2.png" 
+                                alt="Web 管理界面预览 2" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/admin2.png', 'Web 管理界面 - 预览 2')"
+                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+2'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
-                        <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                            <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative">
-                                <img 
-                                    src="admin-3.png" 
-                                    alt="Web 管理界面预览 3" 
-                                    class="w-full h-auto object-contain cursor-pointer"
-                                    loading="lazy"
-                                    onclick="openImageModal('admin-3.png', 'Web 管理界面 - 预览 3')"
-                                    onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+3'"
-                                >
-                                <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                    <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                    <span data-i18n="preview.viewOriginal">查看原图</span>
-                                </div>
+                    </div>
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300 md:col-span-2 lg:col-span-1">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/admin3.png" 
+                                alt="Web 管理界面预览 3" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/admin3.png', 'Web 管理界面 - 预览 3')"
+                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+3'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- 移动端预览 -->
-                <div class="fade-in">
-                    <h4 class="text-xl font-bold text-dark mb-6 text-center lg:text-left">
-                        <i class="fas fa-mobile-alt text-secondary mr-2" aria-hidden="true"></i>
-                        <span data-i18n="preview.mobileTitle">移动端应用</span>
-                    </h4>
-                    <div class="grid grid-cols-1 gap-4">
-                        <div class="flex justify-center lg:justify-start">
-                            <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                                <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative" style="width: 280px; max-width: 100%;">
-                                    <img 
-                                        src="mobile.png" 
-                                        alt="移动端应用预览 1" 
-                                        class="w-full h-auto object-contain cursor-pointer"
-                                        loading="lazy"
-                                        onclick="openImageModal('mobile.png', '移动端应用 - 预览 1')"
-                                        onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+1'"
-                                    >
-                                    <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                        <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                        <span data-i18n="preview.viewOriginal">查看原图</span>
-                                    </div>
-                                </div>
+            </div>
+            <!-- 移动端预览 -->
+            <div class="fade-in mt-12">
+                <h4 class="text-xl md:text-2xl font-bold text-dark mb-8 flex items-center justify-center lg:justify-start gap-2">
+                    <i class="fas fa-mobile-alt text-secondary w-6 flex-shrink-0" aria-hidden="true"></i>
+                    <span data-i18n="preview.mobileTitle">移动端应用</span>
+                </h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/mobile.png" 
+                                alt="移动端应用预览 1" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/mobile.png', '移动端应用 - 预览 1')"
+                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+1'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
-                        <div class="flex justify-center lg:justify-start">
-                            <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                                <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative" style="width: 280px; max-width: 100%;">
-                                    <img 
-                                        src="mobile-2.png" 
-                                        alt="移动端应用预览 2" 
-                                        class="w-full h-auto object-contain cursor-pointer"
-                                        loading="lazy"
-                                        onclick="openImageModal('mobile-2.png', '移动端应用 - 预览 2')"
-                                        onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+2'"
-                                    >
-                                    <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                        <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                        <span data-i18n="preview.viewOriginal">查看原图</span>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/mobile2.png" 
+                                alt="移动端应用预览 2" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/mobile2.png', '移动端应用 - 预览 2')"
+                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+2'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
-                        <div class="flex justify-center lg:justify-start">
-                            <div class="bg-bgLight rounded-xl p-3 shadow-sm card-hover">
-                                <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative" style="width: 280px; max-width: 100%;">
-                                    <img 
-                                        src="mobile-3.png" 
-                                        alt="移动端应用预览 3" 
-                                        class="w-full h-auto object-contain cursor-pointer"
-                                        loading="lazy"
-                                        onclick="openImageModal('mobile-3.png', '移动端应用 - 预览 3')"
-                                        onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+3'"
-                                    >
-                                    <div class="absolute bottom-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
-                                        <i class="fas fa-expand mr-1" aria-hidden="true"></i>
-                                        <span data-i18n="preview.viewOriginal">查看原图</span>
-                                    </div>
-                                </div>
+                    </div>
+                    <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300 sm:col-span-2 lg:col-span-1">
+                        <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
+                            <img 
+                                src="preview/mobile3.png" 
+                                alt="移动端应用预览 3" 
+                                class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
+                                loading="lazy"
+                                onclick="openImageModal('preview/mobile3.png', '移动端应用 - 预览 3')"
+                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+3'"
+                            >
+                            <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <i class="fas fa-expand mr-1" aria-hidden="true"></i>
+                                <span data-i18n="preview.viewOriginal">查看原图</span>
                             </div>
                         </div>
                     </div>
@@ -682,6 +674,10 @@
                         <li class="flex items-center gap-4 text-light group">
                             <img src="tech/uni-app.svg" alt="uni-app" class="tech-icon">
                             <span class="flex-1" data-i18n="tech.items.uniapp">uni-app - 跨平台框架</span>
+                        </li>
+                        <li class="flex items-center gap-4 text-light group">
+                            <img src="tech/react-native-original.svg" alt="React Native" class="tech-icon">
+                            <span class="flex-1" data-i18n="tech.items.reactNative">React Native - 原生跨端框架</span>
                         </li>
                     </ul>
                 </article>
@@ -814,7 +810,7 @@
     <section id="products" class="section-padding bg-white" aria-label="产品方案">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="section-title" data-i18n="products.title">产品方案 · 满足不同场景需求</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 max-w-4xl mx-auto">
                 <!-- 开源版 -->
                 <article class="bg-bgLight p-6 rounded-xl shadow-sm card-hover fade-in flex flex-col">
                     <div class="mb-4">
@@ -891,40 +887,6 @@
                         data-i18n="products.commercial.action"
                     >
                         了解详情
-                    </a>
-                </article>
-
-                <!-- 定制版 -->
-                <article class="bg-purple-50 p-6 rounded-xl shadow-sm card-hover fade-in flex flex-col">
-                    <div class="mb-4">
-                        <h4 class="text-xl font-bold text-dark mb-2" data-i18n="products.premium.title">AI Quick Starter Premium</h4>
-                        <span class="text-xs px-2 py-1 bg-purple-600 text-white rounded font-medium" data-i18n="products.premium.badge">定制服务</span>
-                    </div>
-                    <p class="text-light mb-4 leading-relaxed" data-i18n="products.premium.desc">面向 AI+ 场景的企业咨询定制化服务，提供专业咨询、定制化开发和场景化解决方案，满足企业特定业务需求。</p>
-                    <ul class="space-y-2 mb-4">
-                        <li class="flex items-start gap-2 text-light text-sm">
-                            <i class="fas fa-check text-purple-600 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                            <span data-i18n="products.premium.feature1">专业 AI+ 场景咨询</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-light text-sm">
-                            <i class="fas fa-check text-purple-600 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                            <span data-i18n="products.premium.feature2">定制化开发服务</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-light text-sm">
-                            <i class="fas fa-check text-purple-600 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                            <span data-i18n="products.premium.feature3">场景化解决方案</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-light text-sm">
-                            <i class="fas fa-check text-purple-600 mt-0.5 flex-shrink-0" aria-hidden="true"></i>
-                            <span data-i18n="products.premium.feature4">全程技术支持与培训</span>
-                        </li>
-                    </ul>
-                    <a 
-                        href="mailto:xujiingbao@gmail.com?subject=AI Quick Starter Premium 定制服务咨询" 
-                        class="block w-full bg-purple-600 text-white px-4 py-2 rounded-lg text-center text-sm font-medium btn-hover mt-auto"
-                        data-i18n="products.premium.action"
-                    >
-                        联系咨询
                     </a>
                 </article>
             </div>
@@ -1062,14 +1024,14 @@
                     title: "RuoYi AI Quick Starter",
                     subtitle: "AI 快速开发框架",
                     tagline: "AI原生企业应用框架",
-                    description: "基于 RuoYi 成熟框架的<span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。",
-                    descriptionHtml: "基于 RuoYi 成熟框架的<span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速交付。",
+                    description: "基于 RuoYi 成熟框架的<span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web（Vue 3）和移动端（uni-app、React Native）多端部署，可快速生成模块完整代码，助力快速交付。",
+                    descriptionHtml: "基于 RuoYi 成熟框架的<span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">开源免费</span>基础框架，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web（Vue 3）和移动端（uni-app、React Native）多端部署，可快速生成模块完整代码，助力快速交付。",
                     quickStart: "快速开始",
                     viewDocs: "查看文档",
                     aiCodeGen: "AI 智能代码生成",
                     fullstack: "全栈开发",
                     aiAssist: "AI 辅助",
-                    mobileSupport: "支持 uni-app 移动端"
+                    mobileSupport: "支持 uni-app、React Native 移动端"
                 },
                 features: {
                     title: "核心特性 · 让 AI 成为你的最佳开发伙伴",
@@ -1091,7 +1053,7 @@
                     },
                     multiPlatform: {
                         title: "多端支持",
-                        desc: "支持 Web（Vue 3）和移动端（uni-app）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。"
+                        desc: "支持 Web（Vue 3）和移动端（uni-app、React Native）多端开发，一套代码多端运行。覆盖 Web 和移动端应用场景，满足企业级多平台业务需求，降低多端开发成本。"
                     },
                     standards: {
                         title: "开发规范",
@@ -1123,19 +1085,20 @@
                     },
                     premium: {
                         title: "AI Quick Starter Premium",
-                        badge: "定制服务",
-                        desc: "面向 AI+ 场景的企业咨询定制化服务，提供专业咨询、定制化开发和场景化解决方案，满足企业特定业务需求。",
+                        badge: "规划中",
+                        desc: "面向 AI+ 场景的企业咨询定制化服务正在规划中，将提供专业咨询、定制化开发和场景化解决方案，满足企业特定业务需求。敬请期待！",
                         feature1: "专业 AI+ 场景咨询",
                         feature2: "定制化开发服务",
                         feature3: "场景化解决方案",
                         feature4: "全程技术支持与培训",
-                        action: "联系咨询"
+                        action: "敬请期待"
                     }
                 },
                 preview: {
                     title: "界面预览 · 多端展示",
                     webTitle: "Web 管理界面",
                     mobileTitle: "移动端应用",
+                    mobileDesc: "基于 React Native 构建的跨端移动应用，一套代码同时支持 iOS 和 Android 平台，提供原生性能体验和流畅的用户交互。",
                     viewOriginal: "查看原图"
                 },
                 tech: {
@@ -1156,6 +1119,7 @@
                         pnpm: "pnpm - 包管理器",
                         pinia: "Pinia - 状态管理",
                         uniapp: "uni-app - 跨平台框架",
+                        reactNative: "React Native - 原生跨端框架",
                         docker: "Docker - 容器化部署",
                         nginx: "Nginx - Web 服务器",
                         kubernetes: "Kubernetes - 容器编排",
@@ -1166,10 +1130,10 @@
                 philosophy: {
                     title: "开发理念",
                     p1: "基于 RuoYi 成熟框架，我们构建了一个 AI 友好的开发环境。框架采用前后端统一仓库架构，让 AI 工具能够理解完整的业务上下文，实现真正的全栈开发。",
-                    p2: "通过规范化的项目结构、完善的文档体系和规范驱动开发（SDD）方法，以规格说明作为\"单一事实来源\"，引导 AI 生成高质量、可维护的代码。框架集成了 AI 原生组件，支持 Web（Vue 3）和移动端（uni-app）多端部署，一套代码多端运行。",
+                    p2: "通过规范化的项目结构、完善的文档体系和规范驱动开发（SDD）方法，以规格说明作为\"单一事实来源\"，引导 AI 生成高质量、可维护的代码。框架集成了 AI 原生组件，支持 Web（Vue 3）和移动端（uni-app、React Native）多端部署，一套代码多端运行。",
                     p3: "开发者可以快速生成模块的完整代码，从数据库设计到前后端接口，从页面组件到业务逻辑，实现端到端的代码生成，大幅提升开发效率，确保代码质量和一致性，助力团队快速交付高质量的企业级应用。",
                     p4: "然而，在数字化转型的浪潮中，很多中小规模企业面临着数智化升级的迫切需求。基础启动框架虽然提供了良好的开发基础，但在 AI+ 数据治理、算力与模型管理、决策分析报告质检、可视化分析等专业领域，可能仍然难以满足企业的深度业务需求。",
-                    p5: "因此，我们为不同规模的企业提供了完整的商业化解决方案。AI Quick Starter Plus 面向企业提供 AI+ 数据治理、算力与模型管理、决策分析报告质检、可视化核心框架等高级功能模块，助力企业快速构建数智化能力；AI Quick Starter Premium 则提供面向 AI+ 场景的专业咨询和定制化开发服务，为企业量身定制解决方案，满足特定业务场景的深度需求。",
+                    p5: "因此，我们为不同规模的企业提供了完整的商业化解决方案。AI Quick Starter Plus 面向企业提供 AI+ 数据治理、算力与模型管理、决策分析报告质检、可视化核心框架等高级功能模块，助力企业快速构建数智化能力。",
                     resources: "相关资源：",
                     ruoyiDocs: "RuoYi 官方文档",
                     cursorDocs: "Cursor 文档",
@@ -1226,14 +1190,14 @@
                     title: "RuoYi AI Quick Starter",
                     subtitle: "AI Rapid Development Framework",
                     tagline: "AI Native Enterprise Application Framework",
-                    description: "Open-source free basic framework based on the mature RuoYi framework, AI-friendly design, unified frontend and backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web and mobile multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
-                    descriptionHtml: "Open-source <span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">free</span> basic framework based on the mature RuoYi framework, AI-friendly design, unified frontend and backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web and mobile multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
+                    description: "Open-source free basic framework based on the mature RuoYi framework, AI-friendly design, unified frontend and backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web (Vue 3) and mobile (uni-app, React Native) multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
+                    descriptionHtml: "Open-source <span class=\"inline-block px-2 py-0.5 bg-white/15 backdrop-blur-sm rounded font-medium text-white/95 mx-1 border border-white/25\">free</span> basic framework based on the mature RuoYi framework, AI-friendly design, unified frontend and backend repository for full-stack development, integrated AI native components and specification-driven development methods, supporting Web (Vue 3) and mobile (uni-app, React Native) multi-platform deployment, enabling rapid generation of complete module code for fast delivery.",
                     quickStart: "Quick Start",
                     viewDocs: "View Docs",
                     aiCodeGen: "AI Intelligent Code Generation",
                     fullstack: "Full-Stack Development",
                     aiAssist: "AI Assistance",
-                    mobileSupport: "Supports uni-app Mobile"
+                    mobileSupport: "Supports uni-app, React Native Mobile"
                 },
                 features: {
                     title: "Core Features · Let AI Be Your Best Development Partner",
@@ -1255,7 +1219,7 @@
                     },
                     multiPlatform: {
                         title: "Multi-Platform Support",
-                        desc: "Supports Web (Vue 3) and mobile (uni-app) multi-platform development, one codebase runs on multiple platforms. Covers Web and mobile application scenarios, meeting enterprise-level multi-platform business needs, reducing multi-platform development costs."
+                        desc: "Supports Web (Vue 3) and mobile (uni-app, React Native) multi-platform development, one codebase runs on multiple platforms. Covers Web and mobile application scenarios, meeting enterprise-level multi-platform business needs, reducing multi-platform development costs."
                     },
                     standards: {
                         title: "Development Standards",
@@ -1287,19 +1251,20 @@
                     },
                     premium: {
                         title: "AI Quick Starter Premium",
-                        badge: "Custom Service",
-                        desc: "Enterprise consulting and customization services for AI+ scenarios, providing professional consulting, customized development and scenario-based solutions to meet specific business needs.",
+                        badge: "Coming Soon",
+                        desc: "Enterprise consulting and customization services for AI+ scenarios are being planned. Will provide professional consulting, customized development and scenario-based solutions to meet specific business needs. Stay tuned!",
                         feature1: "Professional AI+ Scenario Consulting",
                         feature2: "Customized Development Services",
                         feature3: "Scenario-based Solutions",
                         feature4: "Full-cycle Technical Support and Training",
-                        action: "Contact Consultation"
+                        action: "Coming Soon"
                     }
                 },
                 preview: {
                     title: "Preview · Multi-Platform Display",
                     webTitle: "Web Management Interface",
                     mobileTitle: "Mobile Application",
+                    mobileDesc: "Cross-platform mobile application built with React Native, one codebase supports both iOS and Android platforms, providing native performance and smooth user interactions.",
                     viewOriginal: "View Original"
                 },
                 tech: {
@@ -1320,6 +1285,7 @@
                         pnpm: "pnpm - Package Manager",
                         pinia: "Pinia - State Management",
                         uniapp: "uni-app - Cross-Platform Framework",
+                        reactNative: "React Native - Native Cross-Platform Framework",
                         docker: "Docker - Container Deployment",
                         nginx: "Nginx - Web Server",
                         kubernetes: "Kubernetes - Container Orchestration",
@@ -1330,10 +1296,10 @@
                 philosophy: {
                     title: "Development Philosophy",
                     p1: "Based on the mature RuoYi framework, we've built an AI-friendly development environment. The framework adopts a unified frontend-backend repository architecture, enabling AI tools to understand complete business context and achieve true full-stack development.",
-                    p2: "Through standardized project structure, comprehensive documentation, and Specification-Driven Development (SDD) methods, using specification descriptions as the \"single source of truth\" to guide AI to generate high-quality, maintainable code. The framework integrates AI native components, supporting Web (Vue 3) and mobile (uni-app) multi-platform deployment, one codebase runs on multiple platforms.",
+                    p2: "Through standardized project structure, comprehensive documentation, and Specification-Driven Development (SDD) methods, using specification descriptions as the \"single source of truth\" to guide AI to generate high-quality, maintainable code. The framework integrates AI native components, supporting Web (Vue 3) and mobile (uni-app, React Native) multi-platform deployment, one codebase runs on multiple platforms.",
                     p3: "Developers can quickly generate complete module code, from database design to frontend-backend interfaces, from page components to business logic, achieving end-to-end code generation, significantly improving development efficiency, ensuring code quality and consistency, helping teams quickly deliver high-quality enterprise-level applications.",
                     p4: "However, in the wave of digital transformation, many small-scale enterprises face urgent needs for digital intelligence upgrades. While the basic starter framework provides a solid development foundation, it may still struggle to meet enterprises' deep business requirements in specialized areas such as AI+ data governance, computing power and model management, decision analysis report quality inspection, and visualization analysis.",
-                    p5: "Therefore, we provide comprehensive commercial solutions for enterprises of different scales. AI Quick Starter Plus offers enterprises advanced functional modules such as AI+ data governance, computing power and model management, decision analysis report quality inspection, and visualization core framework, helping enterprises quickly build digital intelligence capabilities; AI Quick Starter Premium provides professional consulting and customized development services for AI+ scenarios, tailoring solutions for enterprises to meet specific business scenario requirements.",
+                    p5: "Therefore, we provide comprehensive commercial solutions for enterprises of different scales. AI Quick Starter Plus offers enterprises advanced functional modules such as AI+ data governance, computing power and model management, decision analysis report quality inspection, and visualization core framework, helping enterprises quickly build digital intelligence capabilities.",
                     resources: "Related Resources:",
                     ruoyiDocs: "RuoYi Official Docs",
                     cursorDocs: "Cursor Docs",

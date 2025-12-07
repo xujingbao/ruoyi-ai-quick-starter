@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "RuoYi AI Quick Starter",
+    "slug": "ruoyi-rn",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#67C23A"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ruoyi.rn"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#67C23A"
+      },
+      "package": "com.ruoyi.rn"
+    },
+    "web": {
+    },
+    "scheme": "ruoyi-rn"
+  }
+}
+

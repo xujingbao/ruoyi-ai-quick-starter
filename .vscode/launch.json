@@ -22,6 +22,17 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "skipFiles": ["<node_internals>/**"]
+        },
+        {
+            "type": "node",
+            "name": "RuoYi RN",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "runtimeArgs": ["start"],
+            "cwd": "${workspaceFolder}/ruoyi-rn",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "skipFiles": ["<node_internals>/**"]
         }
     ]
 }
