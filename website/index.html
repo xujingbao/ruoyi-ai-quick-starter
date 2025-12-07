@@ -194,6 +194,13 @@
             .preview-image-container {
                 position: relative;
             }
+            .preview-image-container img {
+                filter: brightness(0.98);
+                transition: filter 0.3s ease;
+            }
+            .preview-image-container:hover img {
+                filter: brightness(1);
+            }
             .image-modal {
                 display: none;
                 position: fixed;
@@ -501,12 +508,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/admin.png" 
+                                src="preview/thumbs/admin_thumb.png" 
                                 alt="Web 管理界面预览 1" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/admin.png"
                                 onclick="openImageModal('preview/admin.png', 'Web 管理界面 - 预览 1')"
-                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+1'"
+                                onerror="this.src='https://via.placeholder.com/400x225/409EFF/FFFFFF?text=Web+管理界面+预览+1'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
@@ -517,12 +525,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/admin2.png" 
+                                src="preview/thumbs/admin2_thumb.png" 
                                 alt="Web 管理界面预览 2" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/admin2.png"
                                 onclick="openImageModal('preview/admin2.png', 'Web 管理界面 - 预览 2')"
-                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+2'"
+                                onerror="this.src='https://via.placeholder.com/400x225/409EFF/FFFFFF?text=Web+管理界面+预览+2'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
@@ -533,12 +542,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300 md:col-span-2 lg:col-span-1">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/admin3.png" 
+                                src="preview/thumbs/admin3_thumb.png" 
                                 alt="Web 管理界面预览 3" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/admin3.png"
                                 onclick="openImageModal('preview/admin3.png', 'Web 管理界面 - 预览 3')"
-                                onerror="this.src='https://via.placeholder.com/1600x900/409EFF/FFFFFF?text=Web+管理界面+预览+3'"
+                                onerror="this.src='https://via.placeholder.com/400x225/409EFF/FFFFFF?text=Web+管理界面+预览+3'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
@@ -558,12 +568,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/mobile.png" 
+                                src="preview/thumbs/mobile_thumb.png" 
                                 alt="移动端应用预览 1" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/mobile.png"
                                 onclick="openImageModal('preview/mobile.png', '移动端应用 - 预览 1')"
-                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+1'"
+                                onerror="this.src='https://via.placeholder.com/400x225/67C23A/FFFFFF?text=移动端+预览+1'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
@@ -574,12 +585,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/mobile2.png" 
+                                src="preview/thumbs/mobile2_thumb.png" 
                                 alt="移动端应用预览 2" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/mobile2.png"
                                 onclick="openImageModal('preview/mobile2.png', '移动端应用 - 预览 2')"
-                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+2'"
+                                onerror="this.src='https://via.placeholder.com/400x225/67C23A/FFFFFF?text=移动端+预览+2'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
@@ -590,12 +602,13 @@
                     <div class="bg-bgLight rounded-xl p-4 md:p-5 shadow-sm card-hover transition-all duration-300 sm:col-span-2 lg:col-span-1">
                         <div class="bg-white rounded-lg overflow-hidden shadow-md preview-image-container relative group">
                             <img 
-                                src="preview/mobile3.png" 
+                                src="preview/thumbs/mobile3_thumb.png" 
                                 alt="移动端应用预览 3" 
                                 class="w-full h-auto object-contain cursor-pointer transition-transform duration-300 group-hover:scale-[1.02]"
                                 loading="lazy"
+                                data-original="preview/mobile3.png"
                                 onclick="openImageModal('preview/mobile3.png', '移动端应用 - 预览 3')"
-                                onerror="this.src='https://via.placeholder.com/375x667/67C23A/FFFFFF?text=移动端+预览+3'"
+                                onerror="this.src='https://via.placeholder.com/400x225/67C23A/FFFFFF?text=移动端+预览+3'"
                             >
                             <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <i class="fas fa-expand mr-1" aria-hidden="true"></i>
