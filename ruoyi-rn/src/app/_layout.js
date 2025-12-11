@@ -7,11 +7,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <Provider store={store}>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="login" />
-          <Stack.Screen name="home" />
-        </Stack>
+        <Stack screenOptions={{ headerShown: false }} />
       </Provider>
     </SafeAreaProvider>
   )

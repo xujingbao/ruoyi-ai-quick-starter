@@ -131,7 +131,7 @@ export default function LoginScreen() {
         {/* Logo和欢迎语 */}
         <View style={[styles.logoContent, { paddingTop: Math.max(80 + insets.top, 100) }]}>
           <View style={styles.logoWrapper}>
-            <Text style={styles.logoIcon}>🚀</Text>
+            <Image source={require('../assets/logo.png')} style={styles.logoImage} />
           </View>
           <Text style={styles.welcomeText}>欢迎使用</Text>
           <Text style={styles.appTitle}>RuoYi AI Quick Starter</Text>
@@ -303,10 +303,10 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgba(255, 255, 255, 0.3)'
   },
-  logoIcon: {
-    fontSize: 48,
-    textAlign: 'center',
-    lineHeight: 76
+  logoImage: {
+    width: 60,
+    height: 60,
+    resizeMode: 'contain'
   },
   welcomeText: {
     fontSize: 15,

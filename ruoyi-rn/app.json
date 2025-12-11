@@ -22,9 +22,12 @@
       },
       "package": "com.ruoyi.rn"
     },
-    "web": {
-    },
-    "scheme": "ruoyi-rn"
+    "web": {},
+    "scheme": "ruoyi-rn",
+    "plugins": [
+      "expo-asset",
+      "expo-router",
+      "expo-secure-store"
+    ]
   }
 }
-
