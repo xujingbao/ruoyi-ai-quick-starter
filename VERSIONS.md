@@ -11,9 +11,9 @@
 - **SpringDoc**: 2.8.9
 
 ## 前端
-- **Vue**: 3.5.24
-- **Element Plus**: 2.11.9
-- **Vite**: 7.2.0
+- **Vue**: 3.5.25
+- **Element Plus**: 2.12.0
+- **Vite**: 7.2.7
 - **Pinia**: 3.0.2
 - **Vue Router**: 4.5.1
 - **Axios**: 1.9.0
