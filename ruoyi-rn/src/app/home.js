@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import {
   View,
   Text,
@@ -10,9 +10,19 @@ import {
 } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useSelector, useDispatch } from 'react-redux'
+import { createSelector } from '@reduxjs/toolkit'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { logOutAction } from '../store/modules/user'
 import { removeToken } from '../utils/auth'
+
+// 创建记忆化的 selector
+const selectUserData = createSelector(
+  [(state) => state.user],
+  (user) => ({
+    name: user.name || user.username || '用户',
+    avatar: user.avatar
+  })
+)
 
 export default function HomeScreen() {
   const router = useRouter()
@@ -20,10 +30,7 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets()
   const [activeTab, setActiveTab] = useState(0)
   
-  const user = useSelector(state => ({
-    name: state.user.name || state.user.username || '用户',
-    avatar: state.user.avatar
-  }))
+  const user = useSelector(selectUserData)
 
   // 退出登录
   const handleLogout = async () => {
