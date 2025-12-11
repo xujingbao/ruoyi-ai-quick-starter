@@ -12,7 +12,7 @@
 
 ### 环境要求
 
-JDK 17+ | Maven 3.6+ | Node.js 18+ | pnpm 8+ | MySQL 8.0+ | Redis 6.0+
+JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 6.0+
 
 ### 启动步骤
 

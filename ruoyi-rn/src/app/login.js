@@ -295,17 +295,11 @@ const styles = StyleSheet.create({
   logoWrapper: {
     marginBottom: 20,
     alignItems: 'center',
-    justifyContent: 'center',
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, 0.3)'
+    justifyContent: 'center'
   },
   logoImage: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     resizeMode: 'contain'
   },
   welcomeText: {
