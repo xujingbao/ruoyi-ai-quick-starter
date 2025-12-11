@@ -6,34 +6,44 @@
 
     <div class="right-menu">
       <template v-if="appStore.device !== 'mobile'">
+        <!-- 搜索功能 -->
         <header-search id="header-search" class="right-menu-item hover-effect" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
-          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
+        <!-- 主题切换 -->
+        <el-tooltip content="主题模式" effect="dark" placement="bottom">
+          <div class="right-menu-item hover-effect theme-switch-wrapper" @click="toggleTheme">
+            <el-icon v-if="settingsStore.isDark" class="theme-icon"><Sunny /></el-icon>
+            <el-icon v-if="!settingsStore.isDark" class="theme-icon"><Moon /></el-icon>
+          </div>
         </el-tooltip>
 
+        <!-- 全屏 -->
+        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+
+        <!-- 布局大小 -->
+        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+          <size-select id="size-select" class="right-menu-item hover-effect" />
+        </el-tooltip>
+
+        <!-- 文档地址 -->
         <el-tooltip content="文档地址" effect="dark" placement="bottom">
           <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
         </el-tooltip>
 
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="主题模式" effect="dark" placement="bottom">
-          <div class="right-menu-item hover-effect theme-switch-wrapper" @click="toggleTheme">
-            <svg-icon v-if="settingsStore.isDark" icon-class="sunny" class="theme-icon" />
-            <svg-icon v-if="!settingsStore.isDark" icon-class="moon" class="theme-icon" />
-          </div>
-        </el-tooltip>
-
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
+        <!-- 源码地址 -->
+        <el-tooltip content="源码地址" effect="dark" placement="bottom">
+          <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
         </el-tooltip>
       </template>
 
+      <!-- 用户信息（始终显示，放在最右边） -->
       <el-dropdown @command="handleCommand" class="avatar-container right-menu-item hover-effect" trigger="hover">
         <div class="avatar-wrapper">
           <img :src="userStore.avatar" class="user-avatar" />
-          <span class="user-nickname"> {{ userStore.nickName }} </span>
+          <div class="user-info">
+            <span class="user-nickname">{{ userStore.nickName }}</span>
+            <span class="user-dept" v-if="userStore.deptName">{{ userStore.deptName }}</span>
+          </div>
         </div>
         <template #dropdown>
           <el-dropdown-menu>
@@ -66,6 +76,7 @@ import RuoYiDoc from '@/components/RuoYi/Doc'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
+import { Sunny, Moon } from '@element-plus/icons-vue'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -187,6 +198,16 @@ function toggleTheme() {
           transform: scale(1.1);
         }
       }
+      
+      // Element Plus 图标样式统一
+      .el-icon {
+        font-size: 18px;
+        transition: transform 0.2s ease;
+      }
+      
+      &:hover .el-icon {
+        transform: scale(1.1);
+      }
     }
 
     .avatar-container {
@@ -196,20 +217,50 @@ function toggleTheme() {
       .avatar-wrapper {
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        padding: 0 4px;
 
         .user-avatar {
           cursor: pointer;
-          width: 30px;
-          height: 30px;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
           flex-shrink: 0;
+          border: 2px solid var(--el-border-color-lighter);
+          transition: all 0.3s;
+          
+          &:hover {
+            border-color: var(--el-color-primary);
+          }
         }
 
-        .user-nickname {
-          font-size: 14px;
-          font-weight: bold;
-          white-space: nowrap;
+        .user-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          line-height: 1.4;
+          min-width: 0;
+          
+          .user-nickname {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--el-text-color-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+          }
+
+          .user-dept {
+            font-size: 12px;
+            color: var(--el-text-color-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+            margin-top: 2px;
+          }
         }
 
         i {

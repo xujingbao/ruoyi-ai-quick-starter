@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true" label-width="68px">
+      <el-form :model="queryParams" ref="queryRef" v-show="showSearch" :inline="true" label-width="68px" class="search-form">
          <el-form-item label="角色名称" prop="roleName">
             <el-input
                v-model="queryParams.roleName"
@@ -92,7 +92,16 @@
       </el-row>
 
       <!-- 表格数据 -->
-      <el-table v-loading="loading" :data="roleList" @selection-change="handleSelectionChange">
+      <el-table 
+         v-loading="loading" 
+         :data="roleList" 
+         @selection-change="handleSelectionChange"
+         @row-dblclick="handleRowDblClick"
+         @row-click="handleRowClick"
+         stripe
+         style="width: 100%"
+         class="role-table"
+      >
          <el-table-column type="selection" width="55" align="center" />
          <el-table-column label="角色编号" prop="roleId" width="120" />
          <el-table-column label="角色名称" prop="roleName" :show-overflow-tooltip="true" width="150" />
@@ -113,20 +122,50 @@
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" fixed="right" width="200">
             <template #default="scope">
-              <el-tooltip content="修改" placement="top" v-if="scope.row.roleId !== 1">
-                <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:role:edit']"></el-button>
-              </el-tooltip>
-              <el-tooltip content="删除" placement="top" v-if="scope.row.roleId !== 1">
-                <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:role:remove']"></el-button>
-              </el-tooltip>
-              <el-tooltip content="数据权限" placement="top" v-if="scope.row.roleId !== 1">
-                <el-button link type="primary" icon="CircleCheck" @click="handleDataScope(scope.row)" v-hasPermi="['system:role:edit']"></el-button>
-              </el-tooltip>
-              <el-tooltip content="分配用户" placement="top" v-if="scope.row.roleId !== 1">
-                <el-button link type="primary" icon="User" @click="handleAuthUser(scope.row)" v-hasPermi="['system:role:edit']"></el-button>
-              </el-tooltip>
+              <div class="action-buttons" v-if="scope.row.roleId !== 1">
+                <el-tooltip content="修改" placement="top">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Edit" 
+                     size="small"
+                     @click.stop="handleUpdate(scope.row)" 
+                     v-hasPermi="['system:role:edit']"
+                  ></el-button>
+                </el-tooltip>
+                <el-tooltip content="删除" placement="top">
+                  <el-button 
+                     link 
+                     type="danger" 
+                     icon="Delete" 
+                     size="small"
+                     @click.stop="handleDelete(scope.row)" 
+                     v-hasPermi="['system:role:remove']"
+                  ></el-button>
+                </el-tooltip>
+                <el-tooltip content="数据权限" placement="top">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="CircleCheck" 
+                     size="small"
+                     @click.stop="handleDataScope(scope.row)" 
+                     v-hasPermi="['system:role:edit']"
+                  ></el-button>
+                </el-tooltip>
+                <el-tooltip content="分配用户" placement="top">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="User" 
+                     size="small"
+                     @click.stop="handleAuthUser(scope.row)" 
+                     v-hasPermi="['system:role:edit']"
+                  ></el-button>
+                </el-tooltip>
+              </div>
             </template>
          </el-table-column>
       </el-table>
@@ -140,7 +179,7 @@
       />
 
       <!-- 添加或修改角色配置对话框 -->
-      <el-dialog :title="title" v-model="open" width="500px" append-to-body>
+      <el-dialog :title="title" v-model="open" width="500px" append-to-body :close-on-click-modal="false">
          <el-form ref="roleRef" :model="form" :rules="rules" label-width="100px">
             <el-form-item label="角色名称" prop="roleName">
                <el-input v-model="form.roleName" placeholder="请输入角色名称" />
@@ -189,14 +228,14 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitForm">确 定</el-button>
                <el-button @click="cancel">取 消</el-button>
+               <el-button type="primary" @click="submitForm">确 定</el-button>
             </div>
          </template>
       </el-dialog>
 
       <!-- 分配角色数据权限对话框 -->
-      <el-dialog :title="title" v-model="openDataScope" width="500px" append-to-body>
+      <el-dialog :title="title" v-model="openDataScope" width="500px" append-to-body :close-on-click-modal="false">
          <el-form :model="form" label-width="80px">
             <el-form-item label="角色名称">
                <el-input v-model="form.roleName" :disabled="true" />
@@ -233,8 +272,8 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitDataScope">确 定</el-button>
                <el-button @click="cancelDataScope">取 消</el-button>
+               <el-button type="primary" @click="submitDataScope">确 定</el-button>
             </div>
          </template>
       </el-dialog>
@@ -424,10 +463,37 @@ function handleAdd() {
   title.value = "添加角色"
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  if (row.roleId !== 1 && proxy.hasPermi(['system:role:edit'])) {
+    handleUpdate(row)
+  }
+}
+
 /** 修改角色 */
 function handleUpdate(row) {
   reset()
-  const roleId = row.roleId || ids.value
+  if (!row || typeof row !== 'object') {
+    return
+  }
+  
+  const roleId = row.roleId || (Array.isArray(ids.value) && ids.value.length === 1 ? ids.value[0] : null)
+  
+  if (!roleId) {
+    proxy.$modal.msgWarning("请选择要修改的角色")
+    return
+  }
+  
   const roleMenu = getRoleMenuTreeselect(roleId)
   getRole(roleId).then(response => {
     form.value = response.data
@@ -443,6 +509,9 @@ function handleUpdate(row) {
         })
       })
     })
+  }).catch(error => {
+    console.error("获取角色信息失败:", error)
+    proxy.$modal.msgError("获取角色信息失败")
   })
   title.value = "修改角色"
 }
@@ -582,3 +651,64 @@ function cancelDataScope() {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.role-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

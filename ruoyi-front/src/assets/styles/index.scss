@@ -4,27 +4,52 @@
 @use './sidebar.scss';
 @use './btn.scss';
 @use './ruoyi.scss';
+@use './variables.module.scss' as vars;
+
+// 全局字体优化
+html {
+  height: 100%;
+  box-sizing: border-box;
+  // 优化字体渲染
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  // 启用字体特性
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  // 设置基础字体
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-base;
+  line-height: vars.$line-height-base;
+}
 
 body {
   height: 100%;
   margin: 0;
+  padding: 0;
+  // 继承 html 的字体设置
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  // 优化字体渲染
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  // 优化中文显示
+  font-variant-numeric: normal;
+  font-variant-east-asian: normal;
 }
 
+// 标签字体优化
 label {
-  font-weight: 700;
-}
-
-html {
-  height: 100%;
-  box-sizing: border-box;
+  font-weight: vars.$font-weight-bold;
+  font-size: inherit;
 }
 
 #app {
   height: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 *,
@@ -103,9 +128,9 @@ aside {
   margin-bottom: 20px;
   border-radius: 2px;
   display: block;
-  line-height: 32px;
-  font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: vars.$line-height-base;
+  font-size: vars.$font-size-large;
+  font-family: vars.$font-family-base;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -175,5 +200,68 @@ aside {
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 10px;
+  }
+}
+
+// 全局字体优化
+* {
+  // 确保所有元素继承字体设置
+  font-family: inherit;
+}
+
+// 代码和等宽字体
+code,
+kbd,
+pre,
+samp,
+.monospace {
+  font-family: vars.$font-family-mono;
+  font-size: 0.9em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 数字优化显示
+.number,
+.numeric {
+  font-family: vars.$font-family-numeric;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 输入框字体优化
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 按钮字体优化
+button {
+  font-family: inherit;
+  font-size: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 链接字体优化
+a {
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// 表格字体优化
+table {
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  th, td {
+    font-family: inherit;
   }
 }

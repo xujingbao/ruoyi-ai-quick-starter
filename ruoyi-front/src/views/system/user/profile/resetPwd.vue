@@ -1,17 +1,38 @@
 <template>
-   <el-form ref="pwdRef" :model="user" :rules="rules" label-width="80px">
+   <el-form ref="pwdRef" :model="user" :rules="rules" label-width="100px" class="reset-pwd-form">
       <el-form-item label="旧密码" prop="oldPassword">
-         <el-input v-model="user.oldPassword" placeholder="请输入旧密码" type="password" show-password />
+         <el-input 
+            v-model="user.oldPassword" 
+            placeholder="请输入旧密码" 
+            type="password" 
+            show-password 
+            clearable
+         />
       </el-form-item>
       <el-form-item label="新密码" prop="newPassword">
-         <el-input v-model="user.newPassword" placeholder="请输入新密码" type="password" show-password />
+         <el-input 
+            v-model="user.newPassword" 
+            placeholder="请输入新密码（6-20个字符）" 
+            type="password" 
+            show-password 
+            clearable
+         />
+         <div class="form-tip">密码长度必须在 6 到 20 个字符之间</div>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword">
-         <el-input v-model="user.confirmPassword" placeholder="请确认新密码" type="password" show-password/>
+         <el-input 
+            v-model="user.confirmPassword" 
+            placeholder="请再次输入新密码" 
+            type="password" 
+            show-password
+            clearable
+         />
       </el-form-item>
       <el-form-item>
-      <el-button type="primary" @click="submit">保存</el-button>
-      <el-button type="danger" @click="close">关闭</el-button>
+         <div class="form-actions">
+            <el-button @click="close">取 消</el-button>
+            <el-button type="primary" @click="submit">保 存</el-button>
+         </div>
       </el-form-item>
    </el-form>
 </template>
@@ -57,3 +78,25 @@ function close() {
   proxy.$tab.closePage()
 }
 </script>
+
+<style scoped lang="scss">
+.reset-pwd-form {
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+  
+  .form-tip {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+  }
+}
+</style>

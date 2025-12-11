@@ -1,5 +1,42 @@
 // cover some element-ui styles
 
+// 统一 Element Plus 组件字体
+.el-breadcrumb,
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a,
+.el-button,
+.el-input__inner,
+.el-textarea__inner,
+.el-select,
+.el-cascader,
+.el-date-editor,
+.el-pagination,
+.el-table,
+.el-table th,
+.el-table td,
+.el-menu,
+.el-menu-item,
+.el-submenu,
+.el-submenu__title,
+.el-dialog,
+.el-dialog__title,
+.el-dialog__body,
+.el-form-item__label,
+.el-form-item__content,
+.el-card,
+.el-card__header,
+.el-card__body,
+.el-tag,
+.el-badge,
+.el-tooltip,
+.el-popover,
+.el-dropdown-menu,
+.el-dropdown-menu__item {
+  font-family: var(--font-family-base, inherit) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .el-breadcrumb__inner,
 .el-breadcrumb__inner a {
   font-weight: 400 !important;

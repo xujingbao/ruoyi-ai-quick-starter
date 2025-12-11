@@ -1,6 +1,6 @@
 <template>
   <div class="header-search">
-    <svg-icon class-name="search-icon" icon-class="search" @click.stop="click" />
+    <el-icon class="search-icon" @click.stop="click"><Search /></el-icon>
     <el-dialog
       v-model="show"
       width="600"
@@ -26,7 +26,9 @@
         <el-scrollbar>
           <div class="search-item" tabindex="1" v-for="(item, index) in options" :key="item.path" :style="activeStyle(index)" @mouseenter="activeIndex = index" @mouseleave="activeIndex = -1">
             <div class="left">
-              <svg-icon class="menu-icon" :icon-class="item.icon" />
+              <el-icon class="menu-icon" v-if="item.icon && item.icon !== '#'">
+                <component :is="getIconComponent(item.icon)" />
+              </el-icon>
             </div>
             <div class="search-info" @click="change(item)">
               <div class="menu-title">
@@ -36,7 +38,7 @@
                 {{ item.path }}
               </div>
             </div>
-            <svg-icon icon-class="enter" v-show="index === activeIndex"/>
+            <el-icon v-show="index === activeIndex"><Right /></el-icon>
           </div>
         </el-scrollbar>
       </div>
@@ -50,6 +52,8 @@ import { getNormalPath } from '@/utils/ruoyi'
 import { isHttp } from '@/utils/validate'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
+import { Search, Right } from '@element-plus/icons-vue'
+import { getIconComponent } from '@/utils/icon'
 
 const search = ref('')
 const options = ref([])
@@ -207,13 +211,16 @@ watch(searchPool, (list) => {
   transition: all 0.2s ease;
   
   .search-icon {
-    width: 18px;
-    height: 18px;
+    font-size: 18px;
     transition: transform 0.2s ease;
   }
   
   &:hover .search-icon {
     transform: scale(1.1);
+  }
+  
+  .menu-icon {
+    font-size: 18px;
   }
 }
 

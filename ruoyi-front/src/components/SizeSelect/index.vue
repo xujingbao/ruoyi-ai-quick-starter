@@ -2,7 +2,7 @@
   <div>
     <el-dropdown trigger="click" @command="handleSetSize">
       <div class="size-icon--style">
-        <svg-icon class-name="size-icon" icon-class="size" />
+        <el-icon class="size-icon"><Operation /></el-icon>
       </div>
       <template #dropdown>
         <el-dropdown-menu>
@@ -17,6 +17,7 @@
 
 <script setup>
 import useAppStore from "@/store/modules/app"
+import { Operation } from '@element-plus/icons-vue'
 
 const appStore = useAppStore()
 const size = computed(() => appStore.size)

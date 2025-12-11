@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="search-form">
          <el-form-item label="岗位编码" prop="postCode">
             <el-input
                v-model="queryParams.postCode"
@@ -77,7 +77,16 @@
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table v-loading="loading" :data="postList" @selection-change="handleSelectionChange">
+      <el-table 
+         v-loading="loading" 
+         :data="postList" 
+         @selection-change="handleSelectionChange"
+         @row-dblclick="handleRowDblClick"
+         @row-click="handleRowClick"
+         stripe
+         style="width: 100%"
+         class="post-table"
+      >
          <el-table-column type="selection" width="55" align="center" />
          <el-table-column label="岗位编号" align="center" prop="postId" />
          <el-table-column label="岗位编码" align="center" prop="postCode" />
@@ -93,10 +102,26 @@
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" width="180" align="center" class-name="small-padding fixed-width">
+         <el-table-column label="操作" width="180" align="center" fixed="right">
             <template #default="scope">
-               <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:post:edit']">修改</el-button>
-               <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:post:remove']">删除</el-button>
+               <div class="action-buttons">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Edit" 
+                     size="small"
+                     @click.stop="handleUpdate(scope.row)" 
+                     v-hasPermi="['system:post:edit']"
+                  >修改</el-button>
+                  <el-button 
+                     link 
+                     type="danger" 
+                     icon="Delete" 
+                     size="small"
+                     @click.stop="handleDelete(scope.row)" 
+                     v-hasPermi="['system:post:remove']"
+                  >删除</el-button>
+               </div>
             </template>
          </el-table-column>
       </el-table>
@@ -110,13 +135,26 @@
       />
 
       <!-- 添加或修改岗位对话框 -->
-      <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-         <el-form ref="postRef" :model="form" :rules="rules" label-width="80px">
+      <el-dialog :title="title" v-model="open" width="500px" append-to-body :close-on-click-modal="false">
+         <el-form ref="postRef" :model="form" :rules="rules" label-width="80px" class="post-form">
             <el-form-item label="岗位名称" prop="postName">
-               <el-input v-model="form.postName" placeholder="请输入岗位名称" />
+               <el-input 
+                  v-model="form.postName" 
+                  placeholder="请输入岗位名称" 
+                  maxlength="50"
+                  show-word-limit
+                  clearable
+               />
             </el-form-item>
             <el-form-item label="岗位编码" prop="postCode">
-               <el-input v-model="form.postCode" placeholder="请输入编码名称" />
+               <el-input 
+                  v-model="form.postCode" 
+                  placeholder="请输入岗位编码" 
+                  maxlength="64"
+                  show-word-limit
+                  clearable
+               />
+               <div class="form-tip">岗位编码在系统中必须唯一</div>
             </el-form-item>
             <el-form-item label="岗位顺序" prop="postSort">
                <el-input-number v-model="form.postSort" controls-position="right" :min="0" />
@@ -136,8 +174,8 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitForm">确 定</el-button>
                <el-button @click="cancel">取 消</el-button>
+               <el-button type="primary" @click="submitForm">确 定</el-button>
             </div>
          </template>
       </el-dialog>
@@ -233,14 +271,42 @@ function handleAdd() {
   title.value = "添加岗位"
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  handleUpdate(row)
+}
+
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
-  const postId = row.postId || ids.value
+  if (!row || typeof row !== 'object') {
+    return
+  }
+  
+  const postId = row.postId || (Array.isArray(ids.value) && ids.value.length === 1 ? ids.value[0] : null)
+  
+  if (!postId) {
+    proxy.$modal.msgWarning("请选择要修改的岗位")
+    return
+  }
+  
   getPost(postId).then(response => {
     form.value = response.data
     open.value = true
     title.value = "修改岗位"
+  }).catch(error => {
+    console.error("获取岗位信息失败:", error)
+    proxy.$modal.msgError("获取岗位信息失败")
   })
 }
 
@@ -285,3 +351,77 @@ function handleExport() {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.post-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.post-form {
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+  
+  .form-tip {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

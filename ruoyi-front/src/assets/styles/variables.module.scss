@@ -1,3 +1,28 @@
+// 字体配置
+// 主字体栈：优先使用系统字体，然后使用中文字体，最后使用通用字体
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", "Source Han Sans CN", "WenQuanYi Micro Hei", sans-serif;
+// 等宽字体栈：用于代码、数字等
+$font-family-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+// 数字字体栈：优化数字显示
+$font-family-numeric: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+// 字体大小
+$font-size-base: 14px;
+$font-size-small: 12px;
+$font-size-large: 16px;
+$font-size-extra-large: 18px;
+
+// 字体权重
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// 行高
+$line-height-base: 1.5;
+$line-height-tight: 1.25;
+$line-height-loose: 1.75;
+
 // base color
 $blue: #324157;
 $light-blue: #333c46;
@@ -63,10 +88,41 @@ $--color-info: #909399;
   colorWarning: $--color-warning;
   colorDanger: $--color-danger;
   colorInfo: $--color-info;
+  // 导出字体配置
+  fontFamilyBase: $font-family-base;
+  fontFamilyMono: $font-family-mono;
+  fontFamilyNumeric: $font-family-numeric;
+  fontSizeBase: $font-size-base;
+  fontSizeSmall: $font-size-small;
+  fontSizeLarge: $font-size-large;
+  fontSizeExtraLarge: $font-size-extra-large;
+  fontWeightNormal: $font-weight-normal;
+  fontWeightMedium: $font-weight-medium;
+  fontWeightSemibold: $font-weight-semibold;
+  fontWeightBold: $font-weight-bold;
+  lineHeightBase: $line-height-base;
+  lineHeightTight: $line-height-tight;
+  lineHeightLoose: $line-height-loose;
 }
 
 // CSS变量定义
 :root {
+  /* 字体变量 */
+  --font-family-base: #{$font-family-base};
+  --font-family-mono: #{$font-family-mono};
+  --font-family-numeric: #{$font-family-numeric};
+  --font-size-base: #{$font-size-base};
+  --font-size-small: #{$font-size-small};
+  --font-size-large: #{$font-size-large};
+  --font-size-extra-large: #{$font-size-extra-large};
+  --font-weight-normal: #{$font-weight-normal};
+  --font-weight-medium: #{$font-weight-medium};
+  --font-weight-semibold: #{$font-weight-semibold};
+  --font-weight-bold: #{$font-weight-bold};
+  --line-height-base: #{$line-height-base};
+  --line-height-tight: #{$line-height-tight};
+  --line-height-loose: #{$line-height-loose};
+  
   /* 亮色模式变量 */
   --sidebar-bg: #{$menuBg};
   --sidebar-text: #{$menuText};
@@ -293,15 +349,119 @@ html.dark {
       }
     }
     
-    /* 图表卡片标题暗色模式样式 */
-    .chart-card {
-      .chart-header {
-        .chart-title {
-          color: rgba(255, 255, 255, 0.9) !important;
+    /* 统一所有卡片标题暗色模式样式 - 使用最高优先级确保覆盖所有硬编码颜色 */
+    .home {
+      /* 确保主页整体文字在暗色模式下可见 - 使用纯白色提高对比度 */
+      color: #ffffff !important;
+      
+      * {
+        color: inherit;
+      }
+      
+      h2, h4 {
+        color: #ffffff !important;
+      }
+      
+      p {
+        color: #ffffff !important;
+        
+        b, strong {
+          color: #ffffff !important;
         }
         
-        .chart-subtitle {
-          color: rgba(255, 255, 255, 0.6) !important;
+        span {
+          color: #ffffff !important;
+        }
+      }
+      
+      ul, ol {
+        li {
+          color: #ffffff !important;
+        }
+      }
+      
+      /* 覆盖所有统计卡片文字 */
+      .stat-card {
+        .stat-label-compact {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        .stat-value-compact {
+          color: #ffffff !important;
+        }
+      }
+      
+      .el-card {
+        :deep(.el-card__header) {
+          border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+          color: #ffffff !important;
+        }
+        
+        .chart-header,
+        .card-header {
+          .chart-title,
+          .card-title {
+            color: #ffffff !important;
+          }
+        }
+        
+        .chart-header {
+          .chart-subtitle {
+            color: rgba(255, 255, 255, 0.8) !important;
+          }
+        }
+        
+        /* 确保卡片内容在暗色模式下可见 */
+        :deep(.el-card__body) {
+          color: #ffffff !important;
+        }
+        
+        .body {
+          color: #ffffff !important;
+          
+          p {
+            color: #ffffff !important;
+            
+            strong {
+              color: #ffffff !important;
+            }
+          }
+          
+          ul, ol {
+            li {
+              color: #ffffff !important;
+            }
+          }
+          
+          code {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+          }
+          
+          kbd {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+          }
+          
+          a {
+            color: #66b1ff !important;
+            
+            &:hover {
+              color: #85c1ff !important;
+            }
+          }
+        }
+      }
+      
+      /* 覆盖所有可能的灰色文字 */
+      .chart-title,
+      .card-title,
+      .chart-subtitle,
+      span,
+      div {
+        &[style*="color"] {
+          color: #ffffff !important;
         }
       }
     }

@@ -1,12 +1,13 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <!-- 搜索表单 -->
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="70px" class="search-form">
          <el-form-item label="登录地址" prop="ipaddr">
             <el-input
                v-model="queryParams.ipaddr"
                placeholder="请输入登录地址"
                clearable
-               style="width: 240px;"
+               style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
@@ -15,7 +16,7 @@
                v-model="queryParams.userName"
                placeholder="请输入用户名称"
                clearable
-               style="width: 240px;"
+               style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
@@ -24,7 +25,7 @@
                v-model="queryParams.status"
                placeholder="登录状态"
                clearable
-               style="width: 240px"
+               style="width: 200px"
             >
                <el-option
                   v-for="dict in sys_common_status"
@@ -34,16 +35,17 @@
                />
             </el-select>
          </el-form-item>
-         <el-form-item label="登录时间" style="width: 308px">
+         <el-form-item label="登录时间">
             <el-date-picker
                v-model="dateRange"
                value-format="YYYY-MM-DD HH:mm:ss"
                type="daterange"
-               range-separator="-"
+               range-separator="至"
                start-placeholder="开始日期"
                end-placeholder="结束日期"
+               style="width: 240px"
                :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
-            ></el-date-picker>
+            />
          </el-form-item>
          <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -93,21 +95,32 @@
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table ref="logininforRef" v-loading="loading" :data="logininforList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
+      <!-- 数据表格 -->
+      <el-table 
+         ref="logininforRef" 
+         v-loading="loading" 
+         :data="logininforList" 
+         @selection-change="handleSelectionChange" 
+         :default-sort="defaultSort" 
+         @sort-change="handleSortChange"
+         stripe
+         style="width: 100%"
+         class="logininfor-table"
+      >
          <el-table-column type="selection" width="55" align="center" />
-         <el-table-column label="访问编号" align="center" prop="infoId" />
-         <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
-         <el-table-column label="地址" align="center" prop="ipaddr" :show-overflow-tooltip="true" />
-         <el-table-column label="登录地点" align="center" prop="loginLocation" :show-overflow-tooltip="true" />
-         <el-table-column label="操作系统" align="center" prop="os" :show-overflow-tooltip="true" />
-         <el-table-column label="浏览器" align="center" prop="browser" :show-overflow-tooltip="true" />
-         <el-table-column label="登录状态" align="center" prop="status">
+         <el-table-column label="访问编号" align="center" prop="infoId" width="100" />
+         <el-table-column label="用户名称" align="left" prop="userName" min-width="120" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+         <el-table-column label="地址" align="left" prop="ipaddr" min-width="130" :show-overflow-tooltip="true" />
+         <el-table-column label="登录地点" align="left" prop="loginLocation" min-width="150" :show-overflow-tooltip="true" />
+         <el-table-column label="操作系统" align="left" prop="os" min-width="120" :show-overflow-tooltip="true" />
+         <el-table-column label="浏览器" align="left" prop="browser" min-width="150" :show-overflow-tooltip="true" />
+         <el-table-column label="登录状态" align="center" prop="status" width="100">
             <template #default="scope">
                <dict-tag :options="sys_common_status" :value="scope.row.status" />
             </template>
          </el-table-column>
-         <el-table-column label="描述" align="center" prop="msg" :show-overflow-tooltip="true" />
-         <el-table-column label="访问时间" align="center" prop="loginTime" sortable="custom" :sort-orders="['descending', 'ascending']" width="180">
+         <el-table-column label="描述" align="left" prop="msg" min-width="150" :show-overflow-tooltip="true" />
+         <el-table-column label="访问时间" align="center" prop="loginTime" width="180" sortable="custom" :sort-orders="['descending', 'ascending']">
             <template #default="scope">
                <span>{{ parseTime(scope.row.loginTime) }}</span>
             </template>
@@ -231,3 +244,32 @@ function handleExport() {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.logininfor-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+</style>

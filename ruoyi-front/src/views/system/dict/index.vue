@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px" class="search-form">
          <el-form-item label="字典名称" prop="dictName">
             <el-input
                v-model="queryParams.dictName"
@@ -101,7 +101,16 @@
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table v-loading="loading" :data="typeList" @selection-change="handleSelectionChange">
+      <el-table 
+         v-loading="loading" 
+         :data="typeList" 
+         @selection-change="handleSelectionChange"
+         @row-dblclick="handleRowDblClick"
+         @row-click="handleRowClick"
+         stripe
+         style="width: 100%"
+         class="dict-table"
+      >
          <el-table-column type="selection" width="55" align="center" />
          <el-table-column label="字典编号" align="center" prop="dictId" />
          <el-table-column label="字典名称" align="center" prop="dictName" :show-overflow-tooltip="true"/>
@@ -123,10 +132,26 @@
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" width="160" fixed="right">
             <template #default="scope">
-               <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dict:edit']">修改</el-button>
-               <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dict:remove']">删除</el-button>
+               <div class="action-buttons">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Edit" 
+                     size="small"
+                     @click.stop="handleUpdate(scope.row)" 
+                     v-hasPermi="['system:dict:edit']"
+                  >修改</el-button>
+                  <el-button 
+                     link 
+                     type="danger" 
+                     icon="Delete" 
+                     size="small"
+                     @click.stop="handleDelete(scope.row)" 
+                     v-hasPermi="['system:dict:remove']"
+                  >删除</el-button>
+               </div>
             </template>
          </el-table-column>
       </el-table>
@@ -139,14 +164,27 @@
          @pagination="getList"
       />
 
-      <!-- 添加或修改参数配置对话框 -->
-      <el-dialog :title="title" v-model="open" width="500px" append-to-body>
-         <el-form ref="dictRef" :model="form" :rules="rules" label-width="80px">
+      <!-- 添加或修改字典类型对话框 -->
+      <el-dialog :title="title" v-model="open" width="500px" append-to-body :close-on-click-modal="false">
+         <el-form ref="dictRef" :model="form" :rules="rules" label-width="80px" class="dict-form">
             <el-form-item label="字典名称" prop="dictName">
-               <el-input v-model="form.dictName" placeholder="请输入字典名称" />
+               <el-input 
+                  v-model="form.dictName" 
+                  placeholder="请输入字典名称" 
+                  maxlength="100"
+                  show-word-limit
+                  clearable
+               />
             </el-form-item>
             <el-form-item label="字典类型" prop="dictType">
-               <el-input v-model="form.dictType" placeholder="请输入字典类型" />
+               <el-input 
+                  v-model="form.dictType" 
+                  placeholder="请输入字典类型" 
+                  maxlength="100"
+                  show-word-limit
+                  clearable
+               />
+               <div class="form-tip">字典类型在系统中必须唯一</div>
             </el-form-item>
             <el-form-item label="状态" prop="status">
                <el-radio-group v-model="form.status">
@@ -163,8 +201,8 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitForm">确 定</el-button>
                <el-button @click="cancel">取 消</el-button>
+               <el-button type="primary" @click="submitForm">确 定</el-button>
             </div>
          </template>
       </el-dialog>
@@ -261,14 +299,47 @@ function handleSelectionChange(selection) {
   multiple.value = !selection.length
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  // 如果点击的是操作列，不处理
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  // 如果双击的是操作列，不处理（避免与按钮点击冲突）
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  
+  // 直接调用修改方法打开编辑对话框
+  handleUpdate(row)
+}
+
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
-  const dictId = row.dictId || ids.value
+  // 确保 row 是对象且有 dictId
+  if (!row || typeof row !== 'object') {
+    return
+  }
+  
+  const dictId = row.dictId || (Array.isArray(ids.value) && ids.value.length === 1 ? ids.value[0] : null)
+  
+  if (!dictId) {
+    proxy.$modal.msgWarning("请选择要修改的字典类型")
+    return
+  }
+  
   getType(dictId).then(response => {
     form.value = response.data
     open.value = true
     title.value = "修改字典类型"
+  }).catch(error => {
+    console.error("获取字典类型失败:", error)
+    proxy.$modal.msgError("获取字典类型失败")
   })
 }
 
@@ -321,3 +392,77 @@ function handleRefreshCache() {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.dict-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dict-form {
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+  
+  .form-tip {
+    font-size: 12px;
+    color: var(--el-text-color-secondary);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

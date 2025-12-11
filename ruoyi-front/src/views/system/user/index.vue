@@ -5,11 +5,22 @@
         <!--部门数据-->
         <pane size="16">
           <el-col>
-            <div class="head-container">
-              <el-input v-model="deptName" placeholder="请输入部门名称" clearable prefix-icon="Search" style="margin-bottom: 20px" />
+            <div class="dept-search-container">
+              <el-input v-model="deptName" placeholder="请输入部门名称" clearable prefix-icon="Search" />
             </div>
-            <div class="head-container">
-              <el-tree :data="deptOptions" :props="{ label: 'label', children: 'children' }" :expand-on-click-node="false" :filter-node-method="filterNode" ref="deptTreeRef" node-key="id" highlight-current default-expand-all @node-click="handleNodeClick" />
+            <div class="dept-tree-container">
+              <el-tree 
+                 :data="deptOptions" 
+                 :props="{ label: 'label', children: 'children' }" 
+                 :expand-on-click-node="false" 
+                 :filter-node-method="filterNode" 
+                 ref="deptTreeRef" 
+                 node-key="id" 
+                 highlight-current 
+                 default-expand-all 
+                 @node-click="handleNodeClick"
+                 class="dept-tree"
+              />
             </div>
           </el-col>
         </pane>
@@ -56,7 +67,16 @@
               <right-toolbar v-model:showSearch="showSearch" @queryTable="getList" :columns="columns"></right-toolbar>
             </el-row>
 
-            <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
+            <el-table 
+               v-loading="loading" 
+               :data="userList" 
+               @selection-change="handleSelectionChange"
+               @row-dblclick="handleRowDblClick"
+               @row-click="handleRowClick"
+               stripe
+               style="width: 100%"
+               class="user-table"
+            >
               <el-table-column type="selection" width="50" align="center" />
               <el-table-column label="用户编号" align="center" key="userId" prop="userId" v-if="columns.userId.visible" />
               <el-table-column label="用户名称" align="center" key="userName" prop="userName" v-if="columns.userName.visible" :show-overflow-tooltip="true" />
@@ -78,20 +98,50 @@
                   <span>{{ parseTime(scope.row.createTime) }}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" align="center" width="150" class-name="small-padding fixed-width">
+              <el-table-column label="操作" align="center" width="200" fixed="right">
                 <template #default="scope">
-                  <el-tooltip content="修改" placement="top" v-if="scope.row.userId !== 1">
-                    <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:user:edit']"></el-button>
-                  </el-tooltip>
-                  <el-tooltip content="删除" placement="top" v-if="scope.row.userId !== 1">
-                    <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:user:remove']"></el-button>
-                  </el-tooltip>
-                  <el-tooltip content="重置密码" placement="top" v-if="scope.row.userId !== 1">
-                    <el-button link type="primary" icon="Key" @click="handleResetPwd(scope.row)" v-hasPermi="['system:user:resetPwd']"></el-button>
-                  </el-tooltip>
-                  <el-tooltip content="分配角色" placement="top" v-if="scope.row.userId !== 1">
-                    <el-button link type="primary" icon="CircleCheck" @click="handleAuthRole(scope.row)" v-hasPermi="['system:user:edit']"></el-button>
-                  </el-tooltip>
+                  <div class="action-buttons" v-if="scope.row.userId !== 1">
+                    <el-tooltip content="修改" placement="top">
+                      <el-button 
+                         link 
+                         type="primary" 
+                         icon="Edit" 
+                         size="small"
+                         @click.stop="handleUpdate(scope.row)" 
+                         v-hasPermi="['system:user:edit']"
+                      ></el-button>
+                    </el-tooltip>
+                    <el-tooltip content="删除" placement="top">
+                      <el-button 
+                         link 
+                         type="danger" 
+                         icon="Delete" 
+                         size="small"
+                         @click.stop="handleDelete(scope.row)" 
+                         v-hasPermi="['system:user:remove']"
+                      ></el-button>
+                    </el-tooltip>
+                    <el-tooltip content="重置密码" placement="top">
+                      <el-button 
+                         link 
+                         type="primary" 
+                         icon="Key" 
+                         size="small"
+                         @click.stop="handleResetPwd(scope.row)" 
+                         v-hasPermi="['system:user:resetPwd']"
+                      ></el-button>
+                    </el-tooltip>
+                    <el-tooltip content="分配角色" placement="top">
+                      <el-button 
+                         link 
+                         type="primary" 
+                         icon="CircleCheck" 
+                         size="small"
+                         @click.stop="handleAuthRole(scope.row)" 
+                         v-hasPermi="['system:user:edit']"
+                      ></el-button>
+                    </el-tooltip>
+                  </div>
                 </template>
               </el-table-column>
             </el-table>
@@ -102,7 +152,7 @@
     </el-row>
 
     <!-- 添加或修改用户配置对话框 -->
-    <el-dialog :title="title" v-model="open" width="600px" append-to-body>
+    <el-dialog :title="title" v-model="open" width="600px" append-to-body :close-on-click-modal="false">
       <el-form :model="form" :rules="rules" ref="userRef" label-width="80px">
         <el-row>
           <el-col :span="12">
@@ -182,8 +232,8 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
           <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">确 定</el-button>
         </div>
       </template>
     </el-dialog>
@@ -512,10 +562,44 @@ function handleAdd() {
   })
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  // 如果双击的是操作列，不处理（避免与按钮点击冲突）
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  
+  // 不允许修改管理员用户（userId === 1）
+  if (row.userId === 1) {
+    proxy.$modal.msgWarning("不允许修改管理员用户")
+    return
+  }
+  
+  // 双击直接打开修改对话框，权限控制由保存按钮处理
+  handleUpdate(row)
+}
+
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
-  const userId = row.userId || ids.value
+  if (!row || typeof row !== 'object') {
+    return
+  }
+  
+  const userId = row.userId || (Array.isArray(ids.value) && ids.value.length === 1 ? ids.value[0] : null)
+  
+  if (!userId) {
+    proxy.$modal.msgWarning("请选择要修改的用户")
+    return
+  }
+  
   getUser(userId).then(response => {
     form.value = response.data
     postOptions.value = response.posts
@@ -525,6 +609,9 @@ function handleUpdate(row) {
     open.value = true
     title.value = "修改用户"
     form.password = ""
+  }).catch(error => {
+    console.error("获取用户信息失败:", error)
+    proxy.$modal.msgError("获取用户信息失败")
   })
 }
 
@@ -557,3 +644,116 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+// 左侧部门树容器样式
+.dept-search-container {
+  padding: 16px;
+  padding-bottom: 12px;
+  
+  .el-input {
+    width: 100%;
+  }
+}
+
+.dept-tree-container {
+  padding: 0 16px 16px;
+  height: calc(100% - 60px);
+  overflow-y: auto;
+  
+  .dept-tree {
+    :deep(.el-tree-node) {
+      margin-bottom: 4px;
+      
+      .el-tree-node__content {
+        height: 36px;
+        padding: 0 8px;
+        margin-bottom: 2px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        
+        &:hover {
+          background-color: var(--el-tree-node-hover-bg-color, var(--el-fill-color-light));
+        }
+      }
+      
+      .el-tree-node__label {
+        font-size: 14px;
+        line-height: 36px;
+        padding-left: 4px;
+      }
+      
+      .el-tree-node__expand-icon {
+        width: 20px;
+        padding: 0;
+        margin-right: 4px;
+      }
+    }
+    
+    :deep(.el-tree-node.is-current > .el-tree-node__content) {
+      background-color: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+      font-weight: 500;
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.user-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

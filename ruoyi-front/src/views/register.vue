@@ -10,7 +10,7 @@
           auto-complete="off" 
           placeholder="账号"
         >
-          <template #prefix><svg-icon icon-class="user" class="el-input__icon input-icon" /></template>
+          <template #prefix><el-icon class="el-input__icon input-icon"><User /></el-icon></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -22,7 +22,7 @@
           placeholder="密码"
           @keyup.enter="handleRegister"
         >
-          <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
+          <template #prefix><el-icon class="el-input__icon input-icon"><Lock /></el-icon></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword">
@@ -34,7 +34,7 @@
           placeholder="确认密码"
           @keyup.enter="handleRegister"
         >
-          <template #prefix><svg-icon icon-class="password" class="el-input__icon input-icon" /></template>
+          <template #prefix><el-icon class="el-input__icon input-icon"><Lock /></el-icon></template>
         </el-input>
       </el-form-item>
       <el-form-item prop="code" v-if="captchaEnabled">
@@ -46,7 +46,7 @@
           style="width: 63%"
           @keyup.enter="handleRegister"
         >
-          <template #prefix><svg-icon icon-class="validCode" class="el-input__icon input-icon" /></template>
+          <template #prefix><el-icon class="el-input__icon input-icon"><Key /></el-icon></template>
         </el-input>
         <div class="register-code">
           <img :src="codeUrl" @click="getCode" class="register-code-img"/>
@@ -79,6 +79,7 @@
 import { ElMessageBox } from "element-plus"
 import { getCodeImg, register } from "@/api/login"
 import defaultSettings from '@/settings'
+import { User, Lock, Key } from '@element-plus/icons-vue'
 
 const title = import.meta.env.VITE_APP_TITLE
 const footerContent = defaultSettings.footerContent

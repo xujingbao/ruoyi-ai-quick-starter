@@ -1,12 +1,13 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="68px">
+      <!-- 搜索表单 -->
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" label-width="70px" class="search-form">
          <el-form-item label="操作地址" prop="operIp">
             <el-input
                v-model="queryParams.operIp"
                placeholder="请输入操作地址"
                clearable
-               style="width: 240px;"
+               style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
@@ -15,7 +16,7 @@
                v-model="queryParams.title"
                placeholder="请输入系统模块"
                clearable
-               style="width: 240px;"
+               style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
@@ -24,7 +25,7 @@
                v-model="queryParams.operName"
                placeholder="请输入操作人员"
                clearable
-               style="width: 240px;"
+               style="width: 200px"
                @keyup.enter="handleQuery"
             />
          </el-form-item>
@@ -33,7 +34,7 @@
                v-model="queryParams.businessType"
                placeholder="操作类型"
                clearable
-               style="width: 240px"
+               style="width: 200px"
             >
                <el-option
                   v-for="dict in sys_oper_type"
@@ -48,7 +49,7 @@
                v-model="queryParams.status"
                placeholder="操作状态"
                clearable
-               style="width: 240px"
+               style="width: 200px"
             >
                <el-option
                   v-for="dict in sys_common_status"
@@ -58,16 +59,17 @@
                />
             </el-select>
          </el-form-item>
-         <el-form-item label="操作时间" style="width: 308px">
+         <el-form-item label="操作时间">
             <el-date-picker
                v-model="dateRange"
                value-format="YYYY-MM-DD HH:mm:ss"
                type="daterange"
-               range-separator="-"
+               range-separator="至"
                start-placeholder="开始日期"
                end-placeholder="结束日期"
+               style="width: 240px"
                :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
-            ></el-date-picker>
+            />
          </el-form-item>
          <el-form-item>
             <el-button type="primary" icon="Search" @click="handleQuery">搜索</el-button>
@@ -107,18 +109,29 @@
          <right-toolbar v-model:showSearch="showSearch" @queryTable="getList"></right-toolbar>
       </el-row>
 
-      <el-table ref="operlogRef" v-loading="loading" :data="operlogList" @selection-change="handleSelectionChange" :default-sort="defaultSort" @sort-change="handleSortChange">
-         <el-table-column type="selection" width="50" align="center" />
-         <el-table-column label="日志编号" align="center" prop="operId" />
-         <el-table-column label="系统模块" align="center" prop="title" :show-overflow-tooltip="true" />
-         <el-table-column label="操作类型" align="center" prop="businessType">
+      <!-- 数据表格 -->
+      <el-table 
+         ref="operlogRef" 
+         v-loading="loading" 
+         :data="operlogList" 
+         @selection-change="handleSelectionChange" 
+         :default-sort="defaultSort" 
+         @sort-change="handleSortChange"
+         stripe
+         style="width: 100%"
+         class="operlog-table"
+      >
+         <el-table-column type="selection" width="55" align="center" />
+         <el-table-column label="日志编号" align="center" prop="operId" width="100" />
+         <el-table-column label="系统模块" align="left" prop="title" min-width="150" :show-overflow-tooltip="true" />
+         <el-table-column label="操作类型" align="center" prop="businessType" width="120">
             <template #default="scope">
                <dict-tag :options="sys_oper_type" :value="scope.row.businessType" />
             </template>
          </el-table-column>
-         <el-table-column label="操作人员" align="center" width="110" prop="operName" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
-         <el-table-column label="操作地址" align="center" prop="operIp" width="130" :show-overflow-tooltip="true" />
-         <el-table-column label="操作状态" align="center" prop="status">
+         <el-table-column label="操作人员" align="left" prop="operName" min-width="120" :show-overflow-tooltip="true" sortable="custom" :sort-orders="['descending', 'ascending']" />
+         <el-table-column label="操作地址" align="left" prop="operIp" min-width="130" :show-overflow-tooltip="true" />
+         <el-table-column label="操作状态" align="center" prop="status" width="100">
             <template #default="scope">
                <dict-tag :options="sys_common_status" :value="scope.row.status" />
             </template>
@@ -133,9 +146,18 @@
                <span>{{ scope.row.costTime }}毫秒</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" width="100" fixed="right">
             <template #default="scope">
-               <el-button link type="primary" icon="View" @click="handleView(scope.row, scope.index)" v-hasPermi="['monitor:operlog:query']">详细</el-button>
+               <div class="action-buttons">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="View" 
+                     size="small"
+                     @click.stop="handleView(scope.row, scope.index)" 
+                     v-hasPermi="['monitor:operlog:query']"
+                  >详细</el-button>
+               </div>
             </template>
          </el-table-column>
       </el-table>
@@ -149,14 +171,12 @@
       />
 
       <!-- 操作日志详细 -->
-      <el-dialog title="操作日志详细" v-model="open" width="800px" append-to-body>
-         <el-form :model="form" label-width="100px">
+      <el-dialog title="操作日志详细" v-model="open" width="800px" append-to-body :close-on-click-modal="false">
+         <el-form :model="form" label-width="100px" class="operlog-form">
             <el-row>
                <el-col :span="12">
                   <el-form-item label="操作模块：">{{ form.title }} / {{ typeFormat(form) }}</el-form-item>
-                  <el-form-item
-                    label="登录信息："
-                  >{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
+                  <el-form-item label="登录信息：">{{ form.operName }} / {{ form.operIp }} / {{ form.operLocation }}</el-form-item>
                </el-col>
                <el-col :span="12">
                   <el-form-item label="请求地址：">{{ form.operUrl }}</el-form-item>
@@ -308,3 +328,70 @@ function handleExport() {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.operlog-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.operlog-form {
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

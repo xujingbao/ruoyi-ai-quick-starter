@@ -178,7 +178,7 @@
     }
 
     #loader-wrapper .load_title {
-      font-family: 'Open Sans';
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", sans-serif;
       color: #FFF;
       font-size: 19px;
       width: 100%;
@@ -187,7 +187,9 @@
       position: absolute;
       top: 60%;
       opacity: 1;
-      line-height: 30px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     #loader-wrapper .load_title span {

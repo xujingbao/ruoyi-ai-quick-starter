@@ -14,6 +14,7 @@ const useUserStore = defineStore(
       name: '',
       nickName: '',
       avatar: '',
+      deptName: '',
       roles: [],
       permissions: []
     }),
@@ -53,6 +54,7 @@ const useUserStore = defineStore(
             this.name = user.userName
             this.nickName = user.nickName
             this.avatar = avatar
+            this.deptName = user.dept?.deptName || ''
             /* 初始密码提示 */
             if(res.isDefaultModifyPwd) {
               ElMessageBox.confirm('您的密码还是初始密码，请修改密码！',  '安全提示', {  confirmButtonText: '确定',  cancelButtonText: '取消',  type: 'warning' }).then(() => {
@@ -76,6 +78,11 @@ const useUserStore = defineStore(
         return new Promise((resolve, reject) => {
           logout(this.token).then(() => {
             this.token = ''
+            this.id = ''
+            this.name = ''
+            this.nickName = ''
+            this.avatar = ''
+            this.deptName = ''
             this.roles = []
             this.permissions = []
             removeToken()

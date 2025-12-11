@@ -158,23 +158,50 @@ function closeDialog() {
   position: relative;
   display: inline-block;
   height: 120px;
-}
-
-.user-info-head:hover:after {
-  content: "+";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  color: #eee;
-  background: rgba(0, 0, 0, 0.5);
-  font-size: 24px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  width: 120px;
   cursor: pointer;
-  line-height: 110px;
-  border-radius: 50%;
+  transition: all 0.3s;
+  
+  .img-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--el-border-color-lighter);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    object-fit: cover;
+  }
+  
+  &:hover {
+    transform: scale(1.05);
+    
+    .img-circle {
+      border-color: var(--el-color-primary);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  &:hover:after {
+    content: "更换头像";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: pointer;
+    line-height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
 }
 </style>

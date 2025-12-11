@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="search-form">
          <el-form-item label="部门名称" prop="deptName">
             <el-input
                v-model="queryParams.deptName"
@@ -54,31 +54,60 @@
          row-key="deptId"
          :default-expand-all="isExpandAll"
          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+         @row-dblclick="handleRowDblClick"
+         @row-click="handleRowClick"
+         stripe
+         style="width: 100%"
+         class="dept-table"
       >
-         <el-table-column prop="deptName" label="部门名称" width="260"></el-table-column>
-         <el-table-column prop="orderNum" label="排序" width="200"></el-table-column>
-         <el-table-column prop="status" label="状态" width="100">
+         <el-table-column prop="deptName" label="部门名称" min-width="200" :show-overflow-tooltip="true"></el-table-column>
+         <el-table-column prop="orderNum" label="排序" align="center" width="100"></el-table-column>
+         <el-table-column prop="status" label="状态" align="center" width="100">
             <template #default="scope">
                <dict-tag :options="sys_normal_disable" :value="scope.row.status" />
             </template>
          </el-table-column>
-         <el-table-column label="创建时间" align="center" prop="createTime" width="200">
+         <el-table-column label="创建时间" align="center" prop="createTime" width="180">
             <template #default="scope">
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" fixed="right" width="210">
             <template #default="scope">
-               <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:dept:edit']">修改</el-button>
-               <el-button link type="primary" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:dept:add']">新增</el-button>
-               <el-button v-if="scope.row.parentId != 0" link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:dept:remove']">删除</el-button>
+               <div class="action-buttons">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Edit" 
+                     size="small"
+                     @click.stop="handleUpdate(scope.row)" 
+                     v-hasPermi="['system:dept:edit']"
+                  >修改</el-button>
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Plus" 
+                     size="small"
+                     @click.stop="handleAdd(scope.row)" 
+                     v-hasPermi="['system:dept:add']"
+                  >新增</el-button>
+                  <el-button 
+                     v-if="scope.row.parentId != 0" 
+                     link 
+                     type="danger" 
+                     icon="Delete" 
+                     size="small"
+                     @click.stop="handleDelete(scope.row)" 
+                     v-hasPermi="['system:dept:remove']"
+                  >删除</el-button>
+               </div>
             </template>
          </el-table-column>
       </el-table>
 
       <!-- 添加或修改部门对话框 -->
-      <el-dialog :title="title" v-model="open" width="600px" append-to-body>
-         <el-form ref="deptRef" :model="form" :rules="rules" label-width="80px">
+      <el-dialog :title="title" v-model="open" width="600px" append-to-body :close-on-click-modal="false">
+         <el-form ref="deptRef" :model="form" :rules="rules" label-width="80px" class="dept-form">
             <el-row>
                <el-col :span="24" v-if="form.parentId !== 0">
                   <el-form-item label="上级部门" prop="parentId">
@@ -132,8 +161,8 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitForm">确 定</el-button>
                <el-button @click="cancel">取 消</el-button>
+               <el-button type="primary" @click="submitForm">确 定</el-button>
             </div>
          </template>
       </el-dialog>
@@ -235,9 +264,31 @@ function toggleExpandAll() {
   })
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  if (proxy.hasPermi(['system:dept:edit'])) {
+    handleUpdate(row)
+  }
+}
+
 /** 修改按钮操作 */
 function handleUpdate(row) {
   reset()
+  if (!row || !row.deptId) {
+    proxy.$modal.msgWarning("请选择要修改的部门")
+    return
+  }
+  
   listDeptExcludeChild(row.deptId).then(response => {
     deptOptions.value = proxy.handleTree(response.data, "deptId")
   })
@@ -245,6 +296,9 @@ function handleUpdate(row) {
     form.value = response.data
     open.value = true
     title.value = "修改部门"
+  }).catch(error => {
+    console.error("获取部门信息失败:", error)
+    proxy.$modal.msgError("获取部门信息失败")
   })
 }
 
@@ -281,3 +335,70 @@ function handleDelete(row) {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.dept-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dept-form {
+  :deep(.el-form-item) {
+    margin-bottom: 22px;
+  }
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

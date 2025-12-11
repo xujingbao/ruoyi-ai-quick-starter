@@ -7,9 +7,9 @@
   >
     <template v-for="(item, index) in topMenus">
       <el-menu-item :style="{'--theme': theme}" :index="item.path" :key="index" v-if="index < visibleNumber">
-        <svg-icon
-        v-if="item.meta && item.meta.icon && item.meta.icon !== '#'"
-        :icon-class="item.meta.icon"/>
+        <el-icon v-if="item.meta && item.meta.icon && item.meta.icon !== '#'">
+          <component :is="getIconComponent(item.meta.icon)" />
+        </el-icon>
         {{ item.meta.title }}
       </el-menu-item>
     </template>
@@ -22,9 +22,9 @@
           :index="item.path"
           :key="index"
           v-if="index >= visibleNumber">
-        <svg-icon
-          v-if="item.meta && item.meta.icon && item.meta.icon !== '#'"
-          :icon-class="item.meta.icon"/>
+        <el-icon v-if="item.meta && item.meta.icon && item.meta.icon !== '#'">
+          <component :is="getIconComponent(item.meta.icon)" />
+        </el-icon>
         {{ item.meta.title }}
         </el-menu-item>
       </template>
@@ -38,6 +38,7 @@ import { isHttp } from '@/utils/validate'
 import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
 import usePermissionStore from '@/store/modules/permission'
+import { getIconComponent } from '@/utils/icon'
 
 // 顶部栏初始数
 const visibleNumber = ref(null)
@@ -201,7 +202,7 @@ onMounted(() => {
 }
 
 /* 图标右间距 */
-.topmenu-container .svg-icon {
+.topmenu-container .el-icon {
   margin-right: 4px;
 }
 

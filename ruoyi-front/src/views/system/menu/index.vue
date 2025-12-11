@@ -1,6 +1,6 @@
 <template>
    <div class="app-container">
-      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch">
+      <el-form :model="queryParams" ref="queryRef" :inline="true" v-show="showSearch" class="search-form">
          <el-form-item label="菜单名称" prop="menuName">
             <el-input
                v-model="queryParams.menuName"
@@ -54,11 +54,19 @@
          row-key="menuId"
          :default-expand-all="isExpandAll"
          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+         @row-dblclick="handleRowDblClick"
+         @row-click="handleRowClick"
+         stripe
+         style="width: 100%"
+         class="menu-table"
       >
          <el-table-column prop="menuName" label="菜单名称" :show-overflow-tooltip="true" width="160"></el-table-column>
          <el-table-column prop="icon" label="图标" align="center" width="100">
             <template #default="scope">
-               <svg-icon :icon-class="scope.row.icon" />
+               <el-icon v-if="scope.row.icon">
+                 <component :is="getIconComponent(scope.row.icon)" />
+               </el-icon>
+               <span v-else>-</span>
             </template>
          </el-table-column>
          <el-table-column prop="orderNum" label="排序" width="60"></el-table-column>
@@ -74,17 +82,40 @@
                <span>{{ parseTime(scope.row.createTime) }}</span>
             </template>
          </el-table-column>
-         <el-table-column label="操作" align="center" width="210" class-name="small-padding fixed-width">
+         <el-table-column label="操作" align="center" width="210" fixed="right">
             <template #default="scope">
-               <el-button link type="primary" icon="Edit" @click="handleUpdate(scope.row)" v-hasPermi="['system:menu:edit']">修改</el-button>
-               <el-button link type="primary" icon="Plus" @click="handleAdd(scope.row)" v-hasPermi="['system:menu:add']">新增</el-button>
-               <el-button link type="primary" icon="Delete" @click="handleDelete(scope.row)" v-hasPermi="['system:menu:remove']">删除</el-button>
+               <div class="action-buttons">
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Edit" 
+                     size="small"
+                     @click.stop="handleUpdate(scope.row)" 
+                     v-hasPermi="['system:menu:edit']"
+                  >修改</el-button>
+                  <el-button 
+                     link 
+                     type="primary" 
+                     icon="Plus" 
+                     size="small"
+                     @click.stop="handleAdd(scope.row)" 
+                     v-hasPermi="['system:menu:add']"
+                  >新增</el-button>
+                  <el-button 
+                     link 
+                     type="danger" 
+                     icon="Delete" 
+                     size="small"
+                     @click.stop="handleDelete(scope.row)" 
+                     v-hasPermi="['system:menu:remove']"
+                  >删除</el-button>
+               </div>
             </template>
          </el-table-column>
       </el-table>
 
       <!-- 添加或修改菜单对话框 -->
-      <el-dialog :title="title" v-model="open" width="680px" append-to-body>
+      <el-dialog :title="title" v-model="open" width="680px" append-to-body :close-on-click-modal="false">
          <el-form ref="menuRef" :model="form" :rules="rules" label-width="100px">
             <el-row>
                <el-col :span="24">
@@ -112,19 +143,17 @@
                   <el-form-item label="菜单图标" prop="icon">
                      <el-popover
                         placement="bottom-start"
-                        :width="540"
+                        :width="600"
                         trigger="click"
+                        popper-class="icon-select-popover"
                      >
                         <template #reference>
                            <el-input v-model="form.icon" placeholder="点击选择图标" @blur="showSelectIcon" readonly>
                               <template #prefix>
-                                 <svg-icon
-                                    v-if="form.icon"
-                                    :icon-class="form.icon"
-                                    class="el-input__icon"
-                                    style="height: 32px;width: 16px;"
-                                 />
-                                 <el-icon v-else style="height: 32px;width: 16px;"><search /></el-icon>
+                                 <el-icon v-if="form.icon" class="el-input__icon" style="height: 32px;width: 16px;">
+                                   <component :is="getIconComponent(form.icon)" />
+                                 </el-icon>
+                                 <el-icon v-else style="height: 32px;width: 16px;"><Search /></el-icon>
                               </template>
                            </el-input>
                         </template>
@@ -280,8 +309,8 @@
          </el-form>
          <template #footer>
             <div class="dialog-footer">
-               <el-button type="primary" @click="submitForm">确 定</el-button>
                <el-button @click="cancel">取 消</el-button>
+               <el-button type="primary" @click="submitForm">确 定</el-button>
             </div>
          </template>
       </el-dialog>
@@ -292,6 +321,8 @@
 import { addMenu, delMenu, getMenu, listMenu, updateMenu } from "@/api/system/menu"
 import SvgIcon from "@/components/SvgIcon"
 import IconSelect from "@/components/IconSelect"
+import { getIconComponent } from '@/utils/icon'
+import { Search } from '@element-plus/icons-vue'
 
 const { proxy } = getCurrentInstance()
 const { sys_show_hide, sys_normal_disable } = proxy.useDict("sys_show_hide", "sys_normal_disable")
@@ -406,14 +437,39 @@ function toggleExpandAll() {
   })
 }
 
+/** 单击行操作（用于选中） */
+function handleRowClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+}
+
+/** 双击行操作 */
+function handleRowDblClick(row, column, event) {
+  if (event?.target?.closest('.action-buttons')) {
+    return
+  }
+  if (proxy.hasPermi(['system:menu:edit'])) {
+    handleUpdate(row)
+  }
+}
+
 /** 修改按钮操作 */
 async function handleUpdate(row) {
   reset()
+  if (!row || !row.menuId) {
+    proxy.$modal.msgWarning("请选择要修改的菜单")
+    return
+  }
+  
   await getTreeselect()
   getMenu(row.menuId).then(response => {
     form.value = response.data
     open.value = true
     title.value = "修改菜单"
+  }).catch(error => {
+    console.error("获取菜单信息失败:", error)
+    proxy.$modal.msgError("获取菜单信息失败")
   })
 }
 
@@ -450,3 +506,64 @@ function handleDelete(row) {
 
 getList()
 </script>
+
+<style scoped lang="scss">
+.search-form {
+  margin-bottom: 16px;
+  
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+  
+  .el-button {
+    padding: 0 8px;
+  }
+}
+
+.menu-table {
+  :deep(.el-table__row) {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--el-table-row-hover-bg-color);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+:deep(.el-table) {
+  .el-table__header {
+    th {
+      background-color: var(--el-table-header-bg-color);
+      font-weight: 500;
+    }
+  }
+}
+
+:deep(.el-dialog__body) {
+  padding: 24px 28px;
+}
+
+:deep(.el-dialog__header) {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--el-border-color-lighter);
+}
+
+:deep(.el-dialog__footer) {
+  padding: 16px 28px 20px;
+  border-top: 1px solid var(--el-border-color-lighter);
+}
+</style>

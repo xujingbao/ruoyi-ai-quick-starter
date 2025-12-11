@@ -1,11 +1,15 @@
 <template>
   <div class="navbar-icon-wrapper">
-    <svg-icon :icon-class="isFullscreen ? 'exit-fullscreen' : 'fullscreen'" @click="toggle" />
+    <el-icon @click="toggle">
+      <FullScreen v-if="!isFullscreen" />
+      <Aim v-else />
+    </el-icon>
   </div>
 </template>
 
 <script setup>
 import { useFullscreen } from '@vueuse/core'
+import { FullScreen, Aim } from '@element-plus/icons-vue'
 
 const { isFullscreen, enter, exit, toggle } = useFullscreen()
 </script>
@@ -20,13 +24,12 @@ const { isFullscreen, enter, exit, toggle } = useFullscreen()
   cursor: pointer;
   transition: all 0.2s ease;
 
-  :deep(.svg-icon) {
-    width: 18px;
-    height: 18px;
+  :deep(.el-icon) {
+    font-size: 18px;
     transition: transform 0.2s ease;
   }
 
-  &:hover :deep(.svg-icon) {
+  &:hover :deep(.el-icon) {
     transform: scale(1.1);
   }
 }

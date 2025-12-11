@@ -153,8 +153,8 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card>
           <template v-slot:header>
-            <div class="clearfix">
-              <span>核心特性</span>
+            <div class="card-header">
+              <span class="card-title">核心特性</span>
             </div>
           </template>
           <div class="body">
@@ -172,8 +172,8 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card>
           <template v-slot:header>
-            <div class="clearfix">
-              <span>快速开始</span>
+            <div class="card-header">
+              <span class="card-title">快速开始</span>
             </div>
           </template>
           <div class="body">
@@ -189,8 +189,8 @@
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card>
           <template v-slot:header>
-            <div class="clearfix">
-              <span>开发指南</span>
+            <div class="card-header">
+              <span class="card-title">开发指南</span>
             </div>
           </template>
           <div class="body">
@@ -644,10 +644,12 @@ onUnmounted(() => {
     margin: 0;
   }
 
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: inherit;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
+  
+  // 暗色模式下的文字颜色会在 variables.module.scss 中覆盖
 
   .intro-row {
     margin-bottom: 12px;
@@ -910,6 +912,10 @@ onUnmounted(() => {
         font-size: 15px;
         font-weight: 600;
         color: #303133;
+        line-height: 1.5;
+        font-family: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
 
       .chart-subtitle {
@@ -926,13 +932,81 @@ onUnmounted(() => {
   }
   
   .el-card {
+    :deep(.el-card__header) {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
     :deep(.el-card__body) {
       padding: 16px;
+    }
+    
+    // 统一所有卡片标题样式（包括图表卡片和普通卡片）
+    .chart-header,
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .chart-title,
+    .card-title {
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      color: #303133;
+      line-height: 1.5 !important;
+      font-family: inherit !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      margin: 0;
+      padding: 0;
     }
     
     .body {
       ul, ol {
         margin: 8px 0;
+      }
+    }
+  }
+}
+
+// 暗色模式下的文字颜色覆盖 - 使用全局选择器确保优先级
+html.dark {
+  .home {
+    color: #ffffff !important;
+    
+    h2, h4, p, span, li {
+      color: #ffffff !important;
+    }
+    
+    .chart-title,
+    .card-title {
+      color: #ffffff !important;
+    }
+    
+    .chart-subtitle {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .stat-label-compact {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .stat-value-compact {
+      color: #ffffff !important;
+    }
+    
+    .el-card {
+      :deep(.el-card__body) {
+        color: #ffffff !important;
+      }
+      
+      .body {
+        color: #ffffff !important;
+        
+        p, li, code, kbd {
+          color: #ffffff !important;
+        }
       }
     }
   }

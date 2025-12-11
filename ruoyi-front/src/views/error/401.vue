@@ -1,6 +1,7 @@
 <template>
   <div class="errPage-container">
-    <el-button icon="arrow-left" class="pan-back-btn" @click="back">
+    <el-button class="pan-back-btn" @click="back">
+      <el-icon><ArrowLeft /></el-icon>
       返回
     </el-button>
     <el-row>
@@ -27,6 +28,7 @@
 
 <script setup>
 import errImage from "@/assets/401_images/401.gif"
+import { ArrowLeft } from '@element-plus/icons-vue'
 
 let { proxy } = getCurrentInstance()
 

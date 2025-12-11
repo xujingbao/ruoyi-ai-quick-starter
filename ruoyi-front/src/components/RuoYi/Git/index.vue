@@ -1,11 +1,13 @@
 <template>
   <div class="navbar-icon-wrapper">
-    <svg-icon icon-class="github" @click="goto" />
+    <el-icon @click="goto"><Link /></el-icon>
   </div>
 </template>
 
 <script setup>
-const url = ref('https://gitee.com/y_project/RuoYi-Vue')
+import { Link } from '@element-plus/icons-vue'
+
+const url = ref('https://gitee.com/xujingbao/ruoyi-ai-quick-starter')
 
 function goto() {
   window.open(url.value)
@@ -22,13 +24,12 @@ function goto() {
   cursor: pointer;
   transition: all 0.2s ease;
 
-  :deep(.svg-icon) {
-    width: 18px;
-    height: 18px;
+  :deep(.el-icon) {
+    font-size: 18px;
     transition: transform 0.2s ease;
   }
 
-  &:hover :deep(.svg-icon) {
+  &:hover :deep(.el-icon) {
     transform: scale(1.1);
   }
 }
