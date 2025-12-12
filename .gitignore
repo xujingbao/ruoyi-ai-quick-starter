@@ -46,3 +46,7 @@ nbdist/
 !*/build/*.html
 !*/build/*.xml
 website/
+
+######################################################################
+# Repo-local SSH keys (DO NOT COMMIT)
+.ssh/
