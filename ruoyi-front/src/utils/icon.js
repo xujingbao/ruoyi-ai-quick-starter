@@ -92,3 +92,4 @@ export function getAvailableIcons() {
     key !== 'default' && typeof ElementPlusIconsVue[key] !== 'string'
   )
 }
+
