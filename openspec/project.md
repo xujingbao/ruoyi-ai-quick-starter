@@ -105,6 +105,37 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **提交规范**：使用清晰的提交信息，描述变更内容
 - **分支策略**：功能开发建议创建功能分支，合并前进行代码审查
 
+#### 双远端（Gitee + GitHub）管理约定
+
+本项目维护两个远端，便于国内访问与对外同步：
+
+- `origin`：Gitee（主远端）
+- `github`：GitHub（镜像远端）
+
+**统一建议使用 SSH**（避免 HTTPS 交互式输入账号/Token）：
+
+```bash
+# 查看当前远端
+git remote -v
+
+# 若缺少 GitHub 远端
+git remote add github git@github.com:xujingbao/ruoyi-ai-quick-starter.git
+
+# 若缺少 Gitee 远端
+git remote add origin git@gitee.com:xujingbao/ruoyi-ai-quick-starter.git
+```
+
+#### 同步策略（团队默认）
+
+- 拉取：默认从 `origin`（Gitee）拉取
+- 推送：需要“两个都推”时分别推送到两个远端
+
+```bash
+git pull origin main
+git push origin main
+git push github main
+```
+
 ## Domain Context
 
 ### 核心业务模块

@@ -74,6 +74,63 @@ ruoyi-quick-starter/
 
 ## 开发指南
 
+### Git 仓库管理（双远端）
+
+本仓库同时维护 **Gitee** 与 **GitHub** 两个远端，便于国内访问与对外同步。
+
+- **远端命名约定**
+  - `origin`：Gitee（主远端）
+  - `github`：GitHub（镜像远端）
+
+- **推荐方式**：统一使用 **SSH**（避免 HTTPS 交互式输入账号/Token）
+  - GitHub：在 `Settings -> SSH and GPG keys` 添加你的公钥
+  - Gitee：在 `设置 -> SSH 公钥` 添加你的公钥
+
+- **首次克隆（推荐从 Gitee）**
+
+```bash
+git clone git@gitee.com:xujingbao/ruoyi-ai-quick-starter.git
+cd ruoyi-ai-quick-starter
+git remote add github git@github.com:xujingbao/ruoyi-ai-quick-starter.git
+git remote -v
+```
+
+- **如果你是从 GitHub 克隆的**
+
+```bash
+git clone git@github.com:xujingbao/ruoyi-ai-quick-starter.git
+cd ruoyi-ai-quick-starter
+git remote add origin git@gitee.com:xujingbao/ruoyi-ai-quick-starter.git
+git remote -v
+```
+
+- **日常同步建议**
+  - 拉取：一般从 `origin` 拉取（国内更稳定）
+
+```bash
+git fetch origin
+git pull origin main
+```
+
+  - 推送：需要“两个都推”时，执行两次推送（最直观、可控）
+
+```bash
+git push origin main
+git push github main
+```
+
+  - 如需设置本地 `main` 跟踪的上游（任选其一）：
+
+```bash
+git branch -u origin/main
+# 或
+git branch -u github/main
+```
+
+- **分支策略（简要）**
+  - 主分支：`main`
+  - 功能开发：从 `main` 切功能分支，合并前走代码审查；避免对 `main` 强推（force push）。
+
 ### 🚀 Cursor AI 开发
 
 项目已针对 **Cursor AI** 进行优化配置，推荐使用 Cursor 编辑器进行开发。
