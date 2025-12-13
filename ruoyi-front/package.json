@@ -28,6 +28,7 @@
     "js-beautify": "1.14.11",
     "js-cookie": "3.0.5",
     "jsencrypt": "3.3.2",
+    "markstream-vue": "0.0.3-beta.4",
     "nprogress": "0.2.0",
     "pinia": "3.0.2",
     "splitpanes": "4.0.4",

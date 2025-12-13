@@ -3,12 +3,14 @@ package com.ruoyi.framework.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -67,6 +69,16 @@ public class SecurityConfig
 		return authenticationConfiguration.getAuthenticationManager();
 	}
 
+	/**
+	 * 配置 SecurityContext 策略，支持异步请求
+	 * 使用 MODE_INHERITABLETHREADLOCAL 支持异步线程中的 SecurityContext 传播
+	 */
+	@PostConstruct
+	public void initSecurityContextStrategy()
+	{
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
+	}
+
     /**
      * anyRequest          |   匹配所有请求路径
      * access              |   SpringEl表达式结果为true时可以访问
@@ -96,6 +108,8 @@ public class SecurityConfig
             .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
             // 基于token，所以不需要session
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // 配置异步请求支持，避免流式响应中的授权检查问题
+            .securityContext(securityContext -> securityContext.requireExplicitSave(false))
             // 注解标记允许匿名访问的url
             .authorizeHttpRequests((requests) -> {
                 permitAllUrl.getUrls().forEach(url -> requests.requestMatchers(url).permitAll());

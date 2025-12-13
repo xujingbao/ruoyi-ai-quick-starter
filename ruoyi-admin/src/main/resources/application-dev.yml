@@ -24,11 +24,21 @@ logging:
 
 # Spring配置
 spring:
+  # 应用类型配置已在主配置文件 application.yml 中设置
   # 服务模块
   devtools:
     restart:
       # 热部署开关
       enabled: true
+  # Spring AI 配置
+  ai:
+    openai:
+      base-url: https://api.deepseek.com
+      api-key: sk-your-api-key-here
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
   # 数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

@@ -8,6 +8,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import locale from 'element-plus/es/locale/lang/zh-cn'
 
 import '@/assets/styles/index.scss' // global css
+import 'markstream-vue/index.css' // markstream-vue 样式
 
 import App from './App'
 import store from './store'
@@ -43,6 +44,8 @@ import ImageUpload from "@/components/ImageUpload"
 import ImagePreview from "@/components/ImagePreview"
 // 字典标签组件
 import DictTag from '@/components/DictTag'
+// Markdown 流式渲染组件
+import MarkdownRender from 'markstream-vue'
 
 const app = createApp(App)
 
@@ -65,6 +68,7 @@ app.component('ImageUpload', ImageUpload)
 app.component('ImagePreview', ImagePreview)
 app.component('RightToolbar', RightToolbar)
 app.component('Editor', Editor)
+app.component('MarkdownRender', MarkdownRender)
 
 app.use(router)
 app.use(store)

@@ -22,7 +22,17 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 
    # 修改 ruoyi-admin/src/main/resources/application-dev.yml 中的数据库连接信息
    ```
 
-2. **启动后端**（推荐使用 Cursor 调试配置）
+2. **配置 DeepSeek API Key**（AI 功能需要）
+   
+   编辑 `ruoyi-admin/src/main/resources/application-dev.yml`，将 `api-key` 替换为你的实际 API Key：
+   ```yaml
+   spring:
+     ai:
+       openai:
+         api-key: sk-your-api-key-here
+   ```
+
+3. **启动后端**（推荐使用 Cursor 调试配置）
    - 按 `F5` → 选择 **"RuoYi Backend"** → 启动
    - 或使用命令：`mvn spring-boot:run`
    - 访问：<http://localhost:8080/swagger-ui.html>
@@ -57,6 +67,9 @@ ruoyi-quick-starter/
 ├── ruoyi-quartz/         # 定时任务模块
 ├── ruoyi-front/          # 前端项目（Vue3 + Vite）
 ├── ruoyi-app/            # 移动端项目（uni-app）
+├── docs/                 # 技术文档
+│   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
+│   └── STREAMING_RENDER_LOGIC.md   # 流式渲染逻辑文档
 ├── openspec/             # OpenSpec 规范文档
 │   ├── project.md        # 项目上下文
 │   ├── AGENTS.md         # AI 助手指令
@@ -171,6 +184,13 @@ npm install -g @fission-ai/openspec@latest
 - `openspec/changes/` - 变更提案
 
 **更多信息：** [https://openspec.dev/](https://openspec.dev/)
+
+## 技术文档
+
+项目技术文档位于 `docs/` 目录：
+
+- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.2 集成指南和问题排查
+- [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
 
 ## 参考文档
 
