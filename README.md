@@ -1,7 +1,6 @@
 # RuoYi AI Quick Starter
 
 基于 RuoYi 成熟框架的 **AI 快速开发框架**，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
-
 ## 技术栈
 
 **后端：** Spring Boot 3.x + MyBatis + Redis + MySQL + Quartz  
@@ -194,11 +193,17 @@ npm install -g @fission-ai/openspec@latest
 
 ## 参考文档
 
-- [RuoYi 官方文档](http://doc.ruoyi.vip)
-- [Vue 3 文档](https://cn.vuejs.org)
-- [Element Plus 文档](https://element-plus.org/zh-CN)
-- [Spring Boot 文档](https://spring.io/projects/spring-boot)
-- [OpenSpec 官方文档](https://openspec.dev/)
+- [RuoYi 官方文档](http://doc.ruoyi.vip) - 基础框架文档
+- [Spring AI 官方文档](https://docs.spring.io/spring-ai/reference/) - AI 集成文档
+- [Vue 3 文档](https://cn.vuejs.org) - 前端框架文档
+- [Element Plus 文档](https://element-plus.org/zh-CN) - UI 组件库文档
+- [Spring Boot 文档](https://spring.io/projects/spring-boot) - 后端框架文档
+- [OpenSpec 官方文档](https://openspec.dev/) - 规范驱动开发文档
+
+## 项目链接
+
+- **GitHub**: [https://github.com/xujingbao/ruoyi-ai-quick-starter](https://github.com/xujingbao/ruoyi-ai-quick-starter)
+- **Gitee**: [https://gitee.com/xujingbao/ruoyi-ai-quick-starter](https://gitee.com/xujingbao/ruoyi-ai-quick-starter)
 
 ## 致谢
 

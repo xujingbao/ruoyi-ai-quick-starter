@@ -17,6 +17,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.SecurityUtils;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
@@ -55,17 +56,6 @@ public class AiChatController extends BaseController
             logger.warn("流式接口认证失败: {}", e.getMessage());
             return Flux.error(new org.springframework.security.access.AccessDeniedException("未授权访问"));
         }
-        
-        if (request.getMessage() == null || request.getMessage().trim().isEmpty())
-        {
-            return Flux.error(new IllegalArgumentException("消息内容不能为空"));
-        }
-
-        if (chatModel == null)
-        {
-            logger.warn("ChatModel 未配置，无法处理 AI 聊天请求");
-            return Flux.error(new RuntimeException("ChatModel 未配置，请先配置 AI 提供商（如 DeepSeek、OpenAI 等）"));
-        }
 
         try
         {
@@ -79,6 +69,15 @@ public class AiChatController extends BaseController
             messages.add(new UserMessage(request.getMessage()));
 
             return chatModel.stream(new Prompt(messages))
+                    .onErrorMap(error -> {
+                        // 处理 DeepSeek API 401 错误，转换为友好的错误消息
+                        if (error instanceof WebClientResponseException.Unauthorized)
+                        {
+                            logger.error("DeepSeek API Key 无效或已过期: {}", error.getMessage());
+                            return new RuntimeException("DeepSeek API Key 无效或已过期，请检查配置");
+                        }
+                        return error;
+                    })
                     .doOnError(error -> logger.error("AI 流式响应错误", error));
         }
         catch (Exception e)

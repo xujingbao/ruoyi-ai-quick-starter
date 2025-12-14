@@ -6,14 +6,14 @@
 	
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>4.0</version>
+    <version>4.1</version>
 
-    <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
+    <name>ruoyi-ai-quick-starter</name>
+    <url>https://github.com/xujingbao/ruoyi-ai-quick-starter</url>
+    <description>RuoYi AI Quick Starter - 基于 RuoYi 的 AI 快速开发框架，集成 Spring AI、Flux 流式响应和 MarkdownRender 流式渲染</description>
     
     <properties>
-        <ruoyi.version>4.0</ruoyi.version>
+        <ruoyi.version>4.1</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>

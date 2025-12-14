@@ -38,8 +38,14 @@ export function streamChat(data, onMessage, onError, onComplete) {
     body: JSON.stringify(data),
     signal: abortController.signal
   }).then(response => {
+    // 处理 HTTP 错误状态码
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      // 401 未授权，403 禁止访问
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('登录已过期，请重新登录')
+      }
+      // 其他错误
+      throw new Error(`请求失败 (${response.status}): ${response.statusText}`)
     }
     
     reader = response.body.getReader()

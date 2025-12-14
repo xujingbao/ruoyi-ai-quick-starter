@@ -151,22 +151,6 @@
     <el-divider style="margin: 16px 0;" />
     <el-row :gutter="16">
       <el-col :xs="24" :sm="24" :md="12" :lg="8">
-        <el-card class="ai-test-card" shadow="hover">
-          <template v-slot:header>
-            <div class="card-header">
-              <span class="card-title">🤖 AI 聊天测试</span>
-            </div>
-          </template>
-          <div class="body">
-            <p>测试 Spring AI 集成的 DeepSeek 聊天功能</p>
-            <el-button type="primary" @click="openAiChatDialog" style="width: 100%; margin-top: 12px;">
-              <el-icon style="margin-right: 5px;"><ChatDotRound /></el-icon>
-              开始聊天
-            </el-button>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8">
         <el-card>
           <template v-slot:header>
             <div class="card-header">
@@ -229,113 +213,16 @@
         </el-card>
       </el-col>
     </el-row>
-    
-    <!-- AI 聊天对话框 -->
-    <el-dialog
-      v-model="aiChatDialogVisible"
-      title="🤖 AI 聊天测试"
-      width="600px"
-      :close-on-click-modal="false"
-    >
-      <div class="ai-chat-container">
-        <el-input
-          v-model="aiChatMessage"
-          type="textarea"
-          :rows="3"
-          placeholder="请输入您的问题..."
-          @keydown.ctrl.enter="sendAiMessage"
-        />
-        <div style="margin-top: 12px; text-align: right;">
-          <el-button @click="aiChatDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="sendAiMessage" :loading="aiChatLoading">
-            发送
-          </el-button>
-        </div>
-        <div class="ai-response" style="margin-top: 20px; padding: 12px; background: #f5f7fa; border-radius: 4px; min-height: 100px;">
-          <div style="font-weight: 600; margin-bottom: 8px; color: #409eff;">AI 回复：</div>
-          <div style="line-height: 1.6;">
-            <MarkdownRender 
-              custom-id="ai-chat-response"
-              :content="aiChatContent" 
-            />
-          </div>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script setup name="Index">
 import * as echarts from 'echarts'
 import { ref, computed } from 'vue'
-import { ElMessage } from 'element-plus'
-import { ChatDotRound, Loading } from '@element-plus/icons-vue'
 import useSettingsStore from '@/store/modules/settings'
-import { streamChat } from '@/api/ai/chat'
 
 const version = ref('1.0.0')
 const settingsStore = useSettingsStore()
-
-// AI 聊天对话框
-const aiChatDialogVisible = ref(false)
-const aiChatMessage = ref('')
-const aiChatContent = ref('')
-const aiChatLoading = ref(false)
-let abortStream = null
-
-// 打开 AI 聊天对话框
-function openAiChatDialog() {
-  aiChatDialogVisible.value = true
-  aiChatMessage.value = ''
-  aiChatContent.value = ''
-  aiChatLoading.value = false
-  // 取消之前的请求
-  if (abortStream) {
-    abortStream()
-    abortStream = null
-  }
-}
-
-// 发送 AI 聊天消息
-function sendAiMessage() {
-  const message = aiChatMessage.value.trim()
-  if (!message) {
-    ElMessage.warning('请输入消息内容')
-    return
-  }
-  
-  // 防止重复提交
-  if (aiChatLoading.value) {
-    return
-  }
-  
-  // 取消之前的请求
-  if (abortStream) {
-    abortStream()
-  }
-  
-  aiChatLoading.value = true
-  aiChatContent.value = ''
-  
-  abortStream = streamChat(
-    { message },
-    (text) => {
-      aiChatContent.value += text || ''
-    },
-    (error) => {
-      const errorMsg = error.message?.includes('timeout') 
-        ? '请求超时，AI 响应时间过长，请稍后重试'
-        : error.message || 'AI 聊天失败'
-      ElMessage.error(errorMsg)
-      aiChatLoading.value = false
-      abortStream = null
-    },
-    () => {
-      aiChatLoading.value = false
-      abortStream = null
-    }
-  )
-}
 
 // 检测是否为暗色模式（响应式）
 const isDark = computed(() => {
@@ -397,6 +284,12 @@ function goTarget(url) {
 // 初始化用户增长趋势图
 function initUserChart() {
   if (!userChart.value) return
+  
+  // 如果已存在实例，先销毁
+  const existingInstance = echarts.getInstanceByDom(userChart.value)
+  if (existingInstance) {
+    existingInstance.dispose()
+  }
   
   userChartInstance = echarts.init(userChart.value)
   const option = {
@@ -476,6 +369,12 @@ function initUserChart() {
 function initOperationChart() {
   if (!operationChart.value) return
   
+  // 如果已存在实例，先销毁
+  const existingInstance = echarts.getInstanceByDom(operationChart.value)
+  if (existingInstance) {
+    existingInstance.dispose()
+  }
+  
   operationChartInstance = echarts.init(operationChart.value)
   const option = {
     tooltip: {
@@ -545,6 +444,12 @@ function initOperationChart() {
 // 初始化系统性能监控图
 function initPerformanceChart() {
   if (!performanceChart.value) return
+  
+  // 如果已存在实例，先销毁
+  const existingInstance = echarts.getInstanceByDom(performanceChart.value)
+  if (existingInstance) {
+    existingInstance.dispose()
+  }
   
   performanceChartInstance = echarts.init(performanceChart.value)
   const option = {
@@ -1083,27 +988,6 @@ onUnmounted(() => {
     }
   }
   
-  .ai-test-card {
-    border: 2px solid #409eff;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    
-    &:hover {
-      border-color: #66b1ff;
-      box-shadow: 0 6px 20px rgba(64, 158, 255, 0.2);
-    }
-    
-    .card-title {
-      color: #409eff;
-      font-weight: 700;
-    }
-  }
-  
-  .ai-chat-container {
-    .ai-response {
-      max-height: 300px;
-      overflow-y: auto;
-    }
-  }
 }
 
 // 暗色模式下的文字颜色覆盖 - 使用全局选择器确保优先级

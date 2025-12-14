@@ -2,12 +2,15 @@ package com.ruoyi.framework.config;
 
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.http.CacheControl;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -25,6 +28,10 @@ public class ResourcesConfig implements WebMvcConfigurer
 {
     @Autowired
     private RepeatSubmitInterceptor repeatSubmitInterceptor;
+    
+    @Autowired
+    @Qualifier("threadPoolTaskExecutor")
+    private AsyncTaskExecutor asyncTaskExecutor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
@@ -46,6 +53,18 @@ public class ResourcesConfig implements WebMvcConfigurer
     public void addInterceptors(InterceptorRegistry registry)
     {
         registry.addInterceptor(repeatSubmitInterceptor).addPathPatterns("/**");
+    }
+
+    /**
+     * 配置异步支持，使用线程池处理流式响应
+     * 解决 Spring MVC 在 SERVLET 模式下处理 Flux 响应时的警告
+     */
+    @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer configurer)
+    {
+        configurer.setTaskExecutor(asyncTaskExecutor);
+        // 设置超时时间（60秒，适合 AI 流式响应）
+        configurer.setDefaultTimeout(60000);
     }
 
     /**

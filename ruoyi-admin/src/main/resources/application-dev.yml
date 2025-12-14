@@ -34,7 +34,8 @@ spring:
   ai:
     openai:
       base-url: https://api.deepseek.com
-      api-key: sk-your-api-key-here
+      # 安全起见，API KEY 可以设置从系统环境变量读取：export SPRING_AI_OPENAI_API_KEY="sk-xxxxxx"
+      api-key:
       chat:
         options:
           model: deepseek-chat

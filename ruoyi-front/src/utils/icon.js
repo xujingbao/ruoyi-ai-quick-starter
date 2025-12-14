@@ -64,6 +64,11 @@ export function getIconComponent(iconName) {
     'example': 'Box',
     'nested': 'Menu',
     
+    // AI 相关
+    'robot': 'Service',  // Element Plus 没有 Robot 图标，使用 Service 替代
+    'message': 'Message',
+    'chat': 'ChatDotRound',
+    
     // 其他
     'documentation': 'Document',
     'guide': 'Guide',
