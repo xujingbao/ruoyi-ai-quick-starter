@@ -123,13 +123,28 @@
     .sub-menu-title-noDropdown {
       padding: 0 !important;
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 56px;
 
       .el-tooltip {
         padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
 
         .svg-icon {
-          margin-left: 20px;
+          margin: 0;
         }
+      }
+      
+      // 确保 el-icon 在折叠状态下显示并居中
+      .el-icon {
+        margin: 0;
+        display: inline-block;
       }
     }
 
@@ -138,31 +153,62 @@
 
       &>.el-sub-menu__title {
         padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 56px;
 
         .svg-icon {
-          margin-left: 20px;
+          margin: 0;
+        }
+        
+        // 确保 el-icon 在折叠状态下显示并居中
+        .el-icon {
+          margin: 0;
+          display: inline-block;
         }
 
       }
     }
 
     .el-menu--collapse {
-      .el-sub-menu {
-        &>.el-sub-menu__title {
-          &>span {
-            height: 0;
-            width: 0;
-            overflow: hidden;
-            visibility: hidden;
-            display: inline-block;
-          }
-          &>i {
-            height: 0;
-            width: 0;
-            overflow: hidden;
-            visibility: hidden;
-            display: inline-block;
-          }
+      // 统一菜单项和子菜单标题的对齐方式
+      .el-menu-item,
+      .el-sub-menu > .el-sub-menu__title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 !important;
+        height: 56px;
+        
+        &>span {
+          height: 0;
+          width: 0;
+          overflow: hidden;
+          visibility: hidden;
+          display: inline-block;
+        }
+        &>i {
+          height: 0;
+          width: 0;
+          overflow: hidden;
+          visibility: hidden;
+          display: inline-block;
+        }
+        // 确保 el-icon 在折叠状态下仍然显示并居中
+        &>.el-icon {
+          height: auto;
+          width: auto;
+          overflow: visible;
+          visibility: visible;
+          display: inline-block;
+          margin: 0;
+          flex-shrink: 0;
+        }
+        // 确保 svg-icon 也居中
+        &>.svg-icon {
+          margin: 0;
+          flex-shrink: 0;
         }
       }
     }
