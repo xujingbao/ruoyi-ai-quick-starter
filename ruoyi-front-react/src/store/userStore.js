@@ -15,6 +15,9 @@ export const useUserStore = create((set, get) => ({
   deptName: '',
   roles: [],
   permissions: [],
+
+  // 仅更新头像（用于个人中心上传后即时刷新 UI）
+  setAvatar: (avatar) => set({ avatar: avatar || '' }),
   
   // 登录
   login: async (userInfo) => {
@@ -39,7 +42,8 @@ export const useUserStore = create((set, get) => ({
       const user = res.user
       let avatar = user.avatar || ""
       if (!isHttp(avatar)) {
-        avatar = (isEmpty(avatar)) ? defAva : import.meta.env.VITE_APP_BASE_API + avatar
+        const baseApi = import.meta.env.VITE_APP_BASE_API || '/dev-api'
+        avatar = (isEmpty(avatar)) ? defAva : baseApi + avatar
       }
       let roles = []
       if (res.roles && res.roles.length > 0) {

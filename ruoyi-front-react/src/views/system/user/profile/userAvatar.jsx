@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react'
-import { Modal, Button, Upload, Row, Col } from 'antd'
-import { PlusOutlined, MinusOutlined, RotateLeftOutlined, RotateRightOutlined, UploadOutlined } from '@ant-design/icons'
+import { useMemo, useState } from 'react'
+import { Modal, Upload, Row, Col } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import ImgCrop from 'antd-img-crop'
 import { uploadAvatar } from '@/api/system/user'
 import { useUserStore } from '@/store/userStore'
 import modal from '@/plugins/modal'
+import defaultAvatar from '@/assets/images/profile.jpg'
 import './index.scss'
 
 const UserAvatar = () => {
@@ -12,12 +13,18 @@ const UserAvatar = () => {
   const [open, setOpen] = useState(false)
   const [fileList, setFileList] = useState([])
   const [imageUrl, setImageUrl] = useState(userStore.avatar || '')
+  const [uploading, setUploading] = useState(false)
+
+  const displayAvatar = useMemo(() => {
+    return imageUrl || userStore.avatar || defaultAvatar
+  }, [imageUrl, userStore.avatar])
 
   const handleEditCropper = () => {
     setOpen(true)
   }
 
   const handleCancel = () => {
+    if (uploading) return
     setOpen(false)
     setFileList([])
     setImageUrl(userStore.avatar || '')
@@ -29,29 +36,29 @@ const UserAvatar = () => {
       modal.msgError('文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。')
       return false
     }
+    const maxSizeMB = 5
+    const isLtMax = file.size / 1024 / 1024 < maxSizeMB
+    if (!isLtMax) {
+      modal.msgError(`上传头像图片大小不能超过 ${maxSizeMB}MB!`)
+      return false
+    }
     return true
   }
 
   const handleChange = ({ fileList: newFileList }) => {
     setFileList(newFileList)
-    if (newFileList.length > 0 && newFileList[0].status === 'done') {
-      const url = newFileList[0].response?.imgUrl || newFileList[0].url
-      if (url) {
-        const fullUrl = url.startsWith('http') ? url : `${import.meta.env.VITE_APP_BASE_API || '/dev-api'}${url}`
-        setImageUrl(fullUrl)
-      }
-    }
   }
 
   const handleUpload = async (options) => {
     const { onSuccess, onError, file } = options
     try {
+      setUploading(true)
       const formData = new FormData()
       formData.append('avatarfile', file)
       
       const response = await uploadAvatar(formData)
-      const imgUrl = response.imgUrl
-      const fullUrl = imgUrl.startsWith('http') ? imgUrl : `${import.meta.env.VITE_APP_BASE_API || '/dev-api'}${imgUrl}`
+      const imgUrl = response?.imgUrl || ''
+      const fullUrl = imgUrl && imgUrl.startsWith('http') ? imgUrl : `${import.meta.env.VITE_APP_BASE_API || '/dev-api'}${imgUrl}`
       
       setImageUrl(fullUrl)
       userStore.setAvatar(fullUrl)
@@ -63,6 +70,8 @@ const UserAvatar = () => {
     } catch (error) {
       onError(error)
       modal.msgError('上传失败')
+    } finally {
+      setUploading(false)
     }
   }
 
@@ -70,7 +79,7 @@ const UserAvatar = () => {
     <>
       <div className="user-info-head" onClick={handleEditCropper}>
         <img 
-          src={imageUrl || userStore.avatar || '/src/assets/images/profile.jpg'} 
+          src={displayAvatar} 
           alt="avatar" 
           title="点击上传头像" 
           className="img-circle img-lg" 
@@ -101,11 +110,12 @@ const UserAvatar = () => {
                 customRequest={handleUpload}
                 fileList={fileList}
                 onChange={handleChange}
+                disabled={uploading}
               >
                 {fileList.length < 1 && (
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>选择</div>
+                    <div style={{ marginTop: 8 }}>{uploading ? '上传中...' : '选择'}</div>
                   </div>
                 )}
               </Upload>
@@ -113,9 +123,9 @@ const UserAvatar = () => {
           </Col>
           <Col xs={24} md={12} style={{ height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div className="avatar-upload-preview">
-              {imageUrl && (
+              {displayAvatar && (
                 <img 
-                  src={imageUrl} 
+                  src={displayAvatar} 
                   alt="preview" 
                   style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '50%' }}
                 />

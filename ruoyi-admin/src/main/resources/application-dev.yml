@@ -127,5 +127,5 @@ spring:
 # 项目相关配置
 ruoyi:
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: /Users/xujingbao/Projects/Ruoyi-Vue/uploadPath
+  profile: uploadPath
 

@@ -105,7 +105,8 @@ export function uploadAvatar(data) {
   return request({
     url: '/system/user/profile/avatar',
     method: 'post',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    // 上传头像为 multipart/form-data（后端接收 MultipartFile avatarfile）
+    headers: { 'Content-Type': 'multipart/form-data' },
     data: data
   })
 }
