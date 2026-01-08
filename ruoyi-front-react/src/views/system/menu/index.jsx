@@ -174,7 +174,7 @@ const Menu = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.menuId !== undefined) {
+      if (values.menuId !== undefined && values.menuId !== null && values.menuId !== '') {
         await updateMenu(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -403,6 +403,11 @@ const Menu = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 menuId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="menuId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item label="上级菜单" name="parentId">
             <TreeSelect
               treeData={menuOptions}

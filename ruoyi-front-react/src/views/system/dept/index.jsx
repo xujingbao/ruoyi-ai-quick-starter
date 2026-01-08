@@ -80,6 +80,9 @@ const Dept = () => {
     
     if (row != undefined) {
       form.setFieldValue('parentId', row.deptId)
+    } else {
+      // 根部门默认 parentId=0，避免后端 parentId 为 null
+      form.setFieldValue('parentId', 0)
     }
     setOpen(true)
     setTitle('添加部门')
@@ -139,7 +142,8 @@ const Dept = () => {
     form.resetFields()
     form.setFieldsValue({
       deptId: undefined,
-      parentId: undefined,
+      // 默认根节点
+      parentId: 0,
       deptName: undefined,
       orderNum: 0,
       leader: undefined,
@@ -159,7 +163,7 @@ const Dept = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.deptId !== undefined) {
+      if (values.deptId !== undefined && values.deptId !== null && values.deptId !== '') {
         await updateDept(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -354,6 +358,11 @@ const Dept = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 deptId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="deptId" hidden>
+            <Input />
+          </Form.Item>
+
           {form.getFieldValue('parentId') !== 0 && (
             <Form.Item
               label="上级部门"

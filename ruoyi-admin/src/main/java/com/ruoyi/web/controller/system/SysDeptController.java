@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+import java.util.Objects;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -98,7 +99,7 @@ public class SysDeptController extends BaseController
         {
             return error("修改部门'" + dept.getDeptName() + "'失败，部门名称已存在");
         }
-        else if (dept.getParentId().equals(deptId))
+        else if (Objects.equals(dept.getParentId(), deptId))
         {
             return error("修改部门'" + dept.getDeptName() + "'失败，上级部门不能是自己");
         }

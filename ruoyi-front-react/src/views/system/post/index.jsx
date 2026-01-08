@@ -164,7 +164,7 @@ const Post = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.postId !== undefined) {
+      if (values.postId !== undefined && values.postId !== null && values.postId !== '') {
         await updatePost(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -400,6 +400,11 @@ const Post = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 postId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="postId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="岗位名称"
             name="postName"
