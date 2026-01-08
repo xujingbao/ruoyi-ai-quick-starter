@@ -2,21 +2,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   background-image: url('@/assets/images/login-background.jpg');
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 16px;
+  overflow: hidden;
 }
 
 .login-overlay {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
 }
 
 .login-form {
   position: relative;
-  width: 400px;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
   padding: 40px;
   background: rgba(255, 255, 255, 0.95);
   border-radius: 8px;
@@ -61,4 +69,13 @@
   width: 100%;
   text-align: center;
   color: #fff;
+  z-index: 2;
+  left: 0;
+  padding: 0 16px;
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    padding: 28px 20px;
+  }
 }
