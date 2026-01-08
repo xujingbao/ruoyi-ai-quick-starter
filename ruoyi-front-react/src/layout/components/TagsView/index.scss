@@ -45,7 +45,8 @@
         white-space: nowrap;
         line-height: 1.2;
         position: relative;
-        top: -0.5px;
+        top: -2px;
+        padding-left: 2px;
       }
 
       &:first-of-type {
@@ -80,9 +81,9 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 18px;
-        height: 18px;
-        line-height: 18px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
         border-radius: 50%;
         text-align: center;
         transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
@@ -94,16 +95,16 @@
         position: absolute;
         right: 6px;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translateY(calc(-50% - 2px));
 
         // 防止 AntD icon 自带 line-height 导致偏移
         svg {
-          width: 12px;
-          height: 12px;
+          width: 10px;
+          height: 10px;
         }
 
         &:active {
-          transform: translateY(-50%) scale(0.92);
+          transform: translateY(calc(-50% - 2px)) scale(0.92);
         }
 
         &:hover {

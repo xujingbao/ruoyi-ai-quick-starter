@@ -156,15 +156,39 @@ const TagsView = () => {
 
   const openMenu = (tag, e) => {
     if (!containerRef.current) return
-    
-    const menuMinWidth = 105
-    const offsetLeft = containerRef.current.getBoundingClientRect().left
-    const offsetWidth = containerRef.current.offsetWidth
-    const maxLeft = offsetWidth - menuMinWidth
-    const l = e.clientX - offsetLeft + 15
 
-    setLeft(l > maxLeft ? maxLeft : l)
-    setTop(e.clientY)
+    const menuWidth = 140
+    // 让菜单更贴近 tab（更左一点）
+    const gap = 4
+
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const tagRect = e.currentTarget?.getBoundingClientRect?.()
+
+    const baseRight = tagRect?.right ?? e.clientX
+    const baseTop = tagRect?.top ?? e.clientY
+    const baseBottom = tagRect?.bottom ?? e.clientY
+
+    // 默认显示在 tab 右侧
+    let x = baseRight + gap
+    // 右侧放不下则贴着 tab 的右侧向左展开
+    if (x + menuWidth > containerRect.right) {
+      x = baseRight - menuWidth
+    }
+    // 仍然超出则贴容器左边界
+    if (x < containerRect.left) {
+      x = containerRect.left + gap
+    }
+
+    // 默认与 tab 顶部对齐（再上一点）
+    const estimatedMenuHeight = 220
+    let y = baseTop - 2
+    if (y + estimatedMenuHeight > window.innerHeight) {
+      y = baseTop - estimatedMenuHeight - 2
+    }
+    if (y < 8) y = 8
+
+    setLeft(Math.round(x))
+    setTop(Math.round(y))
     setVisible(true)
     setSelectedTag(tag)
   }
