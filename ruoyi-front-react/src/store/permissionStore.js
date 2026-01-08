@@ -40,20 +40,21 @@ export const usePermissionStore = create((set, get) => ({
         const defaultRoutes = filterAsyncRouter(defaultData)
         const asyncRoutes = filterDynamicRoutes(dynamicRoutes)
         
-        // React Router v6 使用不同的方式添加路由
-        // asyncRoutes.forEach(route => { router.addRoute(route) })
+        // React Router v6 不能动态 addRoute，需合并后重建 router
+        // 这些 dynamicRoutes 通常是“隐藏页”（如 /system/dict-data/index/:dictId）
+        const finalRewriteRoutes = rewriteRoutes.concat(asyncRoutes)
         
         const finalSidebarRouters = constantRoutes.concat(sidebarRoutes)
         
         set({
-          addRoutes: rewriteRoutes,
-          routes: constantRoutes.concat(rewriteRoutes),
+          addRoutes: finalRewriteRoutes,
+          routes: constantRoutes.concat(finalRewriteRoutes),
           sidebarRouters: finalSidebarRouters,
           defaultRoutes: sidebarRoutes,
           topbarRouters: defaultRoutes
         })
         
-        resolve(rewriteRoutes)
+        resolve(finalRewriteRoutes)
       }).catch(err => {
         console.error('获取路由数据失败:', err)
         reject(err)
@@ -66,12 +67,15 @@ export const usePermissionStore = create((set, get) => ({
 export function filterDynamicRoutes(routes) {
   const res = []
   routes.forEach(route => {
-    if (route.permissions) {
-      if (auth.hasPermiOr(route.permissions)) {
+    const permissions = route.permissions || route.handle?.meta?.permissions
+    const roles = route.roles || route.handle?.meta?.roles
+
+    if (permissions) {
+      if (auth.hasPermiOr(permissions)) {
         res.push(route)
       }
-    } else if (route.roles) {
-      if (auth.hasRoleOr(route.roles)) {
+    } else if (roles) {
+      if (auth.hasRoleOr(roles)) {
         res.push(route)
       }
     }
