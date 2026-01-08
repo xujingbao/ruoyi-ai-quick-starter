@@ -15,7 +15,7 @@ export function useTab() {
       const search = location.search
       obj = { path, search }
     }
-    return tagsViewStore.delCachedView({ name: location.pathname }).then(() => {
+    return tagsViewStore.delCachedView({ path: location.pathname }).then(() => {
       const { path, search } = obj
       navigate(`/redirect${path}${search}`, { replace: true })
     })
@@ -62,6 +62,8 @@ export function useTab() {
   const closeOtherPage = (obj) => {
     return tagsViewStore.delOthersViews(obj || { path: location.pathname })
   }
+  // 兼容 Vue 版本命名
+  const closeOthersPage = closeOtherPage
 
   // 打开tab页签
   const openPage = (title, url, params) => {
@@ -84,6 +86,7 @@ export function useTab() {
     closeLeftPage,
     closeRightPage,
     closeOtherPage,
+    closeOthersPage,
     openPage,
     updatePage
   }

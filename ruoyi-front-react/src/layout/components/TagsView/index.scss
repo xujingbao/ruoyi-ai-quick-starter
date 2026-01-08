@@ -1,86 +1,156 @@
 .tags-view-container {
-  height: 34px;
+  height: 40px;
   width: 100%;
   background: var(--tags-bg, #fff);
-  border-bottom: 1px solid var(--tags-item-border, #d8dce5);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+  box-shadow: none;
+  display: flex;
+  align-items: stretch;
 
   .tags-view-wrapper {
     .tags-view-item {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid var(--tags-item-border, #d8dce5);
-      color: var(--tags-item-text, #495060);
+      height: 28px;
+      line-height: 1;
+      border: 1px solid rgba(5, 5, 5, 0.08);
+      border-radius: 5px;
+      color: rgba(0, 0, 0, 0.88);
       background: var(--tags-item-bg, #fff);
-      padding: 0 8px;
+      padding: 0 10px;
       font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
+      margin-left: 1px;
+      margin-top: 0;
       text-decoration: none;
+      user-select: none;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      justify-content: center;
+      padding-right: 28px; // 预留关闭按钮位置（绝对定位）
+
+      svg {
+        font-size: 14px;
+        flex-shrink: 0;
+      }
+
+      .tag-content {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        // 视觉微调：让文字与图标整体上移一点点
+        transform: translateY(-1px);
+      }
+
+      .tag-title {
+        display: inline-flex;
+        align-items: center;
+        height: 100%;
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        line-height: 1.2;
+      }
 
       &:first-of-type {
-        margin-left: 15px;
+        margin-left: 10px;
       }
 
       &:last-of-type {
-        margin-right: 15px;
+        margin-right: 10px;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.03);
+        border-color: rgba(0, 0, 0, 0.18);
       }
 
       &.active {
-        background-color: #42b983;
+        background-color: var(--current-color, #1677ff);
         color: #fff;
-        border-color: #42b983;
+        border-color: var(--current-color, #1677ff);
 
-        &::before {
-          content: '';
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 5px;
+        &:hover {
+          background-color: var(--current-color, #1677ff);
+          border-color: var(--current-color, #1677ff);
         }
       }
 
-      &.active.has-icon::before {
-        content: none !important;
+      &.has-icon {
+        padding-left: 8px;
       }
 
       .el-icon-close {
-        width: 16px;
-        height: 16px;
-        vertical-align: 2px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
         border-radius: 50%;
         text-align: center;
-        transition: all .3s cubic-bezier(.645, .045, .355, 1);
+        transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
         transform-origin: 100% 50%;
-        margin-left: 4px;
+        margin-left: 0;
+        opacity: 0;
+        pointer-events: none;
+        color: rgba(0, 0, 0, 0.45);
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        // 防止 AntD icon 自带 line-height 导致偏移
+        svg {
+          width: 12px;
+          height: 12px;
+        }
+
+        &:active {
+          transform: translateY(-50%) scale(0.92);
+        }
 
         &:hover {
-          background-color: var(--tags-close-hover, #b4bccc);
-          color: #fff;
+          background-color: rgba(0, 0, 0, 0.06);
+          color: rgba(0, 0, 0, 0.75);
         }
+      }
+
+      // hover 时显示关闭按钮（不挤压布局）
+      &:hover .el-icon-close {
+        opacity: 0.9;
+        pointer-events: auto;
+      }
+
+      // 当前激活 tab：关闭按钮保持可见并与主题色匹配
+      &.active .el-icon-close {
+        opacity: 0.92;
+        pointer-events: auto;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      &.active .el-icon-close:hover {
+        background-color: rgba(255, 255, 255, 0.22);
+        color: #fff;
       }
     }
   }
 
   .contextmenu {
     margin: 0;
-    background: var(--el-bg-color-overlay, #fff);
+    background: #fff;
     z-index: 3000;
     position: fixed;
     list-style-type: none;
     padding: 5px 0;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 400;
-    color: var(--tags-item-text, #333);
-    box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
-    border: 1px solid var(--el-border-color-light, #e4e7ed);
+    color: rgba(0, 0, 0, 0.88);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(5, 5, 5, 0.08);
 
     li {
       margin: 0;
@@ -91,7 +161,50 @@
       gap: 8px;
 
       &:hover {
-        background: var(--tags-item-hover, #eee);
+        background: rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+}
+
+// 深色模式（跟随 html.dark）
+html.dark {
+  .tags-view-container {
+    background: #141414;
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+
+    .tags-view-wrapper {
+      .tags-view-item {
+        background: #1f1f1f;
+        border-color: rgba(255, 255, 255, 0.12);
+        color: rgba(255, 255, 255, 0.85);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.06);
+          border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        &.active {
+          color: #fff;
+        }
+
+        .el-icon-close:hover {
+          background-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .el-icon-close {
+          color: rgba(255, 255, 255, 0.65);
+        }
+      }
+    }
+
+    .contextmenu {
+      background: #1f1f1f;
+      border-color: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+
+      li:hover {
+        background: rgba(255, 255, 255, 0.06);
       }
     }
   }

@@ -1,7 +1,7 @@
 import { useRef, useEffect, forwardRef, useImperativeHandle } from 'react'
 import './ScrollPane.scss'
 
-const ScrollPane = forwardRef(({ children, onScroll }, ref) => {
+const ScrollPane = forwardRef(({ children, onScroll, className = '' }, ref) => {
   const scrollContainerRef = useRef(null)
   const scrollWrapperRef = useRef(null)
   const tagAndTagSpacing = 4
@@ -85,7 +85,7 @@ const ScrollPane = forwardRef(({ children, onScroll }, ref) => {
   return (
     <div
       ref={scrollContainerRef}
-      className="scroll-container"
+      className={`scroll-container ${className}`.trim()}
       onWheel={handleScroll}
     >
       <div className="scrollbar-wrapper">

@@ -4,6 +4,12 @@ export const useTagsViewStore = create((set, get) => ({
   visitedViews: [],
   cachedViews: [],
   iframeViews: [],
+
+  getDefaultTitle: (view) => {
+    const path = view?.path
+    if (path === '/' || path === '/index') return '首页'
+    return 'no-name'
+  },
   
   addView: (view) => {
     get().addVisitedView(view)
@@ -17,7 +23,7 @@ export const useTagsViewStore = create((set, get) => ({
       iframeViews: [
         ...state.iframeViews,
         Object.assign({}, view, {
-          title: view.meta?.title || 'no-name'
+          title: view.meta?.title || view.title || get().getDefaultTitle(view)
         })
       ]
     })
@@ -30,7 +36,7 @@ export const useTagsViewStore = create((set, get) => ({
       visitedViews: [
         ...state.visitedViews,
         Object.assign({}, view, {
-          title: view.meta?.title || 'no-name'
+          title: view.meta?.title || view.title || get().getDefaultTitle(view)
         })
       ]
     })
@@ -38,10 +44,12 @@ export const useTagsViewStore = create((set, get) => ({
   
   addCachedView: (view) => {
     const state = get()
-    if (state.cachedViews.includes(view.name)) return
+    const key = view.path
+    if (!key) return
+    if (state.cachedViews.includes(key)) return
     if (!view.meta?.noCache) {
       set({
-        cachedViews: [...state.cachedViews, view.name]
+        cachedViews: [...state.cachedViews, key]
       })
     }
   },
@@ -81,7 +89,8 @@ export const useTagsViewStore = create((set, get) => ({
   delCachedView: (view) => {
     return new Promise(resolve => {
       set((state) => {
-        const index = state.cachedViews.indexOf(view.name)
+        const key = view?.path
+        const index = key ? state.cachedViews.indexOf(key) : -1
         if (index > -1) {
           return {
             cachedViews: state.cachedViews.filter((_, i) => i !== index)
@@ -121,7 +130,8 @@ export const useTagsViewStore = create((set, get) => ({
   delOthersCachedViews: (view) => {
     return new Promise(resolve => {
       set((state) => {
-        const index = state.cachedViews.indexOf(view.name)
+        const key = view?.path
+        const index = key ? state.cachedViews.indexOf(key) : -1
         if (index > -1) {
           return {
             cachedViews: state.cachedViews.slice(index, index + 1)
@@ -170,7 +180,11 @@ export const useTagsViewStore = create((set, get) => ({
     set((state) => {
       const visitedViews = state.visitedViews.map(v => {
         if (v.path === view.path) {
-          return Object.assign(v, view)
+          const next = Object.assign(v, view)
+          if (!next.title) {
+            next.title = next.meta?.title || get().getDefaultTitle(next)
+          }
+          return next
         }
         return v
       })
@@ -189,7 +203,7 @@ export const useTagsViewStore = create((set, get) => ({
           if (idx <= index || (item.meta && item.meta.affix)) {
             return true
           }
-          const i = state.cachedViews.indexOf(item.name)
+          const i = state.cachedViews.indexOf(item.path)
           if (i > -1) {
             state.cachedViews.splice(i, 1)
           }
@@ -218,7 +232,7 @@ export const useTagsViewStore = create((set, get) => ({
           if (idx >= index || (item.meta && item.meta.affix)) {
             return true
           }
-          const i = state.cachedViews.indexOf(item.name)
+          const i = state.cachedViews.indexOf(item.path)
           if (i > -1) {
             state.cachedViews.splice(i, 1)
           }

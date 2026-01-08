@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CloseOutlined, ReloadOutlined, CloseCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { useTagsViewStore } from '@/store/tagsViewStore'
@@ -26,6 +26,7 @@ const TagsView = () => {
   const [affixTags, setAffixTags] = useState([])
   const scrollPaneRef = useRef(null)
   const containerRef = useRef(null)
+  const initedRef = useRef(false)
 
   const isActive = (r) => {
     return r.path === location.pathname
@@ -46,17 +47,20 @@ const TagsView = () => {
   const filterAffixTags = (routes, basePath = '') => {
     let tags = []
     routes.forEach(route => {
-      if (route.meta && route.meta.affix) {
-        const tagPath = getNormalPath(basePath + '/' + route.path)
+      const routeMeta = route.handle?.meta || route.meta
+      const routePath = route.index ? '' : (route.path || '')
+      if (routeMeta && routeMeta.affix) {
+        const tagPath = getNormalPath(`${basePath}/${routePath}`) || '/'
         tags.push({
           fullPath: tagPath,
           path: tagPath,
-          name: route.name,
-          meta: { ...route.meta }
+          name: route.name || route.routeName || tagPath,
+          meta: { ...routeMeta }
         })
       }
       if (route.children) {
-        const tempTags = filterAffixTags(route.children, route.path)
+        const nextBasePath = getNormalPath(`${basePath}/${routePath}`) || '/'
+        const tempTags = filterAffixTags(route.children, nextBasePath)
         if (tempTags.length >= 1) {
           tags = [...tags, ...tempTags]
         }
@@ -75,21 +79,69 @@ const TagsView = () => {
     })
   }
 
-  const addTags = () => {
-    const { name } = location
-    if (name) {
-      useTagsViewStore.getState().addView({ path: location.pathname, meta: location.state?.meta || {} })
+  const findRouteByPath = useCallback((routeList, pathname, basePath = '') => {
+    for (const route of routeList || []) {
+      const routePath = route.index ? '' : (route.path || '')
+      const fullPath = getNormalPath(`${basePath}/${routePath}`) || '/'
+      if (fullPath === pathname) return route
+      if (route.children?.length) {
+        const found = findRouteByPath(route.children, pathname, fullPath)
+        if (found) return found
+      }
     }
-  }
-
-  useEffect(() => {
-    initTags()
-    addTags()
+    return null
   }, [])
 
+  const addTags = useCallback(() => {
+    // 不在 tags-view 中展示这些页面
+    const ignore = ['/login', '/register', '/401']
+    if (ignore.includes(location.pathname) || location.pathname.startsWith('/redirect')) return
+
+    const route = findRouteByPath(routes, location.pathname)
+    const meta = route?.handle?.meta || route?.meta || {}
+    if (meta.hidden) return
+
+    const fullPath = `${location.pathname}${location.search || ''}`
+    const view = {
+      path: location.pathname,
+      fullPath,
+      name: route?.name || route?.routeName || location.pathname,
+      meta,
+      title: meta.title
+    }
+
+    const store = useTagsViewStore.getState()
+    // 已存在则更新（例如 query 变化）
+    if (store.visitedViews.some(v => v.path === view.path)) {
+      store.updateVisitedView(view)
+      return
+    }
+    store.addView(view)
+  }, [findRouteByPath, location.pathname, location.search, routes])
+
+  const moveToCurrentTag = useCallback(() => {
+    if (!scrollPaneRef.current) return
+    const store = useTagsViewStore.getState()
+    const current = store.visitedViews.find(v => v.path === location.pathname)
+    if (!current) return
+
+    // DOM 更新后滚动到当前标签
+    setTimeout(() => {
+      scrollPaneRef.current?.moveToTarget(current, store.visitedViews)
+    }, 0)
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (!initedRef.current && routes?.length) {
+      initTags()
+      initedRef.current = true
+    }
+  }, [routes?.length])
+
   useEffect(() => {
     addTags()
-  }, [location.pathname])
+    moveToCurrentTag()
+  }, [location.pathname, location.search, addTags, moveToCurrentTag])
 
   useEffect(() => {
     if (visible) {
@@ -156,7 +208,7 @@ const TagsView = () => {
   const closeOthersTags = () => {
     navigate(selectedTag.path)
     closeOthersPage(selectedTag).then(() => {
-      // moveToCurrentTag()
+      moveToCurrentTag()
     })
   }
 
@@ -182,20 +234,16 @@ const TagsView = () => {
     }
   }
 
-  const isFirstView = () => {
-    try {
-      return selectedTag.fullPath === '/index' || selectedTag.fullPath === visitedViews[1]?.fullPath
-    } catch (err) {
-      return false
-    }
+  const hasNonAffixLeft = () => {
+    const idx = visitedViews.findIndex(v => v.path === selectedTag.path)
+    if (idx <= 0) return false
+    return visitedViews.slice(0, idx).some(v => !v.meta?.affix)
   }
 
-  const isLastView = () => {
-    try {
-      return selectedTag.fullPath === visitedViews[visitedViews.length - 1]?.fullPath
-    } catch (err) {
-      return false
-    }
+  const hasNonAffixRight = () => {
+    const idx = visitedViews.findIndex(v => v.path === selectedTag.path)
+    if (idx === -1 || idx >= visitedViews.length - 1) return false
+    return visitedViews.slice(idx + 1).some(v => !v.meta?.affix)
   }
 
   return (
@@ -224,8 +272,10 @@ const TagsView = () => {
                 }
               }}
             >
-              {IconComponent && <IconComponent />}
-              {tag.title || tag.meta?.title}
+              <span className="tag-content">
+                {IconComponent && <IconComponent />}
+                <span className="tag-title">{tag.title || tag.meta?.title}</span>
+              </span>
               {!isAffix(tag) && (
                 <span
                   onClick={(e) => {
@@ -254,12 +304,12 @@ const TagsView = () => {
           <li onClick={closeOthersTags}>
             <CloseCircleOutlined /> 关闭其他
           </li>
-          {!isFirstView() && (
+          {hasNonAffixLeft() && (
             <li onClick={closeLeftTags}>
               <LeftOutlined /> 关闭左侧
             </li>
           )}
-          {!isLastView() && (
+          {hasNonAffixRight() && (
             <li onClick={closeRightTags}>
               <RightOutlined /> 关闭右侧
             </li>
