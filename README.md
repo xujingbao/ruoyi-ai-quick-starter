@@ -4,7 +4,7 @@
 ## 技术栈
 
 **后端：** Spring Boot 3.x + MyBatis + Redis + MySQL + Quartz  
-**前端：** Vue 3 + Element Plus + Vite + pnpm + Pinia  
+**前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
 **移动端：** uni-app
 
 ## 快速开始
@@ -36,11 +36,11 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 
    - 或使用命令：`mvn spring-boot:run`
    - 访问：<http://localhost:8080/swagger-ui.html>
 
-3. **启动前端**（推荐使用 Cursor 调试配置）
+3. **启动前端（React）**（推荐使用 Cursor 调试配置）
    ```bash
-   cd ruoyi-front
+   cd ruoyi-front-react
    pnpm install
-   # 按 F5 → 选择 "RuoYi Frontend" → 启动
+   # 按 F5 → 选择 "RuoYi Frontend (React)" → 启动
    # 或使用命令：pnpm dev
    ```
    - 访问：<http://localhost:80>
@@ -52,7 +52,7 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 
 mvn clean package -DskipTests
 
 # 前端构建
-cd ruoyi-front && pnpm build:prod
+cd ruoyi-front-react && pnpm build:prod
 ```
 
 ## 项目结构
@@ -64,7 +64,8 @@ ruoyi-quick-starter/
 ├── ruoyi-system/         # 系统业务模块
 ├── ruoyi-common/         # 通用工具模块
 ├── ruoyi-quartz/         # 定时任务模块
-├── ruoyi-front/          # 前端项目（Vue3 + Vite）
+├── ruoyi-front-react/    # 前端项目（React 18 + Ant Design + Vite）
+├── ruoyi-front/          # 前端项目（Vue3 + Element Plus + Vite，历史版本/对照用）
 ├── ruoyi-app/            # 移动端项目（uni-app）
 ├── docs/                 # 技术文档
 │   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
@@ -137,8 +138,8 @@ npm install -g @fission-ai/openspec@latest
 
 - [RuoYi 官方文档](http://doc.ruoyi.vip) - 基础框架文档
 - [Spring AI 官方文档](https://docs.spring.io/spring-ai/reference/) - AI 集成文档
-- [Vue 3 文档](https://cn.vuejs.org) - 前端框架文档
-- [Element Plus 文档](https://element-plus.org/zh-CN) - UI 组件库文档
+- [React 文档](https://react.dev) - 前端框架文档
+- [Ant Design 文档](https://ant.design) - UI 组件库文档
 - [Spring Boot 文档](https://spring.io/projects/spring-boot) - 后端框架文档
 - [OpenSpec 官方文档](https://openspec.dev/) - 规范驱动开发文档
 

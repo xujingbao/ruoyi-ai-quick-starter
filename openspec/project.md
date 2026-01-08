@@ -23,12 +23,12 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **Maven** - 构建工具
 
 ### Frontend
-- **Vue 3** - 渐进式 JavaScript 框架
-- **Element Plus** - Vue 3 组件库
+- **React 18** - 用于构建用户界面的 JavaScript 库
+- **Ant Design** - React UI 组件库
 - **Vite** - 前端构建工具
 - **pnpm 8+** - 包管理器
-- **Pinia** - 状态管理
-- **Vue Router** - 路由管理
+- **Zustand** - 状态管理
+- **React Router** - 路由管理
 - **Axios** - HTTP 客户端
 
 ### Mobile
@@ -55,15 +55,15 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
   - 枚举值名：全大写下划线分隔，如：`OK`、`DISABLE`、`INSERT`
 
 #### 前端代码规范
-- **组件命名**：PascalCase，如：`UserList.vue`、`UserForm.vue`
-- **文件命名**：kebab-case，如：`user-list.vue`、`user-form.vue`
+- **组件命名**：PascalCase，如：`UserList.jsx`、`UserForm.jsx`
+- **文件命名**：kebab-case（目录/非组件文件）或与组件同名（React 组件文件常用 PascalCase），如：`user-store.js`、`UserList.jsx`
 - **变量命名**：camelCase，如：`userName`、`userList`
 - **常量命名**：UPPER_SNAKE_CASE，如：`API_BASE_URL`
 - **组件封装规范**：单文件不超过 800 行，超过时进行合理的组件封装
 
 #### 代码格式化
 - Java：遵循 Spring Boot 代码风格
-- JavaScript/Vue：使用 ESLint 进行代码检查
+- JavaScript/React：使用 ESLint 进行代码检查
 - 遵循项目现有代码风格，保持一致性
 
 ### Architecture Patterns
@@ -81,9 +81,9 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **数据权限**：通过 `@DataScope` 注解实现数据权限控制
 
 #### 前端架构
-- **组件化开发**：基于 Vue 3 Composition API
-- **状态管理**：使用 Pinia 进行状态管理
-- **路由管理**：Vue Router 支持动态路由和权限控制
+- **组件化开发**：基于 React Hooks
+- **状态管理**：使用 Zustand 进行状态管理
+- **路由管理**：React Router 支持动态路由和权限控制
 - **API 封装**：统一使用 Axios 封装 API 请求
 - **布局系统**：Layout 组件支持多种布局模式
 

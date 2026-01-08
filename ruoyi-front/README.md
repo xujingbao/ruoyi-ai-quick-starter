@@ -1,5 +1,8 @@
 # RuoYi Frontend
 
+> 说明：本仓库 Web 前端已提供 `ruoyi-front-react`（React 18 + Ant Design），当前推荐优先使用该版本。
+> `ruoyi-front`（Vue 3 + Element Plus）主要作为历史版本/对照与迁移参考保留。
+
 基于 Vue 3 + Element Plus + Vite 的前端项目。
 
 ## 技术栈

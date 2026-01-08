@@ -2,6 +2,9 @@
 
 **版本信息：** RuoYi AI Quick Starter v4.1 新增功能
 
+> 说明：本仓库 Web 前端已提供 `ruoyi-front-react`（React 18 + Ant Design）。
+> 若你仍在使用 `ruoyi-front`（Vue 3 + Element Plus），文档中以 `.vue / markstream-vue` 为例的内容可作为历史实现参考。
+
 ## 整体流程
 
 ```
@@ -33,6 +36,10 @@ Spring AI 返回的每个 `ChatResponse` 包含：
 **注意**: 每个数据块包含的是**增量文本片段**，不是完整累积文本。
 
 ## 2. 前端 SSE 解析 (chat.js)
+
+### 2.0 React 版本文件位置
+
+- `ruoyi-front-react/src/api/ai/chat.js`：`streamChat(data, onMessage, onError, onComplete)`（SSE 解析 + 增量文本回调）
 
 ### 2.1 请求发起
 ```javascript
@@ -76,21 +83,21 @@ if (onMessage && text) {
 }
 ```
 
-## 3. 前端文本累积 (index.vue)
+## 3. 前端文本累积（React 示例）
 
 ### 3.1 状态管理
 ```javascript
-const aiChatContent = ref('')  // 累积的完整文本
-const aiChatLoading = ref(false)  // 加载状态
+const [aiChatContent, setAiChatContent] = useState('') // 累积的完整文本
+const [aiChatLoading, setAiChatLoading] = useState(false) // 加载状态
 ```
 
 ### 3.2 文本累积逻辑
 ```javascript
 streamChat(
-  { message: aiChatMessage.value },
+  { message: aiChatMessage },
   (text) => {
     // 累积增量文本片段
-    aiChatContent.value += text || ''
+    setAiChatContent((prev) => prev + (text || ''))
   },
   // onError, onComplete...
 )
@@ -100,20 +107,15 @@ streamChat(
 - 每个增量文本片段通过 `+=` 累积到 `aiChatContent`
 - 空字符串也会累积（可能是换行符、空格等）
 
-## 4. Markdown 流式渲染 (markstream-vue)
+## 4. Markdown 渲染（React）
 
 ### 4.1 组件使用
-```vue
-<MarkdownRender 
-  custom-id="ai-chat-response"
-  :content="aiChatContent" 
-/>
-```
+React 侧可以使用 `react-markdown` 来渲染累积的 Markdown 内容（本项目已引入依赖）。
 
 ### 4.2 渲染机制
-- `markstream-vue` 监听 `content` 属性的变化
-- 自动解析 Markdown 并流式渲染
-- 支持增量更新，无需手动解析 Markdown
+- React 通过 `setState` 触发重新渲染
+- 每次收到增量文本时更新 `aiChatContent`
+- Markdown 渲染组件接收完整文本并重新渲染（无需手动解析）
 
 **优势**: 
 - 高性能流式渲染
@@ -139,11 +141,11 @@ streamChat(
    ↓
 8. 调用 onMessage(text) 传递增量文本
    ↓
-9. index.vue 累积文本: aiChatContent.value += text
+9. React 累积文本: setAiChatContent(prev => prev + text)
    ↓
-10. MarkdownRender 自动检测 content 变化
+10. Markdown 组件接收新 content 重新渲染
    ↓
-11. markstream-vue 流式渲染 Markdown
+11. 页面展示更新后的 Markdown
 ```
 
 ## 6. 关键设计点
@@ -151,7 +153,7 @@ streamChat(
 ### 6.1 增量文本 vs 完整文本
 - **后端返回**: 增量文本片段（如 "你"、"好"、"！"）
 - **前端累积**: 通过 `+=` 累积成完整文本
-- **渲染**: markstream-vue 处理完整文本的流式渲染
+- **渲染**: 组件接收完整文本并重新渲染
 
 ### 6.2 SSE 格式处理
 - 支持 `data:` 和 `data: ` 两种格式
@@ -168,7 +170,7 @@ streamChat(
 1. **文本提取**: 只提取主要字段路径，简化代码
 2. **错误处理**: 静默处理解析错误，避免影响用户体验
 3. **状态管理**: 使用响应式变量，自动触发 UI 更新
-4. **组件选择**: 使用 markstream-vue 处理流式 Markdown 渲染
+4. **组件选择**: 使用 Markdown 渲染组件（如 `react-markdown`）渲染累积文本
 
 ## 8. 文件结构
 
@@ -178,7 +180,5 @@ streamChat(
   - ChatRequest.java: 请求参数 DTO
 
 前端:
-  - chat.js: SSE 解析和文本提取
-  - index.vue: 文本累积和 UI 渲染
-  - main.js: markstream-vue 组件注册
+  - ruoyi-front-react/src/api/ai/chat.js: SSE 解析和文本提取（React 版本）
 ```

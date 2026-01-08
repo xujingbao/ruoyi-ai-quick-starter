@@ -12,13 +12,21 @@
 - **SpringDoc**: 2.8.9
 
 ## 前端
-- **Vue**: 3.5.25
-- **Element Plus**: 2.12.0
+### Web（React）
+- **React**: 18.3.1
+- **React DOM**: 18.3.1
+- **Ant Design**: 5.22.0
+- **React Router**: 6.28.0
+- **Zustand**: 5.0.2
 - **Vite**: 7.2.7
-- **Pinia**: 3.0.2
-- **Vue Router**: 4.5.1
 - **Axios**: 1.9.0
 - **ECharts**: 5.6.0
+
+### Web（Vue，历史版本/对照用）
+- **Vue**: 3.x
+- **Element Plus**: 2.x
+- **Pinia**: 3.x
+- **Vue Router**: 4.x
 
 ## 移动端
 - **React**: 19.1.0

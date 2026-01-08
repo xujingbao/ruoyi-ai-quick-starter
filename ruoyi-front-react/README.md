@@ -75,7 +75,7 @@ ruoyi-front-react/
 
 ### 环境变量
 
-项目支持多环境配置，可在 `vite.config.js` 中配置不同环境的变量。
+项目支持多环境配置，使用 Vite 的 `.env` 体系管理环境变量（如：`.env.development`、`.env.production`）。
 
 ### API 配置
 
@@ -83,7 +83,12 @@ API 基础地址配置在 `src/utils/request.js` 中，可通过环境变量进�
 
 ### 路由配置
 
-路由配置位于 `src/router/index.js`，支持动态路由和权限控制。
+路由配置位于 `src/router/index.jsx`，支持动态路由和权限控制。
+
+## 说明（与 Vue 版本关系）
+
+本仓库同时保留了 `ruoyi-front`（Vue 3 + Element Plus）与 `ruoyi-front-react`（React 18 + Ant Design）。
+当前推荐使用 `ruoyi-front-react` 作为 Web 端前端实现；`ruoyi-front` 主要用于历史对照与迁移参考。
 
 ## 开发规范
 

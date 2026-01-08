@@ -14,11 +14,11 @@
         },
         {
             "type": "node",
-            "name": "RuoYi Frontend",
+            "name": "RuoYi Frontend (React)",
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "runtimeArgs": ["run", "dev"],
-            "cwd": "${workspaceFolder}/ruoyi-front",
+            "cwd": "${workspaceFolder}/ruoyi-front-react",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "skipFiles": ["<node_internals>/**"]
