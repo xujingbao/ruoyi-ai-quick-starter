@@ -193,7 +193,7 @@ const Job = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.jobId !== undefined) {
+      if (values.jobId !== undefined && values.jobId !== null && values.jobId !== '') {
         await updateJob(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -453,6 +453,11 @@ const Job = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 jobId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="jobId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="任务名称"
             name="jobName"

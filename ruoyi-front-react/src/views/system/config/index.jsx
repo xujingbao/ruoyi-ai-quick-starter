@@ -196,7 +196,7 @@ const Config = () => {
     try {
       const values = await form.validateFields()
       setSubmitting(true)
-      if (values.configId !== undefined) {
+      if (values.configId !== undefined && values.configId !== null && values.configId !== '') {
         await updateConfig(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -472,6 +472,11 @@ const Config = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 configId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="configId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="参数名称"
             name="configName"

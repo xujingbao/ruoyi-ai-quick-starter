@@ -157,7 +157,7 @@ const Notice = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.noticeId !== undefined) {
+      if (values.noticeId !== undefined && values.noticeId !== null && values.noticeId !== '') {
         await updateNotice(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -381,6 +381,11 @@ const Notice = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 noticeId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="noticeId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="公告标题"
             name="noticeTitle"

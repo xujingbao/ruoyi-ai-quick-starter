@@ -181,7 +181,7 @@ const Dict = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.dictId !== undefined) {
+      if (values.dictId !== undefined && values.dictId !== null && values.dictId !== '') {
         await updateType(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -433,6 +433,11 @@ const Dict = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 dictId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="dictId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="字典名称"
             name="dictName"

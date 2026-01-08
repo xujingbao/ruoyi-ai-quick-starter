@@ -229,7 +229,7 @@ const DictData = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.dictCode !== undefined) {
+      if (values.dictCode !== undefined && values.dictCode !== null && values.dictCode !== '') {
         await updateData(values)
         dictStore.removeDict(queryParams.dictType)
         modal.msgSuccess('修改成功')
@@ -480,6 +480,11 @@ const DictData = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 dictCode，否则 submitForm 会误判为新增 */}
+          <Form.Item name="dictCode" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item label="字典类型" name="dictType">
             <Input disabled />
           </Form.Item>
