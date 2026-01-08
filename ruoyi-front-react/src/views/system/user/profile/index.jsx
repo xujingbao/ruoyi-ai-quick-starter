@@ -48,7 +48,7 @@ const UserProfile = () => {
   ]
 
   return (
-    <div className="app-container profile-container">
+    <div className="app-container no-card profile-container">
       <Row gutter={20}>
         <Col xs={24} sm={24} md={6}>
           <Card className="profile-card info-card" hoverable>

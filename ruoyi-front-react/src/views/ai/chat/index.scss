@@ -1,7 +1,8 @@
 .ai-chat-page {
   .ai-chat-card {
-    background: var(--app-surface);
-    border-color: var(--app-border);
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 
   .ai-chat-list {
