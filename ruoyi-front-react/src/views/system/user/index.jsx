@@ -603,7 +603,7 @@ const User = () => {
             </div>
           </div>
           {/* 用户数据 */}
-          <div style={{ flex: 1 }}>
+          <div className="user-content" style={{ flex: 1 }}>
             <Form
               form={queryForm}
               layout="inline"
