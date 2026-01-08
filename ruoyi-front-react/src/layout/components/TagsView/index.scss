@@ -11,7 +11,7 @@
     .tags-view-item {
       display: inline-flex;
       align-items: center;
-      gap: 0;
+      gap: 6px;
       position: relative;
       cursor: pointer;
       height: 28px;
@@ -35,14 +35,6 @@
         flex-shrink: 0;
       }
 
-      .tag-content {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        // 视觉微调：让文字与图标整体上移一点点
-        transform: translateY(-1px);
-      }
-
       .tag-title {
         display: inline-flex;
         align-items: center;
@@ -52,6 +44,8 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         line-height: 1.2;
+        position: relative;
+        top: -0.5px;
       }
 
       &:first-of-type {

@@ -272,10 +272,8 @@ const TagsView = () => {
                 }
               }}
             >
-              <span className="tag-content">
-                {IconComponent && <IconComponent />}
-                <span className="tag-title">{tag.title || tag.meta?.title}</span>
-              </span>
+              {IconComponent && <IconComponent />}
+              <span className="tag-title">{tag.title || tag.meta?.title}</span>
               {!isAffix(tag) && (
                 <span
                   onClick={(e) => {
