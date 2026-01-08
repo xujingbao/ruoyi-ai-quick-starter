@@ -1,0 +1,118 @@
+@use "@/assets/styles/variables.module.scss" as vars;
+
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1001;
+  height: 100vh;
+  width: vars.$base-sidebar-width !important;
+  overflow: hidden;
+  transition: width 0.28s;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+
+  .scrollbar-wrapper {
+    overflow-x: hidden !important;
+    height: calc(100% - 50px);
+  }
+
+  .ant-menu {
+    border: none;
+    height: 100%;
+    width: 100% !important;
+    color: inherit;
+    background-color: inherit !important;
+
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      color: inherit !important;
+      
+      &:hover {
+        background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+      }
+    }
+
+    .ant-menu-item {
+      color: inherit !important;
+      
+      &.ant-menu-item-selected {
+        color: var(--menu-active-text, #409eff) !important;
+        background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+        
+        a {
+          color: var(--menu-active-text, #409eff) !important;
+        }
+      }
+    }
+
+    .ant-menu-submenu-title {
+      color: inherit !important;
+    }
+
+    // 子菜单背景色与主菜单一致
+    .ant-menu-submenu {
+      background-color: inherit !important;
+      
+      .ant-menu-submenu-inner {
+        background-color: inherit !important;
+      }
+      
+      .ant-menu {
+        background-color: inherit !important;
+      }
+      
+      // 子菜单项
+      .ant-menu-item {
+        background-color: inherit !important;
+        
+        &:hover {
+          background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+        }
+        
+        &.ant-menu-item-selected {
+          color: var(--menu-active-text, #409eff) !important;
+          background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+        }
+      }
+    }
+    
+    // 嵌套子菜单
+    .ant-menu-submenu-popup {
+      .ant-menu {
+        background-color: inherit !important;
+      }
+    }
+
+    // 确保菜单项内的链接文字颜色正确
+    .ant-menu-item a {
+      color: inherit !important;
+      text-decoration: none;
+      
+      &:hover {
+        color: inherit !important;
+      }
+    }
+  }
+}
+
+.hideSidebar {
+  .sidebar-container {
+    width: 54px !important;
+  }
+}
+
+.mobile {
+  .sidebar-container {
+    transition: transform 0.28s;
+    width: vars.$base-sidebar-width !important;
+  }
+
+  &.hideSidebar {
+    .sidebar-container {
+      pointer-events: none;
+      transition-duration: 0.3s;
+      transform: translate3d(-#{vars.$base-sidebar-width}, 0, 0);
+    }
+  }
+}

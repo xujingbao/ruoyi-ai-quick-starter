@@ -1,0 +1,6 @@
+export { useUserStore } from './userStore'
+export { useAppStore } from './appStore'
+export { useSettingsStore } from './settingsStore'
+export { useDictStore } from './dictStore'
+export { useTagsViewStore } from './tagsViewStore'
+export { usePermissionStore } from './permissionStore'

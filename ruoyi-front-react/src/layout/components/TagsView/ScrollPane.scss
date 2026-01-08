@@ -1,0 +1,12 @@
+.scroll-container {
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  .scrollbar-wrapper {
+    height: 39px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}

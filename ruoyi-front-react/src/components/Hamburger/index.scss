@@ -1,0 +1,11 @@
+.hamburger {
+  display: inline-block;
+  vertical-align: middle;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s;
+}
+
+.hamburger.is-active {
+  transform: rotate(180deg);
+}

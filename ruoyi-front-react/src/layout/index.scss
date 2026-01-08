@@ -1,0 +1,82 @@
+@use "@/assets/styles/mixin.scss" as mix;
+@use "@/assets/styles/variables.module.scss" as vars;
+
+.app-wrapper {
+  @include mix.clearfix;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  &.mobile.openSidebar {
+    position: fixed;
+    top: 0;
+  }
+}
+
+.main-container {
+  min-height: 100%;
+  transition: margin-left 0.28s;
+  margin-left: vars.$base-sidebar-width;
+  position: relative;
+
+  &:has(.fixed-header) {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  &.sidebarHide {
+    margin-left: 0 !important;
+  }
+}
+
+.drawer-bg {
+  background: #000;
+  opacity: 0.3;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+}
+
+.fixed-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: calc(100% - #{vars.$base-sidebar-width});
+  transition: width 0.28s;
+}
+
+.hideSidebar {
+  .main-container {
+    margin-left: 54px;
+  }
+
+  .fixed-header {
+    width: calc(100% - 54px);
+  }
+}
+
+.sidebarHide {
+  .fixed-header {
+    width: 100%;
+  }
+}
+
+.mobile {
+  .main-container {
+    margin-left: 0;
+  }
+
+  .fixed-header {
+    width: 100%;
+  }
+}
+
+.withoutAnimation {
+  .main-container,
+  .sidebar-container {
+    transition: none;
+  }
+}

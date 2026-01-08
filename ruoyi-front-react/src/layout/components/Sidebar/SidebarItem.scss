@@ -1,0 +1,9 @@
+.menu-title {
+  margin-left: 8px;
+}
+
+.nest-menu {
+  .ant-menu-submenu-title {
+    padding-left: 20px !important;
+  }
+}

@@ -1,0 +1,359 @@
+.home {
+  blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 5px solid #eee;
+  }
+  hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+  }
+  .col-item {
+    margin-bottom: 20px;
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  font-family: inherit;
+  font-size: 13px;
+  color: #676a6c;
+  overflow-x: hidden;
+
+  .intro-row {
+    margin-bottom: 12px;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 18px;
+    margin: 6px 0;
+    
+    li {
+      margin: 3px 0;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+  }
+
+  ol {
+    list-style-type: decimal;
+    padding-left: 18px;
+    margin: 6px 0;
+    
+    li {
+      margin: 3px 0;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+  }
+
+  h4 {
+    margin-top: 0px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin-top: 0px;
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 100;
+  }
+
+  p {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+
+    b {
+      font-weight: 700;
+    }
+
+    strong {
+      font-weight: 600;
+    }
+
+    code {
+      background-color: #f4f4f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    kbd {
+      background-color: #f4f4f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      border: 1px solid #d3d3d3;
+    }
+
+    a {
+      color: #409eff;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .ant-card {
+    .body {
+      ul, ol {
+        margin: 10px 0;
+      }
+    }
+  }
+
+  .stats-row {
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    border: 1px solid #f0f2f5;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: currentColor;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    &:hover {
+      border-color: currentColor;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+
+      &::before {
+        opacity: 1;
+      }
+
+      .stat-icon-compact {
+        transform: scale(1.1);
+      }
+    }
+
+    .stat-content-compact {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+
+      .stat-icon-compact {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+
+        .stat-icon-img {
+          width: 32px;
+          height: 32px;
+          object-fit: contain;
+        }
+      }
+
+      .stat-info-compact {
+        flex: 1;
+        min-width: 0;
+
+        .stat-label-compact {
+          font-size: 12px;
+          color: #909399;
+          margin-bottom: 6px;
+          font-weight: 400;
+          letter-spacing: 0.3px;
+        }
+
+        .stat-value-compact {
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 1.2;
+          color: #303133;
+          white-space: nowrap;
+        }
+      }
+
+      .stat-trend-compact {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 500;
+        padding: 4px 8px;
+        border-radius: 12px;
+        white-space: nowrap;
+        transition: all 0.25s ease;
+
+        &.up {
+          color: #52c41a;
+          background: #f6ffed;
+          border: 1px solid #b7eb8f;
+        }
+
+        &.down {
+          color: #ff4d4f;
+          background: #fff1f0;
+          border: 1px solid #ffccc7;
+        }
+      }
+    }
+
+    &.stat-card-primary {
+      color: #1890ff;
+
+      &:hover {
+        border-color: #1890ff;
+      }
+    }
+
+    &.stat-card-success {
+      color: #52c41a;
+
+      &:hover {
+        border-color: #52c41a;
+      }
+    }
+
+    &.stat-card-warning {
+      color: #faad14;
+
+      &:hover {
+        border-color: #faad14;
+      }
+    }
+
+    &.stat-card-danger {
+      color: #ff4d4f;
+
+      &:hover {
+        border-color: #ff4d4f;
+      }
+    }
+  }
+
+  .chart-row {
+    margin-bottom: 16px;
+  }
+
+  .chart-card {
+    border-radius: 8px;
+    transition: all 0.3s;
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .chart-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: #303133;
+        line-height: 1.5;
+        font-family: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .chart-subtitle {
+        font-size: 11px;
+        color: #909399;
+      }
+    }
+
+    .chart-container {
+      width: 100%;
+      height: 240px;
+      min-height: 240px;
+    }
+  }
+  
+  .ant-card {
+    .card-header,
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .chart-title,
+    .card-title {
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      color: #303133;
+      line-height: 1.5 !important;
+      font-family: inherit !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .body {
+      ul, ol {
+        margin: 8px 0;
+      }
+    }
+  }
+}
+
+// 暗色模式下的文字颜色覆盖
+html.dark {
+  .home {
+    color: #ffffff !important;
+    
+    h2, h4, p, span, li {
+      color: #ffffff !important;
+    }
+    
+    .chart-title,
+    .card-title {
+      color: #ffffff !important;
+    }
+    
+    .chart-subtitle {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .stat-label-compact {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+    
+    .stat-value-compact {
+      color: #ffffff !important;
+    }
+    
+    .ant-card {
+      .body {
+        color: #ffffff !important;
+        
+        p, li, code, kbd {
+          color: #ffffff !important;
+        }
+      }
+    }
+  }
+}
