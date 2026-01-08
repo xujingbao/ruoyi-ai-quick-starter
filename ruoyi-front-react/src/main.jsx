@@ -1,10 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ConfigProvider } from 'antd'
+import { App as AntdApp, ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import App from './App'
+import AntdAppBridge from '@/plugins/AntdAppBridge'
 import '@/assets/styles/index.scss'
 import 'nprogress/nprogress.css'
 
@@ -51,7 +52,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         }
       }}
     >
-      <App />
+      <AntdApp>
+        <AntdAppBridge>
+          <App />
+        </AntdAppBridge>
+      </AntdApp>
     </ConfigProvider>
   </React.StrictMode>
 )

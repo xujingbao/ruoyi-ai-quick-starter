@@ -1,71 +1,76 @@
-import { message, notification, Modal, Spin } from 'antd'
+import { message as staticMessage, notification as staticNotification, Modal as staticModal } from 'antd'
+import { getAntdAppApi } from './antdApp'
 
 let loadingInstance = null
+
+const getMessage = () => getAntdAppApi()?.message || staticMessage
+const getNotification = () => getAntdAppApi()?.notification || staticNotification
+const getModal = () => getAntdAppApi()?.modal || staticModal
 
 export default {
   // 消息提示
   msg(content) {
-    message.info(content)
+    getMessage().info(content)
   },
   // 错误消息
   msgError(content) {
-    message.error(content)
+    getMessage().error(content)
   },
   // 成功消息
   msgSuccess(content) {
-    message.success(content)
+    getMessage().success(content)
   },
   // 警告消息
   msgWarning(content) {
-    message.warning(content)
+    getMessage().warning(content)
   },
   // 弹出提示
   alert(content) {
-    Modal.info({
+    getModal().info({
       title: '系统提示',
       content
     })
   },
   // 错误提示
   alertError(content) {
-    Modal.error({
+    getModal().error({
       title: '系统提示',
       content
     })
   },
   // 成功提示
   alertSuccess(content) {
-    Modal.success({
+    getModal().success({
       title: '系统提示',
       content
     })
   },
   // 警告提示
   alertWarning(content) {
-    Modal.warning({
+    getModal().warning({
       title: '系统提示',
       content
     })
   },
   // 通知提示
   notify(content) {
-    notification.info({ message: content })
+    getNotification().info({ message: content })
   },
   // 错误通知
   notifyError(content) {
-    notification.error({ message: content })
+    getNotification().error({ message: content })
   },
   // 成功通知
   notifySuccess(content) {
-    notification.success({ message: content })
+    getNotification().success({ message: content })
   },
   // 警告通知
   notifyWarning(content) {
-    notification.warning({ message: content })
+    getNotification().warning({ message: content })
   },
   // 确认窗体
   confirm(content) {
-    return Modal.confirm({
+    return getModal().confirm({
       title: '系统提示',
       content,
       okText: '确定',
@@ -74,7 +79,7 @@ export default {
   },
   // 提交内容
   prompt(content) {
-    return Modal.confirm({
+    return getModal().confirm({
       title: '系统提示',
       content,
       okText: '确定',
@@ -83,7 +88,7 @@ export default {
   },
   // 打开遮罩层
   loading(content) {
-    loadingInstance = message.loading({ content: content || '加载中...', duration: 0 })
+    loadingInstance = getMessage().loading({ content: content || '加载中...', duration: 0 })
   },
   // 关闭遮罩层
   closeLoading() {

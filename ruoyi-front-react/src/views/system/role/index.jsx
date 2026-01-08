@@ -42,6 +42,12 @@ const Role = () => {
   const [deptHalfCheckedKeys, setDeptHalfCheckedKeys] = useState([])
   const [deptExpandedKeys, setDeptExpandedKeys] = useState([])
 
+  // 同步引用：避免“勾选后立即保存”读到旧 state
+  const menuCheckedKeysRef = useRef([])
+  const menuHalfCheckedKeysRef = useRef([])
+  const deptCheckedKeysRef = useRef([])
+  const deptHalfCheckedKeysRef = useRef([])
+
   const [roleList, setRoleList] = useState([])
   const [loading, setLoading] = useState(true)
   const [showSearch, setShowSearch] = useState(true)
@@ -168,8 +174,11 @@ const Role = () => {
       })
       setMenuOptions(menuResponse.menus || [])
       // 关键：权限回显（Antd Tree 需要受控 checkedKeys）
-      setMenuCheckedKeys(menuResponse.checkedKeys || [])
+      setMenuCheckedKeys(normalizeCascadeCheckedKeys(menuResponse.menus || [], menuResponse.checkedKeys || []))
       setMenuHalfCheckedKeys([])
+      // 提交仍保留后端返回的原始 keys，避免“打开不改直接保存”丢权限
+      menuCheckedKeysRef.current = menuResponse.checkedKeys || []
+      menuHalfCheckedKeysRef.current = []
       
       setOpen(true)
       setTitle('修改角色')
@@ -236,6 +245,8 @@ const Role = () => {
       setDeptOptions(deptResponse.depts || [])
       setDeptCheckedKeys(deptResponse.checkedKeys || [])
       setDeptHalfCheckedKeys([])
+      deptCheckedKeysRef.current = deptResponse.checkedKeys || []
+      deptHalfCheckedKeysRef.current = []
       setOpenDataScope(true)
       setTitle('分配数据权限')
     } catch (error) {
@@ -270,6 +281,41 @@ const Role = () => {
     return keys
   }
 
+  /**
+   * Normalize checked keys for Antd Tree in cascade mode:
+   * If a parent key exists but not all descendants are selected,
+   * do NOT keep the parent in `checkedKeys`, otherwise Antd will auto-check all children.
+   */
+  const normalizeCascadeCheckedKeys = (treeData, checkedKeys) => {
+    const raw = Array.isArray(checkedKeys) ? checkedKeys : []
+    const rawSet = new Set(raw)
+    const result = []
+
+    const dfs = (node) => {
+      const children = node?.children || []
+      const hasChildren = children.length > 0
+      const selfChecked = rawSet.has(node.id)
+
+      if (!hasChildren) {
+        if (selfChecked) result.push(node.id)
+        return selfChecked
+      }
+
+      let allChildrenFullyChecked = true
+      for (const child of children) {
+        const childFully = dfs(child)
+        if (!childFully) allChildrenFullyChecked = false
+      }
+
+      const fullyChecked = selfChecked && allChildrenFullyChecked
+      if (fullyChecked) result.push(node.id)
+      return fullyChecked
+    }
+
+    ;(treeData || []).forEach(dfs)
+    return Array.from(new Set(result))
+  }
+
   // 表单重置
   const reset = () => {
     setMenuCheckedKeys([])
@@ -278,6 +324,10 @@ const Role = () => {
     setDeptCheckedKeys([])
     setDeptHalfCheckedKeys([])
     setDeptExpandedKeys([])
+    menuCheckedKeysRef.current = []
+    menuHalfCheckedKeysRef.current = []
+    deptCheckedKeysRef.current = []
+    deptHalfCheckedKeysRef.current = []
     setMenuExpand(false)
     setMenuNodeAll(false)
     setDeptExpand(true)
@@ -303,6 +353,8 @@ const Role = () => {
     setDeptCheckedKeys([])
     setDeptHalfCheckedKeys([])
     setDeptExpandedKeys([])
+    deptCheckedKeysRef.current = []
+    deptHalfCheckedKeysRef.current = []
     setDeptExpand(true)
     setDeptNodeAll(false)
     dataScopeForm.resetFields()
@@ -340,30 +392,35 @@ const Role = () => {
       setMenuNodeAll(checked)
       setMenuCheckedKeys(checked ? collectTreeKeys(menuOptions) : [])
       setMenuHalfCheckedKeys([])
+      menuCheckedKeysRef.current = checked ? collectTreeKeys(menuOptions) : []
+      menuHalfCheckedKeysRef.current = []
     } else if (type === 'dept') {
       setDeptNodeAll(checked)
       setDeptCheckedKeys(checked ? collectTreeKeys(deptOptions) : [])
       setDeptHalfCheckedKeys([])
+      deptCheckedKeysRef.current = checked ? collectTreeKeys(deptOptions) : []
+      deptHalfCheckedKeysRef.current = []
     }
   }
 
   // 树权限（父子联动）
   const handleCheckedTreeConnect = (checked, type) => {
     if (type === 'menu') {
-      form.setFieldValue('menuCheckStrictly', !checked)
+      // checked=true 表示开启“父子联动”(级联)：Antd Tree 需要 checkStrictly=false
+      form.setFieldValue('menuCheckStrictly', checked)
     } else if (type === 'dept') {
-      dataScopeForm.setFieldValue('deptCheckStrictly', !checked)
+      dataScopeForm.setFieldValue('deptCheckStrictly', checked)
     }
   }
 
   // 获取所有菜单节点数据
   const getMenuAllCheckedKeys = () => {
-    return Array.from(new Set([...(menuCheckedKeys || []), ...(menuHalfCheckedKeys || [])]))
+    return Array.from(new Set([...(menuCheckedKeysRef.current || []), ...(menuHalfCheckedKeysRef.current || [])]))
   }
 
   // 获取所有部门节点数据
   const getDeptAllCheckedKeys = () => {
-    return Array.from(new Set([...(deptCheckedKeys || []), ...(deptHalfCheckedKeys || [])]))
+    return Array.from(new Set([...(deptCheckedKeysRef.current || []), ...(deptHalfCheckedKeysRef.current || [])]))
   }
 
   // 提交表单
@@ -410,6 +467,8 @@ const Role = () => {
     if (value !== '2') {
       setDeptCheckedKeys([])
       setDeptHalfCheckedKeys([])
+      deptCheckedKeysRef.current = []
+      deptHalfCheckedKeysRef.current = []
     }
   }
 
@@ -746,11 +805,13 @@ const Role = () => {
               checkable
               treeData={menuOptions}
               fieldNames={{ title: 'label', key: 'id', children: 'children' }}
-              checkStrictly={menuCheckStrictlyValue !== false}
+              // menuCheckStrictlyValue=true 表示“父子联动(级联)”，因此 checkStrictly 要取反
+              checkStrictly={!(menuCheckStrictlyValue !== false)}
               expandedKeys={menuExpandedKeys}
               onExpand={(keys) => setMenuExpandedKeys(keys)}
               checkedKeys={
-                menuCheckStrictlyValue !== false
+                // 严格模式(checkStrictly=true) 需要对象；级联模式用数组即可
+                !(menuCheckStrictlyValue !== false)
                   ? { checked: menuCheckedKeys, halfChecked: menuHalfCheckedKeys }
                   : menuCheckedKeys
               }
@@ -758,9 +819,15 @@ const Role = () => {
                 if (Array.isArray(checked)) {
                   setMenuCheckedKeys(checked)
                   setMenuHalfCheckedKeys(info?.halfCheckedKeys || [])
+                  menuCheckedKeysRef.current = checked
+                  menuHalfCheckedKeysRef.current = info?.halfCheckedKeys || []
                 } else {
-                  setMenuCheckedKeys(checked?.checked || [])
-                  setMenuHalfCheckedKeys(checked?.halfChecked || info?.halfCheckedKeys || [])
+                  const nextChecked = checked?.checked || []
+                  const nextHalf = checked?.halfChecked || info?.halfCheckedKeys || []
+                  setMenuCheckedKeys(nextChecked)
+                  setMenuHalfCheckedKeys(nextHalf)
+                  menuCheckedKeysRef.current = nextChecked
+                  menuHalfCheckedKeysRef.current = nextHalf
                 }
               }}
               style={{ maxHeight: '300px', overflow: 'auto', border: '1px solid #d9d9d9', padding: '8px' }}
@@ -828,11 +895,12 @@ const Role = () => {
                 checkable
                 treeData={deptOptions}
                 fieldNames={{ title: 'label', key: 'id', children: 'children' }}
-                checkStrictly={deptCheckStrictlyValue !== false}
+                // deptCheckStrictlyValue=true 表示“父子联动(级联)”，因此 checkStrictly 要取反
+                checkStrictly={!(deptCheckStrictlyValue !== false)}
                 expandedKeys={deptExpandedKeys}
                 onExpand={(keys) => setDeptExpandedKeys(keys)}
                 checkedKeys={
-                  deptCheckStrictlyValue !== false
+                  !(deptCheckStrictlyValue !== false)
                     ? { checked: deptCheckedKeys, halfChecked: deptHalfCheckedKeys }
                     : deptCheckedKeys
                 }
@@ -840,9 +908,15 @@ const Role = () => {
                   if (Array.isArray(checked)) {
                     setDeptCheckedKeys(checked)
                     setDeptHalfCheckedKeys(info?.halfCheckedKeys || [])
+                    deptCheckedKeysRef.current = checked
+                    deptHalfCheckedKeysRef.current = info?.halfCheckedKeys || []
                   } else {
-                    setDeptCheckedKeys(checked?.checked || [])
-                    setDeptHalfCheckedKeys(checked?.halfChecked || info?.halfCheckedKeys || [])
+                    const nextChecked = checked?.checked || []
+                    const nextHalf = checked?.halfChecked || info?.halfCheckedKeys || []
+                    setDeptCheckedKeys(nextChecked)
+                    setDeptHalfCheckedKeys(nextHalf)
+                    deptCheckedKeysRef.current = nextChecked
+                    deptHalfCheckedKeysRef.current = nextHalf
                   }
                 }}
                 style={{ maxHeight: '300px', overflow: 'auto', border: '1px solid #d9d9d9', padding: '8px' }}
