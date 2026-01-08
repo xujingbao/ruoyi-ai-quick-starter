@@ -10,7 +10,10 @@
   background-position: center;
   background-repeat: no-repeat;
   padding: 16px;
-  overflow: hidden;
+  // 预留底部版权区域，避免被表单遮挡
+  padding-bottom: 64px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .login-overlay {
@@ -64,14 +67,15 @@
 }
 
 .el-login-footer {
-  position: absolute;
-  bottom: 20px;
+  position: fixed;
+  bottom: 12px;
   width: 100%;
   text-align: center;
   color: #fff;
-  z-index: 2;
+  z-index: 3;
   left: 0;
   padding: 0 16px;
+  pointer-events: none;
 }
 
 @media (max-width: 480px) {

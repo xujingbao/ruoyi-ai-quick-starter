@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Form, Input, Button, Checkbox, message } from 'antd'
+import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined, KeyOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore'
 import { getCodeImg } from '@/api/login'
 import { encrypt } from '@/utils/jsencrypt'
 import defaultSettings from '@/settings'
+import modal from '@/plugins/modal'
 import './index.scss'
 
 const Login = () => {
@@ -20,15 +21,15 @@ const Login = () => {
   const title = import.meta.env.VITE_APP_TITLE
   const footerContent = defaultSettings.footerContent
 
-  // 登录页禁止滚动（仅本页生效，离开后恢复）
+  // 登录页禁止横向滚动（仅本页生效，离开后恢复）
   useEffect(() => {
-    const prevBodyOverflow = document.body.style.overflow
-    const prevHtmlOverflow = document.documentElement.style.overflow
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
+    const prevBodyOverflowX = document.body.style.overflowX
+    const prevHtmlOverflowX = document.documentElement.style.overflowX
+    document.body.style.overflowX = 'hidden'
+    document.documentElement.style.overflowX = 'hidden'
     return () => {
-      document.body.style.overflow = prevBodyOverflow
-      document.documentElement.style.overflow = prevHtmlOverflow
+      document.body.style.overflowX = prevBodyOverflowX
+      document.documentElement.style.overflowX = prevHtmlOverflowX
     }
   }, [])
 
@@ -57,12 +58,12 @@ const Login = () => {
         setCaptchaEnabled(data.captchaEnabled === undefined ? true : data.captchaEnabled)
       } else {
         console.error('验证码响应数据格式错误:', data)
-        message.error('获取验证码失败，请刷新页面重试')
+        modal.msgError('获取验证码失败，请刷新页面重试')
       }
     } catch (err) {
       console.error('获取验证码失败', err)
       const errorMsg = err.response?.data?.msg || err.message || '未知错误'
-      message.error('获取验证码失败: ' + errorMsg)
+      modal.msgError('获取验证码失败: ' + errorMsg)
     }
   }
 
@@ -85,7 +86,7 @@ const Login = () => {
       
       const redirect = new URLSearchParams(window.location.search).get('redirect')
       navigate(redirect || '/', { replace: true })
-      message.success('登录成功')
+      modal.msgSuccess('登录成功')
     } catch (error) {
       console.error('登录失败', error)
       if (captchaEnabled) {

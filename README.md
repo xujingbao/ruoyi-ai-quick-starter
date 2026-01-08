@@ -65,7 +65,7 @@ ruoyi-quick-starter/
 ├── ruoyi-common/         # 通用工具模块
 ├── ruoyi-quartz/         # 定时任务模块
 ├── ruoyi-front-react/    # 前端项目（React 18 + Ant Design + Vite）
-├── ruoyi-front/          # 前端项目（Vue3 + Element Plus + Vite，历史版本/对照用）
+├── ruoyi-front-vue/      # 前端项目（Vue3 + Element Plus + Vite，即将废弃）
 ├── ruoyi-app/            # 移动端项目（uni-app）
 ├── docs/                 # 技术文档
 │   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
