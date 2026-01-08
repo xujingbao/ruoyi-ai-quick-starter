@@ -6,6 +6,8 @@
   position: relative;
   height: 100%;
   width: 100%;
+  background: var(--app-bg);
+  color: var(--app-text);
 
   &.mobile.openSidebar {
     position: fixed;
@@ -18,6 +20,8 @@
   transition: margin-left 0.28s;
   margin-left: vars.$base-sidebar-width;
   position: relative;
+  background: var(--app-bg);
+  color: var(--app-text);
 
   &:has(.fixed-header) {
     height: 100vh;

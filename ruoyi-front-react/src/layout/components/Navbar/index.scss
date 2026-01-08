@@ -16,7 +16,7 @@
     -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.025);
+      background: var(--navbar-hover);
     }
   }
 
@@ -38,14 +38,14 @@
       padding: 0 8px;
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: var(--navbar-text-secondary);
 
       &.hover-effect {
         cursor: pointer;
         transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, 0.025);
+          background: var(--navbar-hover);
         }
       }
 
@@ -81,11 +81,11 @@
           height: 32px;
           border-radius: 50%;
           flex-shrink: 0;
-          border: 2px solid var(--el-border-color-lighter, #e4e7ed);
+          border: 2px solid var(--app-border);
           transition: all 0.3s;
           
           &:hover {
-            border-color: var(--el-color-primary, #409eff);
+            border-color: var(--ant-color-primary, #1677ff);
           }
         }
 
@@ -100,7 +100,7 @@
           .user-nickname {
             font-size: 14px;
             font-weight: 600;
-            color: var(--el-text-color-primary, #303133);
+            color: var(--navbar-text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -109,7 +109,7 @@
 
           .user-dept {
             font-size: 12px;
-            color: var(--el-text-color-secondary, #909399);
+            color: var(--navbar-text-secondary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

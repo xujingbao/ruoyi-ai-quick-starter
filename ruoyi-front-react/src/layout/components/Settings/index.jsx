@@ -1,5 +1,5 @@
 import { useState, forwardRef, useImperativeHandle } from 'react'
-import { Drawer, Switch, ColorPicker, Button, Divider, message } from 'antd'
+import { Drawer, Switch, ColorPicker, Button, Divider } from 'antd'
 import { SaveOutlined, ReloadOutlined, CheckOutlined } from '@ant-design/icons'
 import { useAppStore } from '@/store/appStore'
 import { useSettingsStore } from '@/store/settingsStore'
@@ -64,7 +64,7 @@ const Settings = forwardRef((props, ref) => {
     localStorage.setItem("layout-setting", JSON.stringify(layoutSetting))
     setTimeout(() => {
       modal.closeLoading()
-      message.success('保存成功')
+      modal.msgSuccess('保存成功')
     }, 1000)
   }
 

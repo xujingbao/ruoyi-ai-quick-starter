@@ -11,6 +11,8 @@
   overflow: hidden;
   transition: width 0.28s;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
 
   .scrollbar-wrapper {
     overflow-x: hidden !important;
@@ -29,7 +31,7 @@
       color: inherit !important;
       
       &:hover {
-        background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+        background-color: var(--menu-hover) !important;
       }
     }
 
@@ -37,11 +39,11 @@
       color: inherit !important;
       
       &.ant-menu-item-selected {
-        color: var(--menu-active-text, #409eff) !important;
-        background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+        color: var(--menu-active-text) !important;
+        background-color: var(--menu-hover) !important;
         
         a {
-          color: var(--menu-active-text, #409eff) !important;
+          color: var(--menu-active-text) !important;
         }
       }
     }
@@ -67,12 +69,12 @@
         background-color: inherit !important;
         
         &:hover {
-          background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+          background-color: var(--menu-hover) !important;
         }
         
         &.ant-menu-item-selected {
-          color: var(--menu-active-text, #409eff) !important;
-          background-color: var(--menu-hover, rgba(0, 0, 0, 0.06)) !important;
+          color: var(--menu-active-text) !important;
+          background-color: var(--menu-hover) !important;
         }
       }
     }
