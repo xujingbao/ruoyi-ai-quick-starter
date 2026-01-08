@@ -44,10 +44,6 @@ export const usePermissionStore = create((set, get) => ({
         // asyncRoutes.forEach(route => { router.addRoute(route) })
         
         const finalSidebarRouters = constantRoutes.concat(sidebarRoutes)
-        console.log('permissionStore - constantRoutes:', constantRoutes)
-        console.log('permissionStore - sidebarRoutes:', sidebarRoutes)
-        console.log('permissionStore - finalSidebarRouters:', finalSidebarRouters)
-        console.log('permissionStore - finalSidebarRouters.length:', finalSidebarRouters.length)
         
         set({
           addRoutes: rewriteRoutes,
@@ -56,9 +52,6 @@ export const usePermissionStore = create((set, get) => ({
           defaultRoutes: sidebarRoutes,
           topbarRouters: defaultRoutes
         })
-        
-        console.log('permissionStore - 设置后的 sidebarRouters:', get().sidebarRouters)
-        console.log('permissionStore - 设置后的 sidebarRouters.length:', get().sidebarRouters.length)
         
         resolve(rewriteRoutes)
       }).catch(err => {

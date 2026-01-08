@@ -1,104 +1,60 @@
 import { useState, useEffect } from 'react'
-import { Form, Input, InputNumber, Select, Button, Table, Modal, Radio, Space, Tag } from 'antd'
-import { PlusOutlined, EditOutlined, DeleteOutlined, DownloadOutlined, CloseOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
-import { useParams, useNavigate } from 'react-router-dom'
-import { listData, getData, addData, updateData, delData } from '@/api/system/dict/data'
-import { getType, optionselect } from '@/api/system/dict/type'
+import { Form, Input, Select, DatePicker, Button, Table, Modal, Radio, Space, Tooltip } from 'antd'
+import { PlusOutlined, EditOutlined, DeleteOutlined, DownloadOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import { listType, getType, addType, updateType, delType, refreshCache } from '@/api/system/dict/type'
 import { useDict } from '@/utils/dict'
-import { parseTime } from '@/utils/ruoyi'
-import { download } from '@/utils/request'
 import { useDictStore } from '@/store/dictStore'
-import { useTagsViewStore } from '@/store/tagsViewStore'
+import { parseTime, addDateRange } from '@/utils/ruoyi'
+import { download } from '@/utils/request'
+import dayjs from 'dayjs'
 import modal from '@/plugins/modal'
 import auth from '@/plugins/auth'
 import Pagination from '@/components/Pagination'
 import RightToolbar from '@/components/RightToolbar'
 import './index.scss'
 
+const { RangePicker } = DatePicker
 const { TextArea } = Input
 
-const DictData = () => {
-  const { dictId } = useParams()
-  const navigate = useNavigate()
-  const tagsViewStore = useTagsViewStore()
-  const dictStore = useDictStore()
+const Dict = () => {
   const [form] = Form.useForm()
   const [queryForm] = Form.useForm()
 
-  const [dataList, setDataList] = useState([])
+  const [typeList, setTypeList] = useState([])
   const [loading, setLoading] = useState(true)
   const [showSearch, setShowSearch] = useState(true)
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
   const [total, setTotal] = useState(0)
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
-  const [defaultDictType, setDefaultDictType] = useState('')
-  const [typeOptions, setTypeOptions] = useState([])
+  const [dateRange, setDateRange] = useState([])
 
   const sys_normal_disable = useDict('sys_normal_disable')
-
-  const listClassOptions = [
-    { value: 'default', label: '默认' },
-    { value: 'primary', label: '主要' },
-    { value: 'success', label: '成功' },
-    { value: 'info', label: '信息' },
-    { value: 'warning', label: '警告' },
-    { value: 'danger', label: '危险' }
-  ]
+  const dictStore = useDictStore()
 
   const [queryParams, setQueryParams] = useState({
     pageNum: 1,
     pageSize: 10,
+    dictName: undefined,
     dictType: undefined,
-    dictLabel: undefined,
     status: undefined
   })
 
   useEffect(() => {
-    if (dictId) {
-      getTypes(dictId)
-    }
-    getTypeList()
-  }, [dictId])
-
-  useEffect(() => {
     getList()
-  }, [queryParams])
-
-  // 查询字典类型详细
-  const getTypes = async (dictId) => {
-    try {
-      const response = await getType(dictId)
-      setQueryParams(prev => ({
-        ...prev,
-        dictType: response.data.dictType
-      }))
-      setDefaultDictType(response.data.dictType)
-      getList()
-    } catch (error) {
-      console.error('Failed to get dict type:', error)
-    }
-  }
+  }, [queryParams, dateRange])
 
   // 查询字典类型列表
-  const getTypeList = async () => {
-    try {
-      const response = await optionselect()
-      setTypeOptions(response.data || [])
-    } catch (error) {
-      console.error('Failed to get type list:', error)
-    }
-  }
-
-  // 查询字典数据列表
   const getList = async () => {
     setLoading(true)
     try {
-      const response = await listData(queryParams)
-      setDataList(response.rows || [])
+      const params = addDateRange(queryParams, dateRange)
+      const response = await listType(params)
+      setTypeList(response.rows || [])
       setTotal(response.total || 0)
     } catch (error) {
-      console.error('Failed to get dict data list:', error)
+      console.error('Failed to get dict type list:', error)
     } finally {
       setLoading(false)
     }
@@ -116,11 +72,12 @@ const DictData = () => {
 
   // 重置
   const resetQuery = () => {
+    setDateRange([])
     queryForm.resetFields()
     setQueryParams(prev => ({
       ...prev,
-      dictType: defaultDictType,
-      dictLabel: undefined,
+      dictName: undefined,
+      dictType: undefined,
       status: undefined,
       pageNum: 1
     }))
@@ -144,46 +101,44 @@ const DictData = () => {
   // 新增
   const handleAdd = () => {
     reset()
-    form.setFieldValue('dictType', queryParams.dictType)
     setOpen(true)
-    setTitle('添加字典数据')
+    setTitle('添加字典类型')
   }
 
   // 修改
   const handleUpdate = async (row) => {
     reset()
-    const dictCode = row?.dictCode || (selectedRowKeys.length === 1 ? selectedRowKeys[0] : null)
+    const dictId = row?.dictId || (selectedRowKeys.length === 1 ? selectedRowKeys[0] : null)
     
-    if (!dictCode) {
-      modal.msgWarning('请选择要修改的字典数据')
+    if (!dictId) {
+      modal.msgWarning('请选择要修改的字典类型')
       return
     }
 
     try {
-      const response = await getData(dictCode)
+      const response = await getType(dictId)
       form.setFieldsValue(response.data)
       setOpen(true)
-      setTitle('修改字典数据')
+      setTitle('修改字典类型')
     } catch (error) {
-      console.error('Failed to get dict data:', error)
-      modal.msgError('获取字典数据失败')
+      console.error('Failed to get dict type:', error)
+      modal.msgError('获取字典类型失败')
     }
   }
 
   // 删除
   const handleDelete = (row) => {
-    const dictCodes = row?.dictCode || selectedRowKeys
+    const dictIds = row?.dictId || selectedRowKeys
     Modal.confirm({
       title: '提示',
-      content: `是否确认删除字典编码为"${dictCodes}"的数据项？`,
+      content: `是否确认删除字典编号为"${dictIds}"的数据项?`,
       onOk: async () => {
         try {
-          await delData(dictCodes)
-          dictStore.removeDict(queryParams.dictType)
+          await delType(dictIds)
           modal.msgSuccess('删除成功')
           getList()
         } catch (error) {
-          console.error('Failed to delete dict data:', error)
+          console.error('Failed to delete dict type:', error)
         }
       }
     })
@@ -191,16 +146,16 @@ const DictData = () => {
 
   // 导出
   const handleExport = () => {
-    download('system/dict/data/export', queryParams, `dict_data_${new Date().getTime()}.xlsx`)
+    download('system/dict/type/export', queryParams, `dict_type_${new Date().getTime()}.xlsx`)
   }
 
-  // 关闭
-  const handleClose = () => {
-    const view = tagsViewStore.visitedViews.find(v => v.path === '/system/dict')
-    if (view) {
-      navigate('/system/dict')
-    } else {
-      navigate(-1)
+  // 刷新缓存
+  const handleRefreshCache = async () => {
+    try {
+      await refreshCache()
+      modal.msgSuccess('刷新成功')
+    } catch (error) {
+      console.error('Failed to refresh cache:', error)
     }
   }
 
@@ -208,12 +163,9 @@ const DictData = () => {
   const reset = () => {
     form.resetFields()
     form.setFieldsValue({
-      dictCode: undefined,
-      dictLabel: undefined,
-      dictValue: undefined,
-      cssClass: undefined,
-      listClass: 'default',
-      dictSort: 0,
+      dictId: undefined,
+      dictName: undefined,
+      dictType: undefined,
       status: '0',
       remark: undefined
     })
@@ -229,13 +181,11 @@ const DictData = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.dictCode !== undefined) {
-        await updateData(values)
-        dictStore.removeDict(queryParams.dictType)
+      if (values.dictId !== undefined) {
+        await updateType(values)
         modal.msgSuccess('修改成功')
       } else {
-        await addData(values)
-        dictStore.removeDict(queryParams.dictType)
+        await addType(values)
         modal.msgSuccess('新增成功')
       }
       setOpen(false)
@@ -245,44 +195,37 @@ const DictData = () => {
     }
   }
 
+  // 双击行
+  const handleRowDblClick = (row) => {
+    handleUpdate(row)
+  }
+
   // 表格列定义
   const columns = [
     {
-      title: '字典编码',
-      dataIndex: 'dictCode',
-      key: 'dictCode',
+      title: '字典编号',
+      dataIndex: 'dictId',
+      key: 'dictId',
       align: 'center'
     },
     {
-      title: '字典标签',
-      dataIndex: 'dictLabel',
-      key: 'dictLabel',
+      title: '字典名称',
+      dataIndex: 'dictName',
+      key: 'dictName',
       align: 'center',
-      render: (text, record) => {
-        if ((!record.listClass || record.listClass === 'default') && (!record.cssClass || record.cssClass === null)) {
-          return text
-        }
-        return (
-          <Tag
-            color={record.listClass === 'primary' ? 'blue' : record.listClass === 'success' ? 'green' : record.listClass === 'info' ? 'cyan' : record.listClass === 'warning' ? 'orange' : record.listClass === 'danger' ? 'red' : 'default'}
-            className={record.cssClass}
-          >
-            {text}
-          </Tag>
-        )
-      }
+      ellipsis: true
     },
     {
-      title: '字典键值',
-      dataIndex: 'dictValue',
-      key: 'dictValue',
-      align: 'center'
-    },
-    {
-      title: '字典排序',
-      dataIndex: 'dictSort',
-      key: 'dictSort',
-      align: 'center'
+      title: '字典类型',
+      dataIndex: 'dictType',
+      key: 'dictType',
+      align: 'center',
+      ellipsis: true,
+      render: (text, record) => (
+        <Link to={`/system/dict-data/index/${record.dictId}`} className="link-type">
+          {text}
+        </Link>
+      )
     },
     {
       title: '状态',
@@ -314,6 +257,7 @@ const DictData = () => {
       key: 'action',
       align: 'center',
       width: 160,
+      fixed: 'right',
       render: (_, record) => (
         <Space size="small">
           {auth.hasPermiOr(['system:dict:edit']) && (
@@ -321,7 +265,10 @@ const DictData = () => {
               type="link"
               icon={<EditOutlined />}
               size="small"
-              onClick={() => handleUpdate(record)}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleUpdate(record)
+              }}
             >
               修改
             </Button>
@@ -332,7 +279,10 @@ const DictData = () => {
               danger
               icon={<DeleteOutlined />}
               size="small"
-              onClick={() => handleDelete(record)}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleDelete(record)
+              }}
             >
               删除
             </Button>
@@ -355,37 +305,26 @@ const DictData = () => {
         className="search-form"
         style={{ display: showSearch ? 'flex' : 'none', marginBottom: 16 }}
       >
-        <Form.Item label="字典名称" name="dictType">
-          <Select
-            style={{ width: 200 }}
-            value={queryParams.dictType}
-            onChange={(value) => {
-              setQueryParams(prev => ({
-                ...prev,
-                dictType: value,
-                pageNum: 1
-              }))
-            }}
-          >
-            {typeOptions.map(item => (
-              <Select.Option key={item.dictId} value={item.dictType}>
-                {item.dictName}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item label="字典标签" name="dictLabel">
+        <Form.Item label="字典名称" name="dictName">
           <Input
-            placeholder="请输入字典标签"
-            style={{ width: 200 }}
+            placeholder="请输入字典名称"
+            style={{ width: 240 }}
+            onPressEnter={handleQuery}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item label="字典类型" name="dictType">
+          <Input
+            placeholder="请输入字典类型"
+            style={{ width: 240 }}
             onPressEnter={handleQuery}
             allowClear
           />
         </Form.Item>
         <Form.Item label="状态" name="status">
           <Select
-            placeholder="数据状态"
-            style={{ width: 200 }}
+            placeholder="字典状态"
+            style={{ width: 240 }}
             allowClear
           >
             {sys_normal_disable.sys_normal_disable?.map(dict => (
@@ -394,6 +333,15 @@ const DictData = () => {
               </Select.Option>
             ))}
           </Select>
+        </Form.Item>
+        <Form.Item label="创建时间">
+          <RangePicker
+            value={dateRange.length ? [dayjs(dateRange[0]), dayjs(dateRange[1])] : null}
+            onChange={(dates) => {
+              setDateRange(dates ? [dates[0].format('YYYY-MM-DD'), dates[1].format('YYYY-MM-DD')] : [])
+            }}
+            format="YYYY-MM-DD"
+          />
         </Form.Item>
         <Form.Item>
           <Button type="primary" icon={<SearchOutlined />} onClick={handleQuery}>
@@ -417,7 +365,7 @@ const DictData = () => {
               type="default"
               icon={<EditOutlined />}
               disabled={selectedRowKeys.length !== 1}
-              onClick={() => handleUpdate({ dictCode: selectedRowKeys[0] })}
+              onClick={() => handleUpdate({ dictId: selectedRowKeys[0] })}
             >
               修改
             </Button>
@@ -438,9 +386,11 @@ const DictData = () => {
               导出
             </Button>
           )}
-          <Button type="default" icon={<CloseOutlined />} onClick={handleClose}>
-            关闭
-          </Button>
+          {auth.hasPermiOr(['system:dict:remove']) && (
+            <Button type="default" danger icon={<ReloadOutlined />} onClick={handleRefreshCache}>
+              刷新缓存
+            </Button>
+          )}
           <RightToolbar
             showSearch={showSearch}
             columns={{}}
@@ -452,10 +402,13 @@ const DictData = () => {
 
       <Table
         loading={loading}
-        dataSource={dataList}
+        dataSource={typeList}
         columns={columns}
         rowSelection={rowSelection}
-        rowKey="dictCode"
+        rowKey="dictId"
+        onRow={(record) => ({
+          onDoubleClick: () => handleRowDblClick(record)
+        })}
         pagination={false}
       />
 
@@ -466,7 +419,7 @@ const DictData = () => {
         onChange={handlePagination}
       />
 
-      {/* 添加或修改字典数据对话框 */}
+      {/* 添加或修改字典类型对话框 */}
       <Modal
         title={title}
         open={open}
@@ -480,42 +433,29 @@ const DictData = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
-          <Form.Item label="字典类型" name="dictType">
-            <Input disabled />
+          <Form.Item
+            label="字典名称"
+            name="dictName"
+            rules={[{ required: true, message: '字典名称不能为空' }]}
+          >
+            <Input
+              placeholder="请输入字典名称"
+              maxLength={100}
+              showCount
+            />
           </Form.Item>
           <Form.Item
-            label="数据标签"
-            name="dictLabel"
-            rules={[{ required: true, message: '数据标签不能为空' }]}
+            label="字典类型"
+            name="dictType"
+            rules={[{ required: true, message: '字典类型不能为空' }]}
           >
-            <Input placeholder="请输入数据标签" />
+            <Input
+              placeholder="请输入字典类型"
+              maxLength={100}
+              showCount
+            />
           </Form.Item>
-          <Form.Item
-            label="数据键值"
-            name="dictValue"
-            rules={[{ required: true, message: '数据键值不能为空' }]}
-          >
-            <Input placeholder="请输入数据键值" />
-          </Form.Item>
-          <Form.Item label="样式属性" name="cssClass">
-            <Input placeholder="请输入样式属性" />
-          </Form.Item>
-          <Form.Item
-            label="显示排序"
-            name="dictSort"
-            rules={[{ required: true, message: '数据顺序不能为空' }]}
-          >
-            <InputNumber min={0} style={{ width: '100%' }} />
-          </Form.Item>
-          <Form.Item label="回显样式" name="listClass">
-            <Select>
-              {listClassOptions.map(item => (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.label}({item.value})
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
+          <div className="form-tip">字典类型在系统中必须唯一</div>
           <Form.Item label="状态" name="status">
             <Radio.Group>
               {sys_normal_disable.sys_normal_disable?.map(dict => (
@@ -534,4 +474,4 @@ const DictData = () => {
   )
 }
 
-export default DictData
+export default Dict

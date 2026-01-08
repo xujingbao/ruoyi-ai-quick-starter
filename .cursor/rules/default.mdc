@@ -1,3 +1,9 @@
+## AntD Modal/Form Guidelines
+
+- Always pass `form={form}` to the `<Form>` element that is wired to `Form.useForm()` so React can track the instance and avoid the "Instance created by `useForm` is not connected" warning.
+- Stop using `destroyOnClose` on Ant Design `Modal`. Use `destroyOnHidden` instead; the library marks `destroyOnClose` deprecated and will remove it in a future major version.
+
+Keeping these rules in this file should remind future generators to avoid the warnings we just cleaned up.
 ---
 alwaysApply: true
 ---

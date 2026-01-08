@@ -1,0 +1,13 @@
+.top-right-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+:global(.ant-transfer-list) {
+  flex: 1;
+}
+
+:global(.ant-transfer-list-content-item) {
+  padding: 8px 12px;
+}

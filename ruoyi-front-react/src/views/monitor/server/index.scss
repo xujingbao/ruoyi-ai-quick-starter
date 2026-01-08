@@ -1,0 +1,110 @@
+.server-page {
+  .summary-row {
+    margin-bottom: 8px;
+  }
+
+  .summary-card {
+    border-radius: 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+    min-height: 140px;
+
+    &__title {
+      font-weight: 500;
+      color: #595959;
+      margin-bottom: 8px;
+    }
+
+    &__value {
+      font-size: 22px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    &__detail {
+      margin: 8px 0;
+      color: #8c8c8c;
+      font-size: 12px;
+      min-height: 20px;
+    }
+  }
+
+  .disk-card {
+    .disk-card__list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    &__item {
+      padding: 12px;
+      border: 1px solid #f0f0f0;
+      border-radius: 10px;
+      background: #fff;
+      transition: border-color 0.2s ease;
+
+      &:hover {
+        border-color: #1890ff;
+      }
+    }
+
+    &__item-title {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    &__item-type {
+      font-weight: 400;
+      color: #8c8c8c;
+      font-size: 12px;
+    }
+
+    &__item-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0 8px;
+    }
+
+    &__item-usage {
+      font-size: 12px;
+      color: #595959;
+    }
+
+    &__item-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: #8c8c8c;
+
+      strong {
+        color: #111827;
+      }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+
+      .ant-btn-link {
+        padding: 0;
+      }
+    }
+
+    &__empty {
+      padding: 12px 0;
+      color: #8c8c8c;
+      text-align: center;
+    }
+  }
+
+  .ant-card {
+    margin-bottom: 16px;
+  }
+}

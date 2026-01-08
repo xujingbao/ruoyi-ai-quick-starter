@@ -1,0 +1,210 @@
+.profile-container {
+  padding: 20px;
+}
+
+.profile-card {
+  border-radius: 8px;
+  transition: all 0.3s;
+  
+  .ant-card-head {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--ant-border-color-split);
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--ant-text-color);
+      }
+    }
+  }
+  
+  .ant-card-body {
+    padding: 20px;
+  }
+}
+
+.info-card {
+  .profile-content {
+    .avatar-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--ant-border-color-split);
+    }
+    
+    .info-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--ant-border-color-split);
+        transition: all 0.2s;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        &:hover {
+          background-color: var(--ant-fill-color-light);
+          margin: 0 -12px;
+          padding: 14px 12px;
+          border-radius: 4px;
+        }
+        
+        .info-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          color: var(--ant-text-color);
+          font-weight: 500;
+          flex: 1;
+          min-width: 0;
+          
+          .info-icon {
+            font-size: 16px;
+            color: var(--ant-text-color-secondary);
+            flex-shrink: 0;
+          }
+        }
+        
+        .info-value {
+          font-size: 14px;
+          color: var(--ant-text-color);
+          text-align: right;
+          flex-shrink: 0;
+          margin-left: 12px;
+          word-break: break-all;
+        }
+      }
+    }
+  }
+}
+
+.form-card {
+  .profile-tabs {
+    .ant-tabs-nav {
+      margin-bottom: 24px;
+    }
+    
+    .ant-tabs-tab {
+      font-size: 15px;
+      font-weight: 500;
+      padding: 0 20px;
+      height: 48px;
+      line-height: 48px;
+    }
+    
+    .ant-tabs-content-holder {
+      padding: 0;
+    }
+  }
+}
+
+.user-info-form,
+.reset-pwd-form {
+  .ant-form-item {
+    margin-bottom: 22px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+  }
+}
+
+.reset-pwd-form {
+  .form-tip {
+    font-size: 12px;
+    color: var(--ant-text-color-secondary);
+    margin-top: 4px;
+    margin-bottom: 22px;
+    line-height: 1.4;
+  }
+}
+
+.user-info-head {
+  position: relative;
+  display: inline-block;
+  height: 120px;
+  width: 120px;
+  cursor: pointer;
+  transition: all 0.3s;
+  
+  .img-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid var(--ant-border-color-split);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+    object-fit: cover;
+  }
+  
+  &:hover {
+    transform: scale(1.05);
+    
+    .img-circle {
+      border-color: var(--ant-primary-color);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    &::after {
+      content: "更换头像";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.6);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      line-height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+  }
+}
+
+.avatar-upload-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 响应式优化
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 12px;
+  }
+  
+  .info-card {
+    margin-bottom: 16px;
+  }
+  
+  .profile-card {
+    .ant-card-body {
+      padding: 16px;
+    }
+  }
+}

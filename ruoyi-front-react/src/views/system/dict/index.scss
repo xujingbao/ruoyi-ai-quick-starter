@@ -1,0 +1,49 @@
+.search-form {
+  margin-bottom: 16px;
+  
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.dict-table {
+  .ant-table-row {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--ant-table-row-hover-bg);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.form-tip {
+  font-size: 12px;
+  color: var(--ant-text-color-secondary);
+  margin-top: -16px;
+  margin-bottom: 16px;
+  margin-left: 25%;
+  line-height: 1.4;
+}
+
+.link-type {
+  color: var(--ant-primary-color);
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}

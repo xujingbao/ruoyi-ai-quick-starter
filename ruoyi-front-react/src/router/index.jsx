@@ -146,6 +146,31 @@ export const dynamicRoutes = [
       }
     ]
   }
+  ,
+  {
+    path: '/monitor/cache-list',
+    Component: Layout,
+    handle: { meta: { hidden: true, permissions: ['monitor:cache:list'] } },
+    children: [
+      {
+        path: 'index',
+        Component: lazy(() => import('@/views/monitor/cacheList')),
+        handle: { meta: { title: '缓存列表', activeMenu: '/monitor/cache' } }
+      }
+    ]
+  },
+  {
+    path: '/monitor/druid',
+    Component: Layout,
+    handle: { meta: { hidden: true, permissions: ['monitor:druid:view'] } },
+    children: [
+      {
+        path: 'index',
+        Component: lazy(() => import('@/views/monitor/druid')),
+        handle: { meta: { title: 'Druid监控', activeMenu: '/monitor/druid' } }
+      }
+    ]
+  }
 ]
 
 // 遍历后台传来的路由字符串，转换为组件对象
@@ -202,11 +227,16 @@ function filterChildren(childrenMap, lastRouter = false) {
 }
 
 // 创建路由
-const router = createBrowserRouter(constantRoutes, {
-  future: {
-    v7_startTransition: true
-  }
-})
+export function createRouter(routes) {
+  const finalRoutes = routes && routes.length > 0 ? routes : constantRoutes
+  return createBrowserRouter(finalRoutes, {
+    future: {
+      v7_startTransition: true
+    }
+  })
+}
 
+// 默认路由（仅常量路由）
+const router = createRouter(constantRoutes)
 export default router
 

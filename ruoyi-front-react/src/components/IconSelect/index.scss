@@ -1,0 +1,87 @@
+.icon-body {
+  width: 100%;
+  min-width: 560px;
+  padding: 10px;
+  
+  .icon-search {
+    margin-bottom: 10px;
+  }
+  
+  .icon-list {
+    max-height: 300px;
+    overflow-y: auto;
+    
+    .list-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      
+      .icon-item-wrapper {
+        cursor: pointer;
+        
+        .icon-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 12px;
+          border: 1px solid var(--ant-border-color-split);
+          border-radius: 4px;
+          transition: all 0.2s;
+          
+          &:hover {
+            background: var(--ant-fill-color-light);
+            border-color: var(--ant-primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          }
+          
+          .icon {
+            font-size: 18px;
+            color: var(--ant-primary-color);
+            flex-shrink: 0;
+          }
+          
+          .icon-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            
+            .icon-name {
+              font-size: 13px;
+              color: var(--ant-text-color);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              line-height: 1.4;
+            }
+            
+            .icon-original-name {
+              font-size: 11px;
+              color: var(--ant-text-color-secondary);
+              opacity: 0.7;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              line-height: 1.2;
+            }
+          }
+        }
+        
+        .icon-item.active {
+          background: var(--ant-primary-color-light-1);
+          border-color: var(--ant-primary-color);
+          
+          .icon {
+            color: var(--ant-primary-color);
+          }
+          
+          .icon-name {
+            color: var(--ant-primary-color);
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+.search-form {
+  margin-bottom: 16px;
+  
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.role-table {
+  .ant-table-row {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--ant-table-row-hover-bg);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}

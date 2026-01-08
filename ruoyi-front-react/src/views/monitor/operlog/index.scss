@@ -1,0 +1,29 @@
+.search-form {
+  margin-bottom: 16px;
+  
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.operlog-table {
+  .ant-table-row {
+    cursor: pointer;
+    
+    &:hover {
+      background-color: var(--ant-table-row-hover-bg);
+    }
+  }
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.operlog-form {
+  :deep(.ant-form-item) {
+    margin-bottom: 22px;
+  }
+}
