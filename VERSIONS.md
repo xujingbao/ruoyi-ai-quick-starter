@@ -1,6 +1,7 @@
 # 项目技术栈版本
 
 ## 后端
+
 - **Java**: 17
 - **Spring Boot**: 3.5.4
 - **Spring AI**: 1.1.2
@@ -12,10 +13,12 @@
 - **SpringDoc**: 2.8.9
 
 ## 前端
+
 ### Web（React）
+
 - **React**: 18.3.1
 - **React DOM**: 18.3.1
-- **Ant Design**: 5.22.0
+- **Ant Design**: 6.1.4
 - **React Router**: 6.28.0
 - **Zustand**: 5.0.2
 - **Vite**: 7.2.7
@@ -23,12 +26,14 @@
 - **ECharts**: 5.6.0
 
 ### Web（Vue，历史版本/对照用）
+
 - **Vue**: 3.x
 - **Element Plus**: 2.x
 - **Pinia**: 3.x
 - **Vue Router**: 4.x
 
 ## 移动端
+
 - **React**: 19.1.0
 - **React Native**: 0.81.5
 - **Expo**: ~54.0.27
@@ -38,6 +43,7 @@
 - **Redux Toolkit**: ^2.0.0
 
 ## 开发环境
+
 - **Node.js**: 20.19+ 或 22.12+
 - **pnpm**: 8+
 - **Maven**: 3.6+

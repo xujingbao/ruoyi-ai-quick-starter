@@ -35,6 +35,9 @@ export function getIconComponent(iconName) {
     'dashboard': 'DashboardOutlined',
     'monitor': 'MonitorOutlined',
     'tool': 'ToolOutlined',
+    'set-up': 'SettingOutlined',
+    'tree-table': 'UnorderedListOutlined',
+    'switch-filled': 'SafetyCertificateOutlined',
     
     // 数据相关
     'dict': 'DatabaseOutlined',
@@ -51,10 +54,13 @@ export function getIconComponent(iconName) {
     
     // 功能相关
     'job': 'ClockCircleOutlined',
-    'online': 'UserOutlined',
+    'online': 'WifiOutlined',
     'cache': 'HddOutlined',
     'server': 'MonitorOutlined',
     'notice': 'BellOutlined',
+    'druid': 'FundOutlined',
+    'redis': 'HddOutlined',
+    'redis-list': 'TableOutlined',
     
     // UI 相关
     'table': 'TableOutlined',
@@ -68,10 +74,14 @@ export function getIconComponent(iconName) {
     'robot': 'RobotOutlined',
     'message': 'MessageOutlined',
     'chat': 'WechatOutlined',
+    'service': 'RobotOutlined',
     
     // 其他
     'documentation': 'FileTextOutlined',
     'guide': 'BookOutlined',
+    'global': 'GlobalOutlined',
+    'log': 'FileSearchOutlined',
+    'logininfor': 'LoginOutlined',
     'search': 'SearchOutlined',
     'github': 'GithubOutlined',
     'question': 'QuestionCircleOutlined',

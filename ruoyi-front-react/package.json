@@ -16,8 +16,8 @@
     "url": "https://gitee.com/xujingbao/ruoyi-ai-quick-starter.git"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.5.1",
-    "antd": "^5.22.0",
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.1.4",
     "antd-img-crop": "^4.27.0",
     "axios": "1.9.0",
     "clipboard": "2.0.11",
@@ -29,14 +29,14 @@
     "js-cookie": "3.0.5",
     "jsencrypt": "3.3.2",
     "nprogress": "0.2.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.28.0",
     "react-split-pane": "^3.0.4",
-    "zustand": "^5.0.2",
-    "prop-types": "^15.8.1"
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@types/node": "^22.10.1",

@@ -45,7 +45,7 @@ nbdist/
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
-website/
+.pnpm-store/
 
 ######################################################################
 # Repo-local SSH keys (DO NOT COMMIT)
