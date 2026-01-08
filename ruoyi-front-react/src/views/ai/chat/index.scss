@@ -1,0 +1,55 @@
+.ai-chat-page {
+  .ai-chat-card {
+    background: var(--app-surface);
+    border-color: var(--app-border);
+  }
+
+  .ai-chat-list {
+    height: calc(100vh - 260px);
+    min-height: 420px;
+    max-height: 720px;
+    overflow: auto;
+    padding: 8px 4px;
+    background: var(--app-bg);
+    border: 1px solid var(--app-border);
+    border-radius: 10px;
+  }
+
+  .ai-chat-list-inner {
+    padding: 8px 10px;
+  }
+
+  .ai-chat-item {
+    margin: 10px 0;
+  }
+
+  .ai-chat-markdown {
+    color: var(--app-text);
+
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    pre {
+      margin: 8px 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: var(--app-surface-2);
+      border: 1px solid var(--app-border);
+      overflow: auto;
+    }
+
+    code {
+      background: var(--app-surface-2);
+      border: 1px solid var(--app-border);
+      border-radius: 6px;
+      padding: 0 6px;
+    }
+  }
+
+  .ai-chat-sender {
+    margin-top: 12px;
+  }
+}
+

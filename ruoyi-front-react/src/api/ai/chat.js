@@ -13,7 +13,8 @@ export function chat(data) {
 
 // AI 流式聊天接口（SSE）
 export function streamChat(data, onMessage, onError, onComplete) {
-  const baseURL = import.meta.env.VITE_APP_BASE_API || ''
+  // 与 axios baseURL 保持一致，避免本地未配置 VITE_APP_BASE_API 时请求未走代理
+  const baseURL = import.meta.env.VITE_APP_BASE_API || '/dev-api'
   const url = `${baseURL}/ai/chat/stream`
   const token = getToken()
   const abortController = new AbortController()

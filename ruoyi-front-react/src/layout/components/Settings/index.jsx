@@ -82,7 +82,7 @@ const Settings = forwardRef((props, ref) => {
       placement="right"
       open={showSettings}
       onClose={() => setShowSettings(false)}
-      width={300}
+      size="default"
       maskClosable={false}
       styles={{ body: { padding: '20px' } }}
     >
