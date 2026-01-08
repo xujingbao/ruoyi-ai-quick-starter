@@ -31,6 +31,13 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         
+        <!-- Netty macOS 原生 DNS 解析器 (消除 DNS 解析警告，提升性能) -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <classifier>osx-aarch_64</classifier>
+        </dependency>
+        
         <!-- Spring AI OpenAI Starter (兼容 DeepSeek) -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
