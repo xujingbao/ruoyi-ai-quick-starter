@@ -40,7 +40,7 @@ const Navbar = ({ onSetLayout }) => {
       cancelText: '取消',
       onOk: () => {
         userStore.logOut().then(() => {
-          window.location.href = '/index'
+          window.location.href = '/login'
         })
       }
     })

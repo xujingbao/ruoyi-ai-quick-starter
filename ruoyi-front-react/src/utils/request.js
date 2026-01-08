@@ -99,7 +99,7 @@ service.interceptors.response.use(res => {
           onOk: () => {
             isRelogin.show = false
             useUserStore.getState().logOut().then(() => {
-              window.location.href = '/index'
+              window.location.href = '/login'
             })
           },
           onCancel: () => {
