@@ -34,6 +34,14 @@ const Role = () => {
   const menuTreeRef = useRef(null)
   const deptTreeRef = useRef(null)
 
+  // Tree 状态（受控），用于回显/全选/半选/展开折叠
+  const [menuCheckedKeys, setMenuCheckedKeys] = useState([])
+  const [menuHalfCheckedKeys, setMenuHalfCheckedKeys] = useState([])
+  const [menuExpandedKeys, setMenuExpandedKeys] = useState([])
+  const [deptCheckedKeys, setDeptCheckedKeys] = useState([])
+  const [deptHalfCheckedKeys, setDeptHalfCheckedKeys] = useState([])
+  const [deptExpandedKeys, setDeptExpandedKeys] = useState([])
+
   const [roleList, setRoleList] = useState([])
   const [loading, setLoading] = useState(true)
   const [showSearch, setShowSearch] = useState(true)
@@ -52,6 +60,11 @@ const Role = () => {
   const [deptOptions, setDeptOptions] = useState([])
 
   const sys_normal_disable = useDict('sys_normal_disable')
+
+  // 监听表单字段（确保切换“父子联动/权限范围”时组件能及时刷新）
+  const menuCheckStrictlyValue = Form.useWatch('menuCheckStrictly', form)
+  const deptCheckStrictlyValue = Form.useWatch('deptCheckStrictly', dataScopeForm)
+  const dataScopeValue = Form.useWatch('dataScope', dataScopeForm)
 
   const dataScopeOptions = [
     { value: '1', label: '全部数据权限' },
@@ -154,17 +167,13 @@ const Role = () => {
         roleSort: Number(roleResponse.data.roleSort)
       })
       setMenuOptions(menuResponse.menus || [])
+      // 关键：权限回显（Antd Tree 需要受控 checkedKeys）
+      setMenuCheckedKeys(menuResponse.checkedKeys || [])
+      setMenuHalfCheckedKeys([])
       
       setOpen(true)
       setTitle('修改角色')
       setIsEdit(true)
-      
-      // 设置选中的菜单
-      setTimeout(() => {
-        if (menuTreeRef.current && menuResponse.checkedKeys) {
-          menuTreeRef.current.setCheckedKeys(menuResponse.checkedKeys || [])
-        }
-      }, 100)
     } catch (error) {
       console.error('Failed to get role:', error)
       modal.msgError('获取角色信息失败')
@@ -225,14 +234,10 @@ const Role = () => {
       
       dataScopeForm.setFieldsValue(roleResponse.data)
       setDeptOptions(deptResponse.depts || [])
+      setDeptCheckedKeys(deptResponse.checkedKeys || [])
+      setDeptHalfCheckedKeys([])
       setOpenDataScope(true)
       setTitle('分配数据权限')
-      
-      setTimeout(() => {
-        if (deptTreeRef.current && deptResponse.checkedKeys) {
-          deptTreeRef.current.setCheckedKeys(deptResponse.checkedKeys || [])
-        }
-      }, 100)
     } catch (error) {
       console.error('Failed to get role data scope:', error)
     }
@@ -253,14 +258,26 @@ const Role = () => {
     }
   }
 
+  const collectTreeKeys = (nodes) => {
+    const keys = []
+    const walk = (list) => {
+      ;(list || []).forEach((n) => {
+        keys.push(n.id)
+        if (n.children && n.children.length) walk(n.children)
+      })
+    }
+    walk(nodes)
+    return keys
+  }
+
   // 表单重置
   const reset = () => {
-    if (menuTreeRef.current) {
-      menuTreeRef.current.setCheckedKeys([])
-    }
-    if (deptTreeRef.current) {
-      deptTreeRef.current.setCheckedKeys([])
-    }
+    setMenuCheckedKeys([])
+    setMenuHalfCheckedKeys([])
+    setMenuExpandedKeys([])
+    setDeptCheckedKeys([])
+    setDeptHalfCheckedKeys([])
+    setDeptExpandedKeys([])
     setMenuExpand(false)
     setMenuNodeAll(false)
     setDeptExpand(true)
@@ -283,9 +300,9 @@ const Role = () => {
 
   // 数据权限表单重置
   const resetDataScope = () => {
-    if (deptTreeRef.current) {
-      deptTreeRef.current.setCheckedKeys([])
-    }
+    setDeptCheckedKeys([])
+    setDeptHalfCheckedKeys([])
+    setDeptExpandedKeys([])
     setDeptExpand(true)
     setDeptNodeAll(false)
     dataScopeForm.resetFields()
@@ -310,31 +327,10 @@ const Role = () => {
   const handleCheckedTreeExpand = (checked, type) => {
     if (type === 'menu') {
       setMenuExpand(checked)
-      // 展开/折叠所有节点
-      if (menuTreeRef.current) {
-        const expandAll = (nodes) => {
-          nodes.forEach(node => {
-            menuTreeRef.current.setExpanded(node.id, checked)
-            if (node.children) {
-              expandAll(node.children)
-            }
-          })
-        }
-        expandAll(menuOptions)
-      }
+      setMenuExpandedKeys(checked ? collectTreeKeys(menuOptions) : [])
     } else if (type === 'dept') {
       setDeptExpand(checked)
-      if (deptTreeRef.current) {
-        const expandAll = (nodes) => {
-          nodes.forEach(node => {
-            deptTreeRef.current.setExpanded(node.id, checked)
-            if (node.children) {
-              expandAll(node.children)
-            }
-          })
-        }
-        expandAll(deptOptions)
-      }
+      setDeptExpandedKeys(checked ? collectTreeKeys(deptOptions) : [])
     }
   }
 
@@ -342,42 +338,12 @@ const Role = () => {
   const handleCheckedTreeNodeAll = (checked, type) => {
     if (type === 'menu') {
       setMenuNodeAll(checked)
-      if (menuTreeRef.current) {
-        if (checked) {
-          const getAllKeys = (nodes) => {
-            let keys = []
-            nodes.forEach(node => {
-              keys.push(node.id)
-              if (node.children) {
-                keys = keys.concat(getAllKeys(node.children))
-              }
-            })
-            return keys
-          }
-          menuTreeRef.current.setCheckedKeys(getAllKeys(menuOptions))
-        } else {
-          menuTreeRef.current.setCheckedKeys([])
-        }
-      }
+      setMenuCheckedKeys(checked ? collectTreeKeys(menuOptions) : [])
+      setMenuHalfCheckedKeys([])
     } else if (type === 'dept') {
       setDeptNodeAll(checked)
-      if (deptTreeRef.current) {
-        if (checked) {
-          const getAllKeys = (nodes) => {
-            let keys = []
-            nodes.forEach(node => {
-              keys.push(node.id)
-              if (node.children) {
-                keys = keys.concat(getAllKeys(node.children))
-              }
-            })
-            return keys
-          }
-          deptTreeRef.current.setCheckedKeys(getAllKeys(deptOptions))
-        } else {
-          deptTreeRef.current.setCheckedKeys([])
-        }
-      }
+      setDeptCheckedKeys(checked ? collectTreeKeys(deptOptions) : [])
+      setDeptHalfCheckedKeys([])
     }
   }
 
@@ -392,22 +358,12 @@ const Role = () => {
 
   // 获取所有菜单节点数据
   const getMenuAllCheckedKeys = () => {
-    if (menuTreeRef.current) {
-      const checkedKeys = menuTreeRef.current.getCheckedKeys()
-      const halfCheckedKeys = menuTreeRef.current.getHalfCheckedKeys()
-      return [...checkedKeys, ...halfCheckedKeys]
-    }
-    return []
+    return Array.from(new Set([...(menuCheckedKeys || []), ...(menuHalfCheckedKeys || [])]))
   }
 
   // 获取所有部门节点数据
   const getDeptAllCheckedKeys = () => {
-    if (deptTreeRef.current) {
-      const checkedKeys = deptTreeRef.current.getCheckedKeys()
-      const halfCheckedKeys = deptTreeRef.current.getHalfCheckedKeys()
-      return [...checkedKeys, ...halfCheckedKeys]
-    }
-    return []
+    return Array.from(new Set([...(deptCheckedKeys || []), ...(deptHalfCheckedKeys || [])]))
   }
 
   // 提交表单
@@ -416,7 +372,7 @@ const Role = () => {
       const values = await form.validateFields()
       values.menuIds = getMenuAllCheckedKeys()
       
-      if (values.roleId !== undefined) {
+      if (values.roleId !== undefined && values.roleId !== null && values.roleId !== '') {
         await updateRole(values)
         modal.msgSuccess('修改成功')
       } else {
@@ -451,8 +407,9 @@ const Role = () => {
 
   // 数据权限范围变化
   const dataScopeSelectChange = (value) => {
-    if (value !== '2' && deptTreeRef.current) {
-      deptTreeRef.current.setCheckedKeys([])
+    if (value !== '2') {
+      setDeptCheckedKeys([])
+      setDeptHalfCheckedKeys([])
     }
   }
 
@@ -721,6 +678,11 @@ const Role = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 roleId，否则 submitForm 会误判为新增 */}
+          <Form.Item name="roleId" hidden>
+            <Input />
+          </Form.Item>
+
           <Form.Item
             label="角色名称"
             name="roleName"
@@ -773,7 +735,7 @@ const Role = () => {
                 全选/全不选
               </Checkbox>
               <Checkbox
-                checked={form.getFieldValue('menuCheckStrictly') !== false}
+                checked={menuCheckStrictlyValue !== false}
                 onChange={(e) => handleCheckedTreeConnect(e.target.checked, 'menu')}
               >
                 父子联动
@@ -784,8 +746,23 @@ const Role = () => {
               checkable
               treeData={menuOptions}
               fieldNames={{ title: 'label', key: 'id', children: 'children' }}
-              checkStrictly={form.getFieldValue('menuCheckStrictly') !== false}
-              defaultExpandAll={menuExpand}
+              checkStrictly={menuCheckStrictlyValue !== false}
+              expandedKeys={menuExpandedKeys}
+              onExpand={(keys) => setMenuExpandedKeys(keys)}
+              checkedKeys={
+                menuCheckStrictlyValue !== false
+                  ? { checked: menuCheckedKeys, halfChecked: menuHalfCheckedKeys }
+                  : menuCheckedKeys
+              }
+              onCheck={(checked, info) => {
+                if (Array.isArray(checked)) {
+                  setMenuCheckedKeys(checked)
+                  setMenuHalfCheckedKeys(info?.halfCheckedKeys || [])
+                } else {
+                  setMenuCheckedKeys(checked?.checked || [])
+                  setMenuHalfCheckedKeys(checked?.halfChecked || info?.halfCheckedKeys || [])
+                }
+              }}
               style={{ maxHeight: '300px', overflow: 'auto', border: '1px solid #d9d9d9', padding: '8px' }}
             />
           </Form.Item>
@@ -824,7 +801,7 @@ const Role = () => {
               ))}
             </Select>
           </Form.Item>
-          {dataScopeForm.getFieldValue('dataScope') === '2' && (
+          {dataScopeValue === '2' && (
             <Form.Item label="数据权限">
               <Space style={{ marginBottom: 8 }}>
                 <Checkbox
@@ -840,7 +817,7 @@ const Role = () => {
                   全选/全不选
                 </Checkbox>
               <Checkbox
-                checked={dataScopeForm.getFieldValue('deptCheckStrictly') !== false}
+                checked={deptCheckStrictlyValue !== false}
                 onChange={(e) => handleCheckedTreeConnect(e.target.checked, 'dept')}
               >
                 父子联动
@@ -851,8 +828,23 @@ const Role = () => {
                 checkable
                 treeData={deptOptions}
                 fieldNames={{ title: 'label', key: 'id', children: 'children' }}
-                checkStrictly={dataScopeForm.getFieldValue('deptCheckStrictly') !== false}
-                defaultExpandAll={deptExpand}
+                checkStrictly={deptCheckStrictlyValue !== false}
+                expandedKeys={deptExpandedKeys}
+                onExpand={(keys) => setDeptExpandedKeys(keys)}
+                checkedKeys={
+                  deptCheckStrictlyValue !== false
+                    ? { checked: deptCheckedKeys, halfChecked: deptHalfCheckedKeys }
+                    : deptCheckedKeys
+                }
+                onCheck={(checked, info) => {
+                  if (Array.isArray(checked)) {
+                    setDeptCheckedKeys(checked)
+                    setDeptHalfCheckedKeys(info?.halfCheckedKeys || [])
+                  } else {
+                    setDeptCheckedKeys(checked?.checked || [])
+                    setDeptHalfCheckedKeys(checked?.halfChecked || info?.halfCheckedKeys || [])
+                  }
+                }}
                 style={{ maxHeight: '300px', overflow: 'auto', border: '1px solid #d9d9d9', padding: '8px' }}
               />
             </Form.Item>

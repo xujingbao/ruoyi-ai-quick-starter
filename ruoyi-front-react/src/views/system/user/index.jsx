@@ -384,16 +384,17 @@ const User = () => {
   const reset = () => {
     form.resetFields()
     form.setFieldsValue({
-      userId: undefined,
-      deptId: undefined,
-      userName: undefined,
-      nickName: undefined,
-      password: undefined,
-      phonenumber: undefined,
-      email: undefined,
-      sex: undefined,
+      // 这里不要用 undefined：Antd Form 对 undefined 赋值有时会被忽略，导致上一次编辑的值“残留”
+      userId: null,
+      deptId: null,
+      userName: '',
+      nickName: '',
+      password: '',
+      phonenumber: '',
+      email: '',
+      sex: null,
       status: '0',
-      remark: undefined,
+      remark: '',
       postIds: [],
       roleIds: []
     })
@@ -409,11 +410,24 @@ const User = () => {
   const submitForm = async () => {
     try {
       const values = await form.validateFields()
-      if (values.userId !== undefined) {
-        await updateUser(values)
+      // 统一做下 trim，避免“看起来没改但带空格”触发后端唯一性校验
+      const normalized = {
+        ...values,
+        userName: typeof values.userName === 'string' ? values.userName.trim() : values.userName,
+        nickName: typeof values.nickName === 'string' ? values.nickName.trim() : values.nickName,
+        phonenumber: typeof values.phonenumber === 'string' ? values.phonenumber.trim() : values.phonenumber,
+        email: typeof values.email === 'string' ? values.email.trim() : values.email,
+        remark: typeof values.remark === 'string' ? values.remark.trim() : values.remark
+      }
+      if (normalized.userId !== undefined && normalized.userId !== null && normalized.userId !== '') {
+        // 修改：不提交 password 字段（编辑时表单也不显示该字段）
+        // 兼容后端对 password 的不同处理策略
+        // eslint-disable-next-line no-unused-vars
+        const { password, ...payload } = normalized
+        await updateUser(payload)
         modal.msgSuccess('修改成功')
       } else {
-        await addUser(values)
+        await addUser(normalized)
         modal.msgSuccess('新增成功')
       }
       setOpen(false)
@@ -752,6 +766,11 @@ const User = () => {
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
+          {/* 关键：编辑时需要带上 userId，否则 submitForm 会被判断为新增 */}
+          <Form.Item name="userId" hidden>
+            <Input />
+          </Form.Item>
+
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -799,20 +818,20 @@ const User = () => {
               </Form.Item>
             </Col>
           </Row>
-          {!isEdit && (
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  label="用户名称"
-                  name="userName"
-                  rules={[
-                    { required: true, message: '用户名称不能为空' },
-                    { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间' }
-                  ]}
-                >
-                  <Input placeholder="请输入用户名称" maxLength={30} />
-                </Form.Item>
-              </Col>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="用户名称"
+                name="userName"
+                rules={[
+                  { required: true, message: '用户名称不能为空' },
+                  { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间' }
+                ]}
+              >
+                <Input placeholder="请输入用户名称" maxLength={30} disabled={isEdit} />
+              </Form.Item>
+            </Col>
+            {!isEdit && (
               <Col span={12}>
                 <Form.Item
                   label="用户密码"
@@ -826,8 +845,8 @@ const User = () => {
                   <Input.Password placeholder="请输入用户密码" maxLength={20} />
                 </Form.Item>
               </Col>
-            </Row>
-          )}
+            )}
+          </Row>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item label="用户性别" name="sex">
