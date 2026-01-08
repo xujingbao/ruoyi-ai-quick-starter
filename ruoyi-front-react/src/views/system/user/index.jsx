@@ -719,6 +719,7 @@ const User = () => {
               loading={loading}
               dataSource={userList}
               columns={tableColumns}
+              className="user-table"
               rowSelection={rowSelection}
               rowKey="userId"
               onRow={(record) => ({

@@ -185,7 +185,9 @@ const Notice = () => {
       dataIndex: 'noticeTitle',
       key: 'noticeTitle',
       align: 'center',
-      ellipsis: true
+      ellipsis: true,
+      onHeaderCell: () => ({ className: 'col-nowrap', style: { whiteSpace: 'nowrap' } }),
+      onCell: () => ({ className: 'col-nowrap', style: { whiteSpace: 'nowrap' } })
     },
     {
       title: '公告类型',
@@ -221,7 +223,10 @@ const Notice = () => {
       dataIndex: 'createTime',
       key: 'createTime',
       align: 'center',
-      width: 100,
+      width: 120,
+      ellipsis: true,
+      onHeaderCell: () => ({ className: 'col-nowrap', style: { whiteSpace: 'nowrap' } }),
+      onCell: () => ({ className: 'col-nowrap', style: { whiteSpace: 'nowrap' } }),
       render: (text) => parseTime(text, '{y}-{m}-{d}')
     },
     {
@@ -349,6 +354,7 @@ const Notice = () => {
         loading={loading}
         dataSource={noticeList}
         columns={columns}
+        className="notice-table"
         rowSelection={rowSelection}
         rowKey="noticeId"
         pagination={false}

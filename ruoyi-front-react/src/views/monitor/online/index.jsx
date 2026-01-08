@@ -214,6 +214,7 @@ const Online = () => {
         loading={loading}
         dataSource={paginatedData}
         columns={columns}
+        className="online-table"
         rowKey="tokenId"
         pagination={false}
       />

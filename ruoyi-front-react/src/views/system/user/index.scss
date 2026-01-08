@@ -68,6 +68,12 @@
       background-color: var(--ant-table-row-hover-bg);
     }
   }
+
+  .ant-table-cell,
+  .ant-table-thead > tr > th,
+  .ant-table-thead > tr > th .ant-table-column-title {
+    white-space: nowrap;
+  }
 }
 
 .dialog-footer {

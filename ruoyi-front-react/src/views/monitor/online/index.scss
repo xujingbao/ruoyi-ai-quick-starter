@@ -5,3 +5,11 @@
     margin-bottom: 16px;
   }
 }
+
+.online-table {
+  .ant-table-thead > tr > th:first-child,
+  .ant-table-thead > tr > th:first-child .ant-table-column-title,
+  .ant-table-tbody > tr > td:first-child {
+    white-space: nowrap;
+  }
+}
