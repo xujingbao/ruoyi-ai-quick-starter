@@ -1,0 +1,27 @@
+{
+	"app": {
+		"bundleName": "com.example.ruoyi_harmony",
+		"debug": true,
+		"versionCode": 1000000,
+		"versionName": "1.0.0",
+		"minAPIVersion": 60002022,
+		"targetAPIVersion": 60002022,
+		"apiReleaseType": "Beta1",
+		"targetMinorAPIVersion": 0,
+		"targetPatchAPIVersion": 0,
+		"compileSdkVersion": "6.0.2.129",
+		"compileSdkType": "HarmonyOS",
+		"appEnvironments": [],
+		"bundleType": "app",
+		"buildMode": "debug"
+	},
+	"module": {
+		"name": "responsiveLayout",
+		"type": "har",
+		"deviceTypes": [
+			"phone"
+		],
+		"packageName": "@ohos/responsivelayout",
+		"installationFree": false
+	}
+}

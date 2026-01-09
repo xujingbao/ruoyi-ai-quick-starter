@@ -18,6 +18,18 @@
   - 后端到前端的数据流
   - 关键设计点和优化建议
 
+### HarmonyOS 支持
+
+- [HarmonyOS 支持说明](./HARMONYOS_SUPPORT.md)
+  - ruoyi-harmony/ 工程架构概览
+  - DevEco Studio 中的编译与签名提示
+  - SDK 与 `build-profile.json5` 的配置建议
+
+## 网站更新
+
+- HarmonyOS/OpenHarmony 的支持说明已同步到网站文档首页，让访问者能快速定位到 `ruoyi-harmony/` 示例工程、hvigor 构建流程和多语言资源的说明。
+- 文档页也补充了设备调试、日志采集、测试模块等提示，帮助想在 DevEco Studio 中运行项目的同学更顺利上手。
+
 ## 快速导航
 
 - [项目 README](../README.md)

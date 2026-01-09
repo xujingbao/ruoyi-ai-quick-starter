@@ -1,0 +1,100 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "ability_desc",
+      "value": "description"
+    },
+    {
+      "name": "ability_label",
+      "value": "label"
+    },
+    {
+      "name": "grid_title_label",
+      "value": "title"
+    },
+    {
+      "name": "adaptive_layout",
+      "value": "adaptive layout"
+    },
+    {
+      "name": "system_cap",
+      "value": "system capabilities"
+    },
+    {
+      "name": "responsive_layout",
+      "value": "responsive layout"
+    },
+    {
+      "name": "location_cap_invalid",
+      "value": "This device does not have the system capability of location service"
+    },
+    {
+      "name": "location_cap_valid",
+      "value": "This device has the system capability of location service"
+    },
+    {
+      "name": "login_title",
+      "value": "欢迎使用 RuoYi AI Quick Starter"
+    },
+    {
+      "name": "login_subtitle",
+      "value": "HarmonyOS 原生登录示例"
+    },
+    {
+      "name": "login_username_placeholder",
+      "value": "请输入企业账号/手机号"
+    },
+    {
+      "name": "login_password_placeholder",
+      "value": "请输入密码"
+    },
+    {
+      "name": "login_captcha_placeholder",
+      "value": "请输入验证码"
+    },
+    {
+      "name": "login_button",
+      "value": "登录"
+    },
+    {
+      "name": "login_button_loading",
+      "value": "登录中..."
+    },
+    {
+      "name": "login_refresh_code",
+      "value": "点击刷新"
+    },
+    {
+      "name": "login_agreement_tip",
+      "value": "登录即表示您已阅读并同意《用户协议》和《隐私政策》"
+    },
+    {
+      "name": "login_error_generic",
+      "value": "登录失败，请稍后再试"
+    },
+    {
+      "name": "login_error_username",
+      "value": "请输入账号"
+    },
+    {
+      "name": "login_error_password",
+      "value": "请输入密码"
+    },
+    {
+      "name": "login_error_captcha",
+      "value": "请输入验证码"
+    },
+    {
+      "name": "login_error_token",
+      "value": "未获取到登录令牌"
+    },
+    {
+      "name": "login_error_captcha_load",
+      "value": "验证码加载失败"
+    }
+  ]
+}

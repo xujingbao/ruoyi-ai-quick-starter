@@ -5,7 +5,7 @@
 
 **后端：** Spring Boot 3.x + MyBatis + Redis + MySQL + Quartz  
 **前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
-**移动端：** uni-app、React Native
+**移动端：** uni-app、React Native、HarmonyOS（ArkTS 示例 `ruoyi-harmony/`）
 
 ## 快速开始
 
@@ -67,6 +67,7 @@ ruoyi-quick-starter/
 ├── ruoyi-front-react/    # 前端项目（React 18 + Ant Design + Vite）
 ├── ruoyi-front-vue/      # 前端项目（Vue3 + Element Plus + Vite，即将废弃）
 ├── ruoyi-app/            # 移动端项目（uni-app）
+├── ruoyi-harmony/        # HarmonyOS/OpenHarmony ArkTS 示例工程
 ├── docs/                 # 技术文档
 │   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
 │   └── STREAMING_RENDER_LOGIC.md   # 流式渲染逻辑文档
@@ -133,6 +134,7 @@ npm install -g @fission-ai/openspec@latest
 
 - [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.2 集成指南和问题排查
 - [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
+- [HarmonyOS 支持文档](docs/HARMONYOS_SUPPORT.md) - DevEco Studio + hvigor + 资源说明
 
 ## 参考文档
 

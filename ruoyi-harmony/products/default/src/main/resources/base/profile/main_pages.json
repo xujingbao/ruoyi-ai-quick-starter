@@ -1,0 +1,9 @@
+{
+  "src": [
+    "pages/Login",
+    "pages/Index",
+    "pages/AdaptiveIndex",
+    "pages/ResponsiveIndex",
+    "pages/SystemCapabilitiesIndex"
+  ]
+}

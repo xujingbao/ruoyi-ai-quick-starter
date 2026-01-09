@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "responsiveLayout",
+    "type": "har",
+    "deviceTypes": [
+      "phone"
+    ]
+  }
+}
