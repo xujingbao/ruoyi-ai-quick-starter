@@ -4,29 +4,35 @@ import zhCN from 'antd/locale/zh_CN'
 import { useSettingsStore } from '@/store/settingsStore'
 import AntdAppBridge from '@/plugins/AntdAppBridge'
 import { handleThemeStyle } from '@/utils/theme'
-
-// 全局字体（与 SCSS 变量保持一致的系统字体栈）
-const APP_FONT_FAMILY = [
-  'system-ui',
-  '-apple-system',
-  'BlinkMacSystemFont',
-  '"Segoe UI"',
-  'Roboto',
-  '"Helvetica Neue"',
-  'Arial',
-  '"Noto Sans"',
-  '"Liberation Sans"',
-  '"PingFang SC"',
-  '"Hiragino Sans GB"',
-  '"Microsoft YaHei"',
-  '"微软雅黑"',
-  '"Source Han Sans CN"',
-  '"WenQuanYi Micro Hei"',
-  'sans-serif'
-].join(', ')
+import themeTokens from '@/config/themeTokens'
+import layoutConfig from '@/config/layoutConfig'
 
 export default function AppProviders({ children }) {
   const { isDark, theme } = useSettingsStore()
+
+  useEffect(() => {
+    const root = document.documentElement
+    const vars = {
+      '--app-bg': themeTokens.colors.appBackground,
+      '--app-surface': themeTokens.colors.appSurface,
+      '--app-surface-2': themeTokens.colors.appSurfaceAlt,
+      '--app-text': themeTokens.colors.appText,
+      '--app-text-secondary': themeTokens.colors.appTextSecondary,
+      '--app-border': themeTokens.colors.appBorder,
+      '--navbar-hover': themeTokens.colors.navbarHover,
+      '--menu-hover': themeTokens.colors.menuHover,
+      '--menu-active-text': themeTokens.colors.menuActiveText,
+      '--tags-bg': themeTokens.colors.appSurface,
+      '--tags-item-bg': themeTokens.colors.appSurface,
+      '--layout-sidebar-width': layoutConfig.sidebarWidth,
+      '--layout-drawer-opacity': layoutConfig.drawerOpacity,
+      '--layout-mobile-breakpoint': `${layoutConfig.mobileBreakpoint}px`,
+      '--drawer-bg': layoutConfig.drawerBackground
+    }
+    Object.entries(vars).forEach(([key, value]) => {
+      root.style.setProperty(key, value)
+    })
+  }, [])
 
   // 同步自定义暗色 class（用于项目自定义样式）
   useEffect(() => {
@@ -42,10 +48,10 @@ export default function AppProviders({ children }) {
     return {
       algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
       token: {
-        colorPrimary: theme || '#409EFF',
-        fontFamily: APP_FONT_FAMILY,
-        fontSize: 14,
-        lineHeight: 1.5
+        colorPrimary: theme || themeTokens.palette.primary,
+        fontFamily: themeTokens.fonts.body,
+        fontSize: parseInt(themeTokens.typography.fontSizeBase, 10),
+        lineHeight: themeTokens.typography.lineHeightBase
       }
     }
   }, [isDark, theme])

@@ -1,5 +1,4 @@
 @use "@/assets/styles/mixin.scss" as mix;
-@use "@/assets/styles/variables.module.scss" as vars;
 
 .app-wrapper {
   @include mix.clearfix;
@@ -18,7 +17,7 @@
 .main-container {
   min-height: 100%;
   transition: margin-left 0.28s;
-  margin-left: vars.$base-sidebar-width;
+  margin-left: var(--layout-sidebar-width);
   position: relative;
   background: var(--app-bg);
   color: var(--app-text);
@@ -34,8 +33,8 @@
 }
 
 .drawer-bg {
-  background: #000;
-  opacity: 0.3;
+  background: var(--drawer-bg);
+  opacity: var(--layout-drawer-opacity);
   width: 100%;
   top: 0;
   height: 100%;
@@ -48,17 +47,17 @@
   top: 0;
   right: 0;
   z-index: 9;
-  width: calc(100% - #{vars.$base-sidebar-width});
+  width: calc(100% - var(--layout-sidebar-width));
   transition: width 0.28s;
 }
 
 .hideSidebar {
   .main-container {
-    margin-left: 54px;
+    margin-left: var(--layout-sidebar-collapsed-width);
   }
 
   .fixed-header {
-    width: calc(100% - 54px);
+    width: calc(100% - var(--layout-sidebar-collapsed-width));
   }
 }
 

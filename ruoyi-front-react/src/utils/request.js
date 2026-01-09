@@ -6,6 +6,7 @@ import { tansParams, blobValidate } from '@/utils/ruoyi'
 import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
 import { useUserStore } from '@/store/userStore'
+import requestConfig from '@/config/requestConfig'
 
 let downloadLoadingInstance = null
 // 是否显示重新登录
@@ -15,9 +16,9 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: import.meta.env.VITE_APP_BASE_API || '/dev-api',
+  baseURL: requestConfig.baseURL,
   // 超时
-  timeout: 10000
+  timeout: requestConfig.timeout
 })
 
 // request拦截器
@@ -43,9 +44,10 @@ service.interceptors.request.use(config => {
       time: new Date().getTime()
     }
     const requestSize = Object.keys(JSON.stringify(requestObj)).length // 请求数据大小
-    const limitSize = 5 * 1024 * 1024 // 限制存放数据5M
+    const limitSize = requestConfig.duplicateSubmit.maxBytes
+    const limitSizeMB = (limitSize / 1024 / 1024).toFixed(1)
     if (requestSize >= limitSize) {
-      console.warn(`[${config.url}]: ` + '请求数据大小超出允许的5M限制，无法进行防重复提交验证。')
+      console.warn(`[${config.url}]: ` + `请求数据大小超出允许的${limitSizeMB}MB限制，无法进行防重复提交验证。`)
       return config
     }
     const sessionObj = cache.session.getJSON('sessionObj')
@@ -55,7 +57,7 @@ service.interceptors.request.use(config => {
       const s_url = sessionObj.url                // 请求地址
       const s_data = sessionObj.data              // 请求数据
       const s_time = sessionObj.time              // 请求时间
-      const interval = 1000                       // 间隔时间(ms)，小于此时间视为重复提交
+      const interval = requestConfig.duplicateSubmit.intervalMs                       // 间隔时间(ms)，小于此时间视为重复提交
       if (s_data === requestObj.data && requestObj.time - s_time < interval && s_url === requestObj.url) {
         const errorMsg = '数据正在处理，请勿重复提交'
         console.warn(`[${s_url}]: ` + errorMsg)
@@ -76,7 +78,7 @@ service.interceptors.response.use(res => {
     // 检查响应是否为 HTML（通常表示请求被重定向到登录页）
     if (typeof res.data === 'string' && res.data.trim().startsWith('<!DOCTYPE html>')) {
       console.error('API 返回了 HTML 页面，可能是路径配置错误或请求被重定向')
-      message.error('请求失败：API 路径配置错误，请检查 VITE_APP_BASE_API 环境变量')
+      message.error(requestConfig.messages.apiPathError)
       return Promise.reject(new Error('API 返回了 HTML 页面'))
     }
     
@@ -92,10 +94,10 @@ service.interceptors.response.use(res => {
       if (!isRelogin.show) {
         isRelogin.show = true
         Modal.confirm({
-          title: '系统提示',
-          content: '登录状态已过期，您可以继续留在该页面，或者重新登录',
-          okText: '重新登录',
-          cancelText: '取消',
+          title: requestConfig.modal.title,
+          content: requestConfig.modal.content,
+          okText: requestConfig.modal.okText,
+          cancelText: requestConfig.modal.cancelText,
           onOk: () => {
             isRelogin.show = false
             useUserStore.getState().logOut().then(() => {
@@ -124,12 +126,13 @@ service.interceptors.response.use(res => {
   error => {
     console.log('err' + error)
     let { message: errorMsg } = error
-    if (errorMsg == "Network Error") {
-      errorMsg = "后端接口连接异常"
-    } else if (errorMsg.includes("timeout")) {
-      errorMsg = "系统接口请求超时"
-    } else if (errorMsg.includes("Request failed with status code")) {
-      errorMsg = "系统接口" + errorMsg.substr(errorMsg.length - 3) + "异常"
+    if (errorMsg === 'Network Error') {
+      errorMsg = requestConfig.messages.network
+    } else if (errorMsg.includes('timeout')) {
+      errorMsg = requestConfig.messages.timeout
+    } else if (errorMsg.includes('Request failed with status code')) {
+      const statusCode = errorMsg.substr(errorMsg.length - 3)
+      errorMsg = `${requestConfig.messages.statusPrefix}${statusCode}异常`
     }
     message.error({ content: errorMsg, duration: 5 })
     return Promise.reject(error)
@@ -138,7 +141,7 @@ service.interceptors.response.use(res => {
 
 // 通用下载方法
 export function download(url, params, filename, config) {
-  downloadLoadingInstance = message.loading({ content: "正在下载数据，请稍候", duration: 0 })
+  downloadLoadingInstance = message.loading({ content: requestConfig.download.loadingText, duration: 0 })
   return service.post(url, params, {
     transformRequest: [(params) => { return tansParams(params) }],
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -160,7 +163,7 @@ export function download(url, params, filename, config) {
     }
   }).catch((r) => {
     console.error(r)
-    message.error('下载文件出现错误，请联系管理员！')
+    message.error(requestConfig.messages.downloadError)
     if (downloadLoadingInstance) {
       downloadLoadingInstance()
     }

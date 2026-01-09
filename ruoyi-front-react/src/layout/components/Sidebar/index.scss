@@ -1,5 +1,3 @@
-@use "@/assets/styles/variables.module.scss" as vars;
-
 .sidebar-container {
   position: fixed;
   top: 0;
@@ -7,7 +5,7 @@
   left: 0;
   z-index: 1001;
   height: 100vh;
-  width: vars.$base-sidebar-width !important;
+  width: var(--layout-sidebar-width) !important;
   overflow: hidden;
   transition: width 0.28s;
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
@@ -107,14 +105,14 @@
 .mobile {
   .sidebar-container {
     transition: transform 0.28s;
-    width: vars.$base-sidebar-width !important;
+    width: var(--layout-sidebar-width) !important;
   }
 
   &.hideSidebar {
     .sidebar-container {
       pointer-events: none;
       transition-duration: 0.3s;
-      transform: translate3d(-#{vars.$base-sidebar-width}, 0, 0);
+      transform: translate3d(calc(-1 * var(--layout-sidebar-width)), 0, 0);
     }
   }
 }

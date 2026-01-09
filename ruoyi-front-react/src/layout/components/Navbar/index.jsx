@@ -6,6 +6,7 @@ import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
 import { useSettingsStore } from '@/store/settingsStore'
 import Hamburger from '@/components/Hamburger'
+import { navbarMenuConfig } from '@/config/routeMeta'
 import './index.scss'
 
 const Navbar = ({ onSetLayout }) => {
@@ -60,27 +61,24 @@ const Navbar = ({ onSetLayout }) => {
     }
   }
 
-  const menuItems = [
-    {
-      key: 'profile',
-      label: (
-        <a href="/user/profile" onClick={(e) => { e.preventDefault(); navigate('/user/profile') }}>
-          个人中心
-        </a>
-      )
-    },
-    ...(settingsStore.showSettings ? [{
-      key: 'setLayout',
-      label: <span>布局设置</span>
-    }] : []),
-    {
-      type: 'divider'
-    },
-    {
-      key: 'logout',
-      label: <span>退出登录</span>
+  const menuItems = navbarMenuConfig.reduce((result, item) => {
+    if (item.type === 'divider') {
+      result.push({ type: 'divider' })
+      return result
     }
-  ]
+    if (item.requiresSettings && !settingsStore.showSettings) {
+      return result
+    }
+    const label = item.path ? (
+      <a href={item.path} onClick={(e) => { e.preventDefault(); navigate(item.path) }}>
+        {item.label}
+      </a>
+    ) : (
+      <span>{item.label}</span>
+    )
+    result.push({ key: item.key, label })
+    return result
+  }, [])
 
   return (
     <div className="navbar">

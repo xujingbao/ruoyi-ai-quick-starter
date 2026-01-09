@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
 import Layout from '@/layout'
+import { getRouteMeta } from '@/config/routeMeta'
 
 // 匹配 views 里面所有的 .jsx 文件
 const modules = import.meta.glob('../views/**/*.jsx')
@@ -54,17 +55,17 @@ export const constantRoutes = [
   {
     path: '/login',
     Component: lazy(() => import('@/views/login/index')),
-    handle: { meta: { hidden: true } }
+    handle: { meta: getRouteMeta('/login') }
   },
   {
     path: '/register',
     Component: lazy(() => import('@/views/register/index')),
-    handle: { meta: { hidden: true } }
+    handle: { meta: getRouteMeta('/register') }
   },
   {
     path: '/401',
     Component: lazy(() => import('@/views/error/401')),
-    handle: { meta: { hidden: true } }
+    handle: { meta: getRouteMeta('/401') }
   },
   {
     path: '/',
@@ -73,26 +74,26 @@ export const constantRoutes = [
       {
         index: true,
         Component: lazy(() => import('@/views/index')),
-        handle: { meta: { title: '首页', icon: 'dashboard', affix: true } }
+        handle: { meta: getRouteMeta('/') }
       }
     ]
   },
   {
     path: '/user',
     Component: Layout,
-    handle: { meta: { hidden: true } },
+    handle: { meta: getRouteMeta('/user') },
     children: [
       {
         path: 'profile/:activeTab?',
         Component: lazy(() => import('@/views/system/user/profile/index')),
-        handle: { meta: { title: '个人中心', icon: 'user' } }
+        handle: { meta: getRouteMeta('/user/profile/:activeTab?') }
       }
     ]
   },
   {
     path: '*',
     Component: lazy(() => import('@/views/error/404')),
-    handle: { meta: { hidden: true } }
+    handle: { meta: getRouteMeta('*') }
   }
 ]
 
@@ -101,48 +102,48 @@ export const dynamicRoutes = [
   {
     path: '/system/user-auth',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['system:user:edit'] } },
+    handle: { meta: getRouteMeta('/system/user-auth') },
     children: [
       {
         path: 'role/:userId',
         Component: lazy(() => import('@/views/system/user/authRole')),
-        handle: { meta: { title: '分配角色', activeMenu: '/system/user' } }
+        handle: { meta: getRouteMeta('/system/user-auth/role/:userId') }
       }
     ]
   },
   {
     path: '/system/role-auth',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['system:role:edit'] } },
+    handle: { meta: getRouteMeta('/system/role-auth') },
     children: [
       {
         path: 'user/:roleId',
         Component: lazy(() => import('@/views/system/role/authUser')),
-        handle: { meta: { title: '分配用户', activeMenu: '/system/role' } }
+        handle: { meta: getRouteMeta('/system/role-auth/user/:roleId') }
       }
     ]
   },
   {
     path: '/system/dict-data',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['system:dict:list'] } },
+    handle: { meta: getRouteMeta('/system/dict-data') },
     children: [
       {
         path: 'index/:dictId',
         Component: lazy(() => import('@/views/system/dict/data')),
-        handle: { meta: { title: '字典数据', activeMenu: '/system/dict' } }
+        handle: { meta: getRouteMeta('/system/dict-data/index/:dictId') }
       }
     ]
   },
   {
     path: '/monitor/job-log',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['monitor:job:list'] } },
+    handle: { meta: getRouteMeta('/monitor/job-log') },
     children: [
       {
         path: 'index/:jobId',
         Component: lazy(() => import('@/views/monitor/job/log')),
-        handle: { meta: { title: '调度日志', activeMenu: '/monitor/job' } }
+        handle: { meta: getRouteMeta('/monitor/job-log/index/:jobId') }
       }
     ]
   }
@@ -150,24 +151,24 @@ export const dynamicRoutes = [
   {
     path: '/monitor/cache-list',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['monitor:cache:list'] } },
+    handle: { meta: getRouteMeta('/monitor/cache-list') },
     children: [
       {
         path: 'index',
         Component: lazy(() => import('@/views/monitor/cacheList')),
-        handle: { meta: { title: '缓存列表', activeMenu: '/monitor/cache' } }
+        handle: { meta: getRouteMeta('/monitor/cache-list/index') }
       }
     ]
   },
   {
     path: '/monitor/druid',
     Component: Layout,
-    handle: { meta: { hidden: true, permissions: ['monitor:druid:view'] } },
+    handle: { meta: getRouteMeta('/monitor/druid') },
     children: [
       {
         path: 'index',
         Component: lazy(() => import('@/views/monitor/druid')),
-        handle: { meta: { title: 'Druid监控', activeMenu: '/monitor/druid' } }
+        handle: { meta: getRouteMeta('/monitor/druid/index') }
       }
     ]
   }

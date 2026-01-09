@@ -1,5 +1,5 @@
 import { useEffect, useRef, startTransition } from 'react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { message } from 'antd'
 import NProgress from 'nprogress'
 import { getToken } from '@/utils/auth'
@@ -11,6 +11,9 @@ import { useUserStore } from '@/store/userStore'
 import { usePermissionStore } from '@/store/permissionStore'
 import { constantRoutes, dynamicRoutes, filterAsyncRouter } from '@/router'
 import { filterDynamicRoutes } from '@/store/permissionStore'
+import layoutConfig from '@/config/layoutConfig'
+import { useResponsiveLayout } from './hooks/useResponsiveLayout'
+import { getLayoutWrapperClass } from './utils/getLayoutClassNames'
 import Sidebar from './components/Sidebar'
 import Navbar from './components/Navbar'
 import AppMain from './components/AppMain'
@@ -20,10 +23,8 @@ import './index.scss'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/register']
-
 const isWhiteList = (path) => {
-  return whiteList.some(pattern => isPathMatch(pattern, path))
+  return layoutConfig.whiteList.some(pattern => isPathMatch(pattern, path))
 }
 
 const Layout = () => {
@@ -34,11 +35,11 @@ const Layout = () => {
   const needTagsView = useSettingsStore((state) => state.tagsView)
   const fixedHeader = useSettingsStore((state) => state.fixedHeader)
   const theme = useSettingsStore((state) => state.theme)
-  const toggleDevice = useAppStore((state) => state.toggleDevice)
-  const closeSideBar = useAppStore((state) => state.closeSideBar)
   const userStore = useUserStore()
   const permissionStore = usePermissionStore()
   const settingRef = useRef(null)
+
+  useResponsiveLayout()
 
   // 权限检查和路由初始化
   useEffect(() => {
@@ -116,59 +117,16 @@ const Layout = () => {
   }, [location.pathname])
 
   useEffect(() => {
-    let mounted = true
-    
-    const handleResize = () => {
-      if (!mounted) return
-      
-      const WIDTH = 992
-      const currentWidth = window.innerWidth
-      const isMobile = currentWidth - 1 < WIDTH
-      const currentDevice = useAppStore.getState().device
-      const currentSidebar = useAppStore.getState().sidebar
-      
-      // 只在状态真正需要改变时才更新
-      if (isMobile && currentDevice !== 'mobile') {
-        toggleDevice('mobile')
-        if (currentSidebar.opened) {
-          closeSideBar({ withoutAnimation: true })
-        }
-      } else if (!isMobile && currentDevice !== 'desktop') {
-        toggleDevice('desktop')
-      }
-    }
-
-    // 延迟执行初始检查，避免在渲染时立即触发状态更新
-    const timer = setTimeout(() => {
-      if (mounted) {
-        handleResize()
-        window.addEventListener('resize', handleResize)
-      }
-    }, 100)
-
-    return () => {
-      mounted = false
-      clearTimeout(timer)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [toggleDevice, closeSideBar])
-
-  useEffect(() => {
     NProgress.done()
   })
-
-  const classObj = {
-    hideSidebar: !sidebar.opened,
-    openSidebar: sidebar.opened,
-    withoutAnimation: sidebar.withoutAnimation,
-    mobile: device === 'mobile'
-  }
 
   const closeSideBarOnClick = useAppStore((state) => state.closeSideBar)
 
   const handleClickOutside = () => {
     closeSideBarOnClick({ withoutAnimation: false })
   }
+
+  const wrapperClass = getLayoutWrapperClass({ sidebar, device })
 
   const setLayout = () => {
     if (settingRef.current) {
@@ -177,10 +135,7 @@ const Layout = () => {
   }
 
   return (
-    <div 
-      className={`app-wrapper ${classObj.hideSidebar ? 'hideSidebar' : ''} ${classObj.openSidebar ? 'openSidebar' : ''} ${classObj.withoutAnimation ? 'withoutAnimation' : ''} ${classObj.mobile ? 'mobile' : ''}`}
-      style={{ '--current-color': theme }}
-    >
+    <div className={wrapperClass} style={{ '--current-color': theme }}>
       {device === 'mobile' && sidebar.opened && (
         <div className="drawer-bg" onClick={handleClickOutside} />
       )}
