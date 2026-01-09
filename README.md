@@ -5,7 +5,7 @@
 
 **后端：** Spring Boot 3.x + MyBatis + Redis + MySQL + Quartz  
 **前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
-**移动端：** uni-app、React Native、HarmonyOS（ArkTS 示例 `ruoyi-harmony/`）
+**移动端：** uni-app、React Native、HarmonyOS
 
 ## 快速开始
 
