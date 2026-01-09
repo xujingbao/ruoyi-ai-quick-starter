@@ -192,6 +192,86 @@
   justify-content: center;
 }
 
+/* 修改头像弹窗布局优化 */
+.avatar-modal {
+  .avatar-modal-content {
+    padding-top: 4px;
+  }
+
+  .avatar-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .avatar-panel {
+    height: 360px;
+    border: 1px solid var(--ant-border-color-split);
+    border-radius: 10px;
+    background: var(--ant-color-bg-container, #fff);
+    padding: 16px;
+  }
+
+  .avatar-uploader-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-uploader {
+    .ant-upload.ant-upload-select {
+      width: 260px;
+      height: 260px;
+      border-radius: 10px;
+      border-style: dashed;
+      background: var(--ant-color-fill-alter, rgba(0, 0, 0, 0.02));
+    }
+  }
+
+  .avatar-uploader-trigger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4;
+  }
+
+  .avatar-uploader-text {
+    margin-top: 8px;
+    font-weight: 600;
+    color: var(--ant-text-color);
+  }
+
+  .avatar-uploader-tip {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--ant-text-color-secondary);
+  }
+
+  .avatar-preview-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .avatar-preview-image {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--ant-border-color-split);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    background: var(--ant-color-bg-container, #fff);
+  }
+
+  .avatar-preview-tip {
+    font-size: 12px;
+    color: var(--ant-text-color-secondary);
+  }
+}
+
 // 响应式优化
 @media (max-width: 768px) {
   .profile-container {
@@ -205,6 +285,21 @@
   .profile-card {
     .ant-card-body {
       padding: 16px;
+    }
+  }
+
+  .avatar-modal {
+    .avatar-panel {
+      height: auto;
+      padding: 14px;
+    }
+
+    .avatar-uploader {
+      .ant-upload.ant-upload-select {
+        width: 100%;
+        max-width: 320px;
+        height: 220px;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Modal, Upload, Row, Col } from 'antd'
+import { useEffect, useMemo, useState } from 'react'
+import { Modal, Upload, Row, Col, Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import ImgCrop from 'antd-img-crop'
 import { uploadAvatar } from '@/api/system/user'
@@ -13,11 +13,20 @@ const UserAvatar = () => {
   const [open, setOpen] = useState(false)
   const [fileList, setFileList] = useState([])
   const [imageUrl, setImageUrl] = useState(userStore.avatar || '')
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [previewUrl, setPreviewUrl] = useState('')
   const [uploading, setUploading] = useState(false)
 
   const displayAvatar = useMemo(() => {
     return imageUrl || userStore.avatar || defaultAvatar
   }, [imageUrl, userStore.avatar])
+
+  // 释放本地预览 URL，避免内存泄漏
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl)
+    }
+  }, [previewUrl])
 
   const handleEditCropper = () => {
     setOpen(true)
@@ -27,6 +36,8 @@ const UserAvatar = () => {
     if (uploading) return
     setOpen(false)
     setFileList([])
+    setSelectedFile(null)
+    setPreviewUrl('')
     setImageUrl(userStore.avatar || '')
   }
 
@@ -42,19 +53,33 @@ const UserAvatar = () => {
       modal.msgError(`上传头像图片大小不能超过 ${maxSizeMB}MB!`)
       return false
     }
-    return true
+
+    // 仅选择并预览，不自动上传
+    const nextPreviewUrl = URL.createObjectURL(file)
+    setPreviewUrl(nextPreviewUrl)
+    setSelectedFile(file)
+    setFileList([
+      {
+        uid: file.uid || `${Date.now()}`,
+        name: file.name,
+        status: 'done',
+        originFileObj: file
+      }
+    ])
+    return false
   }
 
   const handleChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList)
+    // 保持单文件，避免裁剪/选择过程中累积
+    setFileList(newFileList.slice(-1))
   }
 
-  const handleUpload = async (options) => {
-    const { onSuccess, onError, file } = options
+  const handleConfirmUpload = async () => {
+    if (!selectedFile || uploading) return
     try {
       setUploading(true)
       const formData = new FormData()
-      formData.append('avatarfile', file)
+      formData.append('avatarfile', selectedFile)
       
       const response = await uploadAvatar(formData)
       const imgUrl = response?.imgUrl || ''
@@ -63,17 +88,19 @@ const UserAvatar = () => {
       setImageUrl(fullUrl)
       userStore.setAvatar(fullUrl)
       
-      onSuccess(response, file)
       setOpen(false)
       setFileList([])
+      setSelectedFile(null)
+      setPreviewUrl('')
       modal.msgSuccess('修改成功')
     } catch (error) {
-      onError(error)
       modal.msgError('上传失败')
     } finally {
       setUploading(false)
     }
   }
+
+  const previewSrc = previewUrl || displayAvatar
 
   return (
     <>
@@ -89,12 +116,28 @@ const UserAvatar = () => {
         title="修改头像"
         open={open}
         onCancel={handleCancel}
-        footer={null}
-        width={800}
+        footer={
+          <div className="avatar-modal-footer">
+            <Button onClick={handleCancel} disabled={uploading}>取消</Button>
+            <Button
+              type="primary"
+              onClick={handleConfirmUpload}
+              loading={uploading}
+              disabled={!selectedFile}
+            >
+              确定更新
+            </Button>
+          </div>
+        }
+        width={760}
         destroyOnHidden
+        centered
+        className="avatar-modal"
       >
-        <Row gutter={16} style={{ marginBottom: 16 }}>
-          <Col xs={24} md={12} style={{ height: '350px' }}>
+        <div className="avatar-modal-content">
+          <Row gutter={[16, 16]}>
+            <Col xs={24} md={12}>
+              <div className="avatar-panel avatar-uploader-panel">
             <ImgCrop
               rotationSlider
               zoomSlider
@@ -107,32 +150,40 @@ const UserAvatar = () => {
                 listType="picture-card"
                 showUploadList={false}
                 beforeUpload={handleBeforeUpload}
-                customRequest={handleUpload}
                 fileList={fileList}
                 onChange={handleChange}
                 disabled={uploading}
+                className="avatar-uploader"
               >
-                {fileList.length < 1 && (
-                  <div>
-                    <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>{uploading ? '上传中...' : '选择'}</div>
+                <div className="avatar-uploader-trigger">
+                  <PlusOutlined />
+                  <div className="avatar-uploader-text">
+                    {uploading ? '上传中...' : selectedFile ? '重新选择' : '选择图片'}
                   </div>
-                )}
+                  <div className="avatar-uploader-tip">支持 JPG/PNG，大小不超过 5MB</div>
+                </div>
               </Upload>
             </ImgCrop>
-          </Col>
-          <Col xs={24} md={12} style={{ height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div className="avatar-upload-preview">
-              {displayAvatar && (
-                <img 
-                  src={displayAvatar} 
-                  alt="preview" 
-                  style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '50%' }}
-                />
-              )}
-            </div>
-          </Col>
-        </Row>
+              </div>
+            </Col>
+            <Col xs={24} md={12}>
+              <div className="avatar-panel avatar-preview-panel">
+                <div className="avatar-upload-preview">
+                  {previewSrc && (
+                    <img 
+                      src={previewSrc} 
+                      alt="preview" 
+                      className="avatar-preview-image"
+                    />
+                  )}
+                </div>
+                <div className="avatar-preview-tip">
+                  预览效果（圆形头像）{selectedFile ? ' · 未保存' : ''}
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
       </Modal>
     </>
   )

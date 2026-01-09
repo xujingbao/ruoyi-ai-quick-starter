@@ -156,21 +156,9 @@ const Login = () => {
                     src={codeUrl} 
                     className="login-code-img"
                     alt="验证码"
-                    style={{ cursor: 'pointer' }}
                   />
                 ) : (
-                  <div 
-                    className="login-code-img" 
-                    style={{ 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center',
-                      background: '#f5f5f5',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      color: '#999'
-                    }}
-                  >
+                  <div className="login-code-placeholder">
                     点击获取验证码
                   </div>
                 )}
