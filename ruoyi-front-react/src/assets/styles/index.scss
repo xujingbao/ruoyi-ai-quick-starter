@@ -1,0 +1,111 @@
+// 全局样式文件（字体/基础排版/通用容器）
+@use './variables.module.scss' as *;
+
+:root {
+  --app-font-family: #{$font-family-base};
+  --app-font-family-mono: #{$font-family-mono};
+  --app-font-size: #{$font-size-base};
+  --app-line-height: #{$line-height-base};
+
+  /* 基础颜色（亮色默认） */
+  --app-bg: #f5f7fa;
+  --app-surface: #ffffff;
+  --app-surface-2: #ffffff;
+  --app-text: rgba(0, 0, 0, 0.88);
+  --app-text-secondary: rgba(0, 0, 0, 0.65);
+  --app-border: rgba(5, 5, 5, 0.06);
+
+  /* Layout */
+  --navbar-bg: var(--app-surface);
+  --navbar-text: var(--app-text);
+  --navbar-text-secondary: var(--app-text-secondary);
+  --navbar-hover: rgba(0, 0, 0, 0.025);
+
+  --sidebar-bg: var(--app-surface);
+  --sidebar-text: var(--app-text);
+  --menu-hover: rgba(0, 0, 0, 0.06);
+  --menu-active-text: var(--ant-color-primary, #1677ff);
+
+  --tags-bg: var(--app-surface);
+  --tags-item-bg: var(--app-surface);
+  --layout-sidebar-width: 200px;
+  --layout-drawer-opacity: 0.3;
+  --layout-mobile-breakpoint: 992px;
+  --drawer-bg: #000;
+  --layout-sidebar-collapsed-width: 54px;
+}
+
+html,
+body {
+  font-family: var(--app-font-family);
+  font-size: var(--app-font-size);
+  line-height: var(--app-line-height);
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+/* 暗色模式（html.dark） */
+html.dark {
+  --app-bg: #0f0f0f;
+  --app-surface: #141414;
+  --app-surface-2: #1f1f1f;
+  --app-text: rgba(255, 255, 255, 0.88);
+  --app-text-secondary: rgba(255, 255, 255, 0.65);
+  --app-border: rgba(255, 255, 255, 0.12);
+
+  --navbar-bg: var(--app-surface);
+  --navbar-text: var(--app-text);
+  --navbar-text-secondary: var(--app-text-secondary);
+  --navbar-hover: rgba(255, 255, 255, 0.06);
+
+  --sidebar-bg: var(--app-surface);
+  --sidebar-text: var(--app-text);
+  --menu-hover: rgba(255, 255, 255, 0.08);
+  --menu-active-text: var(--ant-color-primary, #1677ff);
+
+  --tags-bg: var(--app-surface);
+  --tags-item-bg: var(--app-surface-2);
+}
+
+// 表单控件保持全局字体一致
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--app-font-family-mono);
+}
+
+// main-container 全局样式
+.app-container {
+  // 让页面内容与 tags-view 紧贴，形成一体视觉
+  padding: 12px 16px 16px;
+  margin: 5px 5px 5px;
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    margin: 6px 6px 8px;
+    padding: 12px 12px 14px;
+  }
+}
+
+/* 某些页面本身已有 Card/复杂布局，避免双层容器 */
+.app-container.no-card {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
