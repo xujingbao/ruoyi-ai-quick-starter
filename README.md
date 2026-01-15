@@ -38,7 +38,7 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 
 
 3. **启动前端（React）**（推荐使用 Cursor 调试配置）
    ```bash
-   cd ruoyi-front-react
+   cd ruoyi-react-web
    pnpm install
    # 按 F5 → 选择 "RuoYi Frontend (React)" → 启动
    # 或使用命令：pnpm dev
@@ -52,7 +52,7 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 
 mvn clean package -DskipTests
 
 # 前端构建
-cd ruoyi-front-react && pnpm build:prod
+cd ruoyi-react-web && pnpm build:prod
 ```
 
 ## 项目结构
@@ -64,10 +64,9 @@ ruoyi-quick-starter/
 ├── ruoyi-system/         # 系统业务模块
 ├── ruoyi-common/         # 通用工具模块
 ├── ruoyi-quartz/         # 定时任务模块
-├── ruoyi-front-react/    # 前端项目（React 18 + Ant Design + Vite）
-├── ruoyi-front-vue/      # 前端项目（Vue3 + Element Plus + Vite，即将废弃）
-├── ruoyi-app/            # 移动端项目（uni-app）
-├── ruoyi-harmony/        # HarmonyOS/OpenHarmony ArkTS 示例工程
+├── ruoyi-react-web/      # Web 前端（React 18 + Ant Design + Vite）
+├── ruoyi-uni-app/        # 移动端项目（uni-app）
+├── ruoyi-harmony-app/    # HarmonyOS/OpenHarmony ArkTS 示例工程
 ├── docs/                 # 技术文档
 │   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
 │   └── STREAMING_RENDER_LOGIC.md   # 流式渲染逻辑文档

@@ -18,7 +18,7 @@
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "runtimeArgs": ["run", "dev"],
-            "cwd": "${workspaceFolder}/ruoyi-front-react",
+            "cwd": "${workspaceFolder}/ruoyi-react-web",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "skipFiles": ["<node_internals>/**"]
@@ -29,7 +29,7 @@
             "request": "launch",
             "runtimeExecutable": "pnpm",
             "runtimeArgs": ["start"],
-            "cwd": "${workspaceFolder}/ruoyi-rn",
+            "cwd": "${workspaceFolder}/ruoyi-rn-app",
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "skipFiles": ["<node_internals>/**"]

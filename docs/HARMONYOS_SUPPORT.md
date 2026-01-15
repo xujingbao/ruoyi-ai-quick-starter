@@ -1,6 +1,6 @@
 # HarmonyOS 支持
 
-`ruoyi-harmony/` 是一个 ArkTS Stage 模型的 HarmonyOS/OpenHarmony 示例工程，包含 DevEco Studio 可直接打开的 EntryAbility、资源和测试模块，便于在本地验证 HarmonyOS 原生端能力。
+`ruoyi-harmony-app/` 是一个 ArkTS Stage 模型的 HarmonyOS/OpenHarmony 示例工程，包含 DevEco Studio 可直接打开的 EntryAbility、资源和测试模块，便于在本地验证 HarmonyOS 原生端能力。
 
 ## 项目结构概览
 
@@ -11,14 +11,14 @@
 
 ## 打开与运行
 
-1. 启动 **DevEco Studio**，选择 `File → Open`，定位到 `ruoyi-harmony/` 目录。
+1. 启动 **DevEco Studio**，选择 `File → Open`，定位到 `ruoyi-harmony-app/` 目录。
 2. IDE 会识别 `entry/` 模块。建议在 Project Explorer 中右键 `entry/src/main/module.json5`，确认 API/Ability 名等配置。
 3. 选择目标设备（模拟器或真机），点击运行。DevEco 会调用 `hvigor` 执行构建任务，构建日志可以在 Run 控制台查看。
 
 ## SDK 与签名配置
 
 - **目标 SDK**：`build-profile.json5` 的 `targetSdkVersion` 应与所安装的 OpenHarmony/HarmonyOS SDK 对齐（比如 OpenHarmony 8.0 对应 `apiVersion` 20）。在 DevEco Studio 的 SDK 设置里检查所需 API 版本是否已安装。
-- **签名配置**：如果需要自动签名发布包，在 `ruoyi-harmony/build-profile.json5` 中添加 `signingConfigs`，指定 keystore 路径、别名、密码等，便于 `hvigor` 完成 `SignHap` 任务；否则构建会跳过签名但仍能生成 HAP。
+- **签名配置**：如果需要自动签名发布包，在 `ruoyi-harmony-app/build-profile.json5` 中添加 `signingConfigs`，指定 keystore 路径、别名、密码等，便于 `hvigor` 完成 `SignHap` 任务；否则构建会跳过签名但仍能生成 HAP。
 - **hvigor 警告**：空 target 或未配置 signing 普遍会在构建日志中打印 WARN。根据提示调整 `build-profile.json5` 即可消除警告。
 
 ## 登录与个人中心

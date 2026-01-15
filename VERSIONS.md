@@ -25,13 +25,6 @@
 - **Axios**: 1.9.0
 - **ECharts**: 5.6.0
 
-### Web（Vue，历史版本/对照用）
-
-- **Vue**: 3.x
-- **Element Plus**: 2.x
-- **Pinia**: 3.x
-- **Vue Router**: 4.x
-
 ## 移动端
 
 - **React**: 19.1.0

@@ -1,9 +1,8 @@
 # 流式渲染逻辑梳理
 
-**版本信息：** RuoYi AI Quick Starter v4.1 新增功能
+**版本信息：** RuoYi AI Quick Starter v4.2.1 新增功能
 
-> 说明：本仓库 Web 前端已提供 `ruoyi-front-react`（React 18 + Ant Design）。
-> 若你仍在使用 `ruoyi-front`（Vue 3 + Element Plus），文档中以 `.vue / markstream-vue` 为例的内容可作为历史实现参考。
+> 说明：本仓库 Web 前端已提供 `ruoyi-react-web`（React 18 + Ant Design）。
 
 ## 整体流程
 
@@ -39,7 +38,7 @@ Spring AI 返回的每个 `ChatResponse` 包含：
 
 ### 2.0 React 版本文件位置
 
-- `ruoyi-front-react/src/api/ai/chat.js`：`streamChat(data, onMessage, onError, onComplete)`（SSE 解析 + 增量文本回调）
+- `ruoyi-react-web/src/api/ai/chat.js`：`streamChat(data, onMessage, onError, onComplete)`（SSE 解析 + 增量文本回调）
 
 ### 2.1 请求发起
 ```javascript
@@ -180,5 +179,5 @@ React 侧可以使用 `react-markdown` 来渲染累积的 Markdown 内容（本�
   - ChatRequest.java: 请求参数 DTO
 
 前端:
-  - ruoyi-front-react/src/api/ai/chat.js: SSE 解析和文本提取（React 版本）
+  - ruoyi-react-web/src/api/ai/chat.js: SSE 解析和文本提取（React 版本）
 ```

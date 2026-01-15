@@ -21,19 +21,18 @@
 ### HarmonyOS 支持
 
 - [HarmonyOS 支持说明](./HARMONYOS_SUPPORT.md)
-  - ruoyi-harmony/ 工程架构概览
+  - ruoyi-harmony-app/ 工程架构概览
   - DevEco Studio 中的编译与签名提示
   - SDK 与 `build-profile.json5` 的配置建议
 
 ## 网站更新
 
-- HarmonyOS/OpenHarmony 的支持说明已同步到网站文档首页，让访问者能快速定位到 `ruoyi-harmony/` 示例工程、hvigor 构建流程和多语言资源的说明。
+- HarmonyOS/OpenHarmony 的支持说明已同步到网站文档首页，让访问者能快速定位到 `ruoyi-harmony-app/` 示例工程、hvigor 构建流程和多语言资源的说明。
 - 文档页也补充了设备调试、日志采集、测试模块等提示，帮助想在 DevEco Studio 中运行项目的同学更顺利上手。
 
 ## 快速导航
 
 - [项目 README](../README.md)
-- Web 前端（React）：[ruoyi-front-react/README.md](../ruoyi-front-react/README.md)
-- Web 前端（Vue，历史版本/对照用）：[ruoyi-front/README.md](../ruoyi-front/README.md)
+- Web 前端（React）：[ruoyi-react-web/README.md](../ruoyi-react-web/README.md)
 - [开发规范](../openspec/conventions/)
 - [OpenSpec 规范](../openspec/)
