@@ -49,6 +49,7 @@ export default function AppProviders({ children }) {
       algorithm: isDark ? antdTheme.darkAlgorithm : antdTheme.defaultAlgorithm,
       token: {
         colorPrimary: theme || themeTokens.palette.primary,
+        colorLink: theme || themeTokens.palette.primary,
         fontFamily: themeTokens.fonts.body,
         fontSize: parseInt(themeTokens.typography.fontSizeBase, 10),
         lineHeight: themeTokens.typography.lineHeightBase

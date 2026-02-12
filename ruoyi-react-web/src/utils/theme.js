@@ -1,12 +1,15 @@
 // 处理主题样式 - 适配 Ant Design
 export function handleThemeStyle(theme) {
 	document.documentElement.style.setProperty('--ant-primary-color', theme)
+	document.documentElement.style.setProperty('--ant-color-primary', theme)
 	// Ant Design 使用不同的主题变量名
 	for (let i = 1; i <= 9; i++) {
 		document.documentElement.style.setProperty(`--ant-primary-color-light-${i}`, `${getLightColor(theme, i / 10)}`)
+		document.documentElement.style.setProperty(`--ant-color-primary-light-${i}`, `${getLightColor(theme, i / 10)}`)
 	}
 	for (let i = 1; i <= 9; i++) {
 		document.documentElement.style.setProperty(`--ant-primary-color-dark-${i}`, `${getDarkColor(theme, i / 10)}`)
+		document.documentElement.style.setProperty(`--ant-color-primary-dark-${i}`, `${getDarkColor(theme, i / 10)}`)
 	}
 }
 
