@@ -27,6 +27,7 @@
     .ant-menu-item,
     .ant-menu-submenu-title {
       color: inherit !important;
+      border-radius: 4px;
       
       &:hover {
         background-color: var(--menu-hover) !important;
@@ -35,10 +36,22 @@
 
     .ant-menu-item {
       color: inherit !important;
+      position: relative;
       
       &.ant-menu-item-selected {
         color: var(--menu-active-text) !important;
         background-color: var(--menu-hover) !important;
+
+        &::after {
+          content: "";
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background-color: var(--menu-active-text);
+          border-radius: 2px 0 0 2px;
+        }
         
         a {
           color: var(--menu-active-text) !important;
@@ -65,6 +78,7 @@
       // 子菜单项
       .ant-menu-item {
         background-color: inherit !important;
+        position: relative;
         
         &:hover {
           background-color: var(--menu-hover) !important;
@@ -73,6 +87,17 @@
         &.ant-menu-item-selected {
           color: var(--menu-active-text) !important;
           background-color: var(--menu-hover) !important;
+
+          &::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--menu-active-text);
+            border-radius: 2px 0 0 2px;
+          }
         }
       }
     }
