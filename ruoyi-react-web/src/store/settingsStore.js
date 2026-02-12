@@ -38,7 +38,7 @@ const updateDynamicTitle = (title, dynamicTitleEnabled) => {
 
 export const useSettingsStore = create((set, get) => ({
   title: '',
-  theme: storageSetting.theme || '#409EFF',
+  theme: storageSetting.theme || '#1d5ccc',
   sideTheme: storageSetting.sideTheme || sideTheme,
   showSettings: showSettings,
   topNav: storageSetting.topNav === undefined ? topNav : storageSetting.topNav,

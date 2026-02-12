@@ -23,7 +23,7 @@ const themeTokens = {
     menuActiveText: 'var(--ant-color-primary, #409EFF)'
   },
   palette: {
-    primary: '#409EFF',
+    primary: '#1d5ccc',
     success: '#67C23A',
     warning: '#E6A23C',
     danger: '#F56C6C',
