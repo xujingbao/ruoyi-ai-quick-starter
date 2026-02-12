@@ -37,7 +37,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 
 ### Development Tools
 - **Cursor** - AI 辅助开发 IDE（推荐）
-- **OpenSpec** - 规范驱动开发工具
+- **OpenSpec** - 规范驱动开发工具 (v1.1.1)
 - **MySQL MCP** - 数据库操作工具
 
 ## Project Conventions
