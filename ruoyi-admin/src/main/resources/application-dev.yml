@@ -35,7 +35,7 @@ spring:
     openai:
       base-url: https://api.deepseek.com
       # 安全起见，API KEY 可以设置从系统环境变量读取：export SPRING_AI_OPENAI_API_KEY="sk-xxxxxx"
-      api-key:
+      api-key: sk-placeholder-for-dev
       chat:
         options:
           model: deepseek-chat
@@ -127,5 +127,5 @@ spring:
 # 项目相关配置
 ruoyi:
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-  profile: /Users/xujingbao/Projects/Ruoyi-Vue/uploadPath
+  profile: /tmp/ruoyi/uploadPath
 
