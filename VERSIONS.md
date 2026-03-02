@@ -6,7 +6,8 @@
 - **Spring Boot**: 3.5.4
 - **Spring AI**: 1.1.2
 - **MyBatis**: 3.0.4
-- **MySQL**: 8.2.0 (驱动) / 8.0+ (数据库)
+- **PostgreSQL JDBC**: 42.7.7
+- **PostgreSQL**: 15+ (数据库)
 - **Redis**: 6.0+ (Lettuce 客户端)
 - **Druid**: 1.2.23
 - **FastJSON2**: 2.0.58

@@ -74,13 +74,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND u.phonenumber like concat('%', #{phonenumber}, '%')
 		</if>
 		<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
-			AND date_format(u.create_time,'%Y%m%d') &gt;= date_format(#{params.beginTime},'%Y%m%d')
+			AND u.create_time::date &gt;= #{params.beginTime}::date
 		</if>
 		<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-			AND date_format(u.create_time,'%Y%m%d') &lt;= date_format(#{params.endTime},'%Y%m%d')
+			AND u.create_time::date &lt;= #{params.endTime}::date
 		</if>
 		<if test="deptId != null and deptId != 0">
-			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.dept_id FROM sys_dept t WHERE find_in_set(#{deptId}, ancestors) ))
+			AND (u.dept_id = #{deptId} OR u.dept_id IN (SELECT t.dept_id FROM sys_dept t WHERE POSITION(CONCAT(',', #{deptId}, ',') IN CONCAT(',', t.ancestors, ',')) &gt; 0))
 		</if>
 		<!-- 数据范围过滤 -->
 		${params.dataScope}
@@ -173,7 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="pwdUpdateDate != null">#{pwdUpdateDate},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
  			<if test="remark != null and remark != ''">#{remark},</if>
- 			sysdate()
+			CURRENT_TIMESTAMP
  		)
 	</insert>
 	
@@ -192,17 +192,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			<if test="loginDate != null">login_date = #{loginDate},</if>
  			<if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
  			<if test="remark != null">remark = #{remark},</if>
- 			update_time = sysdate()
+			update_time = CURRENT_TIMESTAMP
  		</set>
  		where user_id = #{userId}
 	</update>
 	
 	<update id="updateUserStatus" parameterType="SysUser">
- 		update sys_user set status = #{status}, update_time = sysdate() where user_id = #{userId}
+ 		update sys_user set status = #{status}, update_time = CURRENT_TIMESTAMP where user_id = #{userId}
 	</update>
 	
 	<update id="updateUserAvatar" parameterType="SysUser">
- 		update sys_user set avatar = #{avatar}, update_time = sysdate() where user_id = #{userId}
+ 		update sys_user set avatar = #{avatar}, update_time = CURRENT_TIMESTAMP where user_id = #{userId}
 	</update>
 	
   	<update id="updateLoginInfo" parameterType="SysUser">
@@ -210,7 +210,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<update id="resetUserPwd" parameterType="SysUser">
- 		update sys_user set pwd_update_date = sysdate(), password = #{password}, update_time = sysdate() where user_id = #{userId}
+ 		update sys_user set pwd_update_date = CURRENT_TIMESTAMP, password = #{password}, update_time = CURRENT_TIMESTAMP where user_id = #{userId}
 	</update>
 	
 	<delete id="deleteUserById" parameterType="Long">

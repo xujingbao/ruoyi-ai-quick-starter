@@ -1,48 +1,28 @@
-# ************************************************************
-# Sequel Ace SQL dump
-# Version 20095
-#
-# https://sequel-ace.com/
-# https://github.com/Sequel-Ace/Sequel-Ace
-#
-# Host: localhost (MySQL 8.0.43)
-# Database: ry-demo
-# Generation Time: 2025-12-14 04:14:26 +0000
-# ************************************************************
+-- PostgreSQL initialization script (auto-converted)
+-- Source: sql/ry-demo-121412-14-26.sql
+-- Notes:
+-- 1) This file is auto-converted from MySQL dump.
+-- 2) Review serial/identity behavior and indexes before production use.
+-- 3) Run under UTF-8 database.
 
+BEGIN;
+DROP TABLE IF EXISTS "sys_config";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-SET NAMES utf8mb4;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE='NO_AUTO_VALUE_ON_ZERO', SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE TABLE "sys_config" (
+  "config_id" serial,
+  "config_name" varchar(100) DEFAULT '',
+  "config_key" varchar(100) DEFAULT '',
+  "config_value" varchar(500) DEFAULT '',
+  "config_type" char(1) DEFAULT 'N',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("config_id")
+);
 
-
-# Dump of table sys_config
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_config`;
-
-CREATE TABLE `sys_config` (
-  `config_id` int NOT NULL AUTO_INCREMENT COMMENT '参数主键',
-  `config_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '参数名称',
-  `config_key` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '参数键名',
-  `config_value` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '参数键值',
-  `config_type` char(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT '系统内置（Y是 N否）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`config_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='参数配置表';
-
-LOCK TABLES `sys_config` WRITE;
-/*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
-
-INSERT INTO `sys_config` (`config_id`, `config_name`, `config_key`, `config_value`, `config_type`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_config" ("config_id", "config_name", "config_key", "config_value", "config_type", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'主框架页-默认皮肤样式名称','sys.index.skinName','skin-blue','Y','admin','2025-12-01 04:31:35','',NULL,'蓝色 skin-blue、绿色 skin-green、紫色 skin-purple、红色 skin-red、黄色 skin-yellow'),
 	(2,'用户管理-账号初始密码','sys.user.initPassword','123456','Y','admin','2025-12-01 04:31:35','',NULL,'初始化密码 123456'),
@@ -53,37 +33,27 @@ VALUES
 	(7,'用户管理-初始密码修改策略','sys.account.initPasswordModify','1','Y','admin','2025-12-01 04:31:36','',NULL,'0：初始密码修改策略关闭，没有任何提示，1：提醒用户，如果未修改初始密码，则在登录时就会提醒修改密码对话框'),
 	(8,'用户管理-账号密码更新周期','sys.account.passwordValidateDays','0','Y','admin','2025-12-01 04:31:36','',NULL,'密码更新周期（填写数字，数据初始化值为0不限制，若修改必须为大于0小于365的正整数），如果超过这个周期登录系统时，则在登录时就会提醒修改密码对话框');
 
-/*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_dept";
 
+CREATE TABLE "sys_dept" (
+  "dept_id" bigserial,
+  "parent_id" bigint DEFAULT 0,
+  "ancestors" varchar(50) DEFAULT '',
+  "dept_name" varchar(30) DEFAULT '',
+  "order_num" int DEFAULT 0,
+  "leader" varchar(20) DEFAULT NULL,
+  "phone" varchar(11) DEFAULT NULL,
+  "email" varchar(50) DEFAULT NULL,
+  "status" char(1) DEFAULT '0',
+  "del_flag" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  PRIMARY KEY ("dept_id")
+);
 
-# Dump of table sys_dept
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_dept`;
-
-CREATE TABLE `sys_dept` (
-  `dept_id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门id',
-  `parent_id` bigint DEFAULT '0' COMMENT '父部门id',
-  `ancestors` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '祖级列表',
-  `dept_name` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '部门名称',
-  `order_num` int DEFAULT '0' COMMENT '显示顺序',
-  `leader` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '负责人',
-  `phone` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
-  `del_flag` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='部门表';
-
-LOCK TABLES `sys_dept` WRITE;
-/*!40000 ALTER TABLE `sys_dept` DISABLE KEYS */;
-
-INSERT INTO `sys_dept` (`dept_id`, `parent_id`, `ancestors`, `dept_name`, `order_num`, `leader`, `phone`, `email`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`)
+INSERT INTO "sys_dept" ("dept_id", "parent_id", "ancestors", "dept_name", "order_num", "leader", "phone", "email", "status", "del_flag", "create_by", "create_time", "update_by", "update_time")
 VALUES
 	(100,0,'0','科技集团',0,'evan','15888888888','evan@ai-quick.dev','0','0','admin','2025-12-01 04:31:32','admin','2025-12-11 14:50:25'),
 	(101,100,'0,100','深圳总公司',1,'evan','15888888888','evan@ai-quick.dev','0','0','admin','2025-12-01 04:31:32','admin','2025-12-11 14:50:22'),
@@ -123,37 +93,27 @@ VALUES
 	(248,224,'0,100,224','销售部门',3,'evan','15888888888','evan@ai-quick.dev','0','0','admin','2025-12-11 14:53:09','',NULL),
 	(249,224,'0,100,224','客户服务部门',4,'evan','15888888888','evan@ai-quick.dev','0','0','admin','2025-12-11 14:53:09','',NULL);
 
-/*!40000 ALTER TABLE `sys_dept` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_dict_data";
 
+CREATE TABLE "sys_dict_data" (
+  "dict_code" bigserial,
+  "dict_sort" int DEFAULT 0,
+  "dict_label" varchar(100) DEFAULT '',
+  "dict_value" varchar(100) DEFAULT '',
+  "dict_type" varchar(100) DEFAULT '',
+  "css_class" varchar(100) DEFAULT NULL,
+  "list_class" varchar(100) DEFAULT NULL,
+  "is_default" char(1) DEFAULT 'N',
+  "status" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("dict_code")
+);
 
-# Dump of table sys_dict_data
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_dict_data`;
-
-CREATE TABLE `sys_dict_data` (
-  `dict_code` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
-  `dict_sort` int DEFAULT '0' COMMENT '字典排序',
-  `dict_label` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典标签',
-  `dict_value` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典键值',
-  `dict_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典类型',
-  `css_class` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '样式属性（其他样式扩展）',
-  `list_class` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '表格回显样式',
-  `is_default` char(1) COLLATE utf8mb4_unicode_ci DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`dict_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典数据表';
-
-LOCK TABLES `sys_dict_data` WRITE;
-/*!40000 ALTER TABLE `sys_dict_data` DISABLE KEYS */;
-
-INSERT INTO `sys_dict_data` (`dict_code`, `dict_sort`, `dict_label`, `dict_value`, `dict_type`, `css_class`, `list_class`, `is_default`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_dict_data" ("dict_code", "dict_sort", "dict_label", "dict_value", "dict_type", "css_class", "list_class", "is_default", "status", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,1,'男','0','sys_user_sex','','','Y','0','admin','2025-12-01 04:31:35','',NULL,'性别男'),
 	(2,2,'女','1','sys_user_sex','','','N','0','admin','2025-12-01 04:31:35','',NULL,'性别女'),
@@ -185,33 +145,23 @@ VALUES
 	(28,1,'成功','0','sys_common_status','','primary','N','0','admin','2025-12-01 04:31:35','',NULL,'正常状态'),
 	(29,2,'失败','1','sys_common_status','','danger','N','0','admin','2025-12-01 04:31:35','',NULL,'停用状态');
 
-/*!40000 ALTER TABLE `sys_dict_data` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_dict_type";
 
+CREATE TABLE "sys_dict_type" (
+  "dict_id" bigserial,
+  "dict_name" varchar(100) DEFAULT '',
+  "dict_type" varchar(100) DEFAULT '',
+  "status" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("dict_id"),
+  UNIQUE ("dict_type")
+);
 
-# Dump of table sys_dict_type
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_dict_type`;
-
-CREATE TABLE `sys_dict_type` (
-  `dict_id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典主键',
-  `dict_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典名称',
-  `dict_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典类型',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`dict_id`),
-  UNIQUE KEY `dict_type` (`dict_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='字典类型表';
-
-LOCK TABLES `sys_dict_type` WRITE;
-/*!40000 ALTER TABLE `sys_dict_type` DISABLE KEYS */;
-
-INSERT INTO `sys_dict_type` (`dict_id`, `dict_name`, `dict_type`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_dict_type" ("dict_id", "dict_name", "dict_type", "status", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'用户性别','sys_user_sex','0','admin','2025-12-01 04:31:35','',NULL,'用户性别列表'),
 	(2,'菜单状态','sys_show_hide','0','admin','2025-12-01 04:31:35','',NULL,'菜单状态列表'),
@@ -224,88 +174,64 @@ VALUES
 	(9,'操作类型','sys_oper_type','0','admin','2025-12-01 04:31:35','',NULL,'操作类型列表'),
 	(10,'系统状态','sys_common_status','0','admin','2025-12-01 04:31:35','',NULL,'登录状态列表');
 
-/*!40000 ALTER TABLE `sys_dict_type` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_job";
 
+CREATE TABLE "sys_job" (
+  "job_id" bigserial,
+  "job_name" varchar(64) NOT NULL DEFAULT '',
+  "job_group" varchar(64) NOT NULL DEFAULT 'DEFAULT',
+  "invoke_target" varchar(500) NOT NULL,
+  "cron_expression" varchar(255) DEFAULT '',
+  "misfire_policy" varchar(20) DEFAULT '3',
+  "concurrent" char(1) DEFAULT '1',
+  "status" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT '',
+  PRIMARY KEY ("job_id","job_name","job_group")
+);
 
-# Dump of table sys_job
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_job`;
-
-CREATE TABLE `sys_job` (
-  `job_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-  `job_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务名称',
-  `job_group` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'DEFAULT' COMMENT '任务组名',
-  `invoke_target` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '调用目标字符串',
-  `cron_expression` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT 'cron执行表达式',
-  `misfire_policy` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT '3' COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
-  `concurrent` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '1' COMMENT '是否并发执行（0允许 1禁止）',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '状态（0正常 1暂停）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '备注信息',
-  PRIMARY KEY (`job_id`,`job_name`,`job_group`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='定时任务调度表';
-
-LOCK TABLES `sys_job` WRITE;
-/*!40000 ALTER TABLE `sys_job` DISABLE KEYS */;
-
-INSERT INTO `sys_job` (`job_id`, `job_name`, `job_group`, `invoke_target`, `cron_expression`, `misfire_policy`, `concurrent`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_job" ("job_id", "job_name", "job_group", "invoke_target", "cron_expression", "misfire_policy", "concurrent", "status", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'系统默认（无参）','DEFAULT','ryTask.ryNoParams','0/10 * * * * ?','3','1','1','admin','2025-12-01 04:31:36','',NULL,''),
-	(2,'系统默认（有参）','DEFAULT','ryTask.ryParams(\'ry\')','0/15 * * * * ?','3','1','1','admin','2025-12-01 04:31:36','',NULL,''),
-	(3,'系统默认（多参）','DEFAULT','ryTask.ryMultipleParams(\'ry\', true, 2000L, 316.50D, 100)','0/20 * * * * ?','3','1','1','admin','2025-12-01 04:31:36','',NULL,'');
+	(2,'系统默认（有参）','DEFAULT','ryTask.ryParams(''ry'')','0/15 * * * * ?','3','1','1','admin','2025-12-01 04:31:36','',NULL,''),
+	(3,'系统默认（多参）','DEFAULT','ryTask.ryMultipleParams(''ry'', true, 2000L, 316.50D, 100)','0/20 * * * * ?','3','1','1','admin','2025-12-01 04:31:36','',NULL,'');
 
-/*!40000 ALTER TABLE `sys_job` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_job_log";
 
+CREATE TABLE "sys_job_log" (
+  "job_log_id" bigserial,
+  "job_name" varchar(64) NOT NULL,
+  "job_group" varchar(64) NOT NULL,
+  "invoke_target" varchar(500) NOT NULL,
+  "job_message" varchar(500) DEFAULT NULL,
+  "status" char(1) DEFAULT '0',
+  "exception_info" varchar(2000) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  PRIMARY KEY ("job_log_id")
+);
 
-# Dump of table sys_job_log
-# ------------------------------------------------------------
+DROP TABLE IF EXISTS "sys_logininfor";
 
-DROP TABLE IF EXISTS `sys_job_log`;
+CREATE TABLE "sys_logininfor" (
+  "info_id" bigserial,
+  "user_name" varchar(50) DEFAULT '',
+  "ipaddr" varchar(128) DEFAULT '',
+  "login_location" varchar(255) DEFAULT '',
+  "browser" varchar(50) DEFAULT '',
+  "os" varchar(50) DEFAULT '',
+  "status" char(1) DEFAULT '0',
+  "msg" varchar(255) DEFAULT '',
+  "login_time" timestamp DEFAULT NULL,
+  PRIMARY KEY ("info_id")
+);
 
-CREATE TABLE `sys_job_log` (
-  `job_log_id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
-  `job_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '任务名称',
-  `job_group` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '任务组名',
-  `invoke_target` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '调用目标字符串',
-  `job_message` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '日志信息',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
-  `exception_info` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`job_log_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='定时任务调度日志表';
+CREATE INDEX "idx_sys_logininfor_s" ON "sys_logininfor" ("status");
+CREATE INDEX "idx_sys_logininfor_lt" ON "sys_logininfor" ("login_time");
 
-
-
-# Dump of table sys_logininfor
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_logininfor`;
-
-CREATE TABLE `sys_logininfor` (
-  `info_id` bigint NOT NULL AUTO_INCREMENT COMMENT '访问ID',
-  `user_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '用户账号',
-  `ipaddr` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '登录IP地址',
-  `login_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '登录地点',
-  `browser` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '浏览器类型',
-  `os` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '操作系统',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '登录状态（0成功 1失败）',
-  `msg` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '提示消息',
-  `login_time` datetime DEFAULT NULL COMMENT '访问时间',
-  PRIMARY KEY (`info_id`),
-  KEY `idx_sys_logininfor_s` (`status`),
-  KEY `idx_sys_logininfor_lt` (`login_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='系统访问记录';
-
-LOCK TABLES `sys_logininfor` WRITE;
-/*!40000 ALTER TABLE `sys_logininfor` DISABLE KEYS */;
-
-INSERT INTO `sys_logininfor` (`info_id`, `user_name`, `ipaddr`, `login_location`, `browser`, `os`, `status`, `msg`, `login_time`)
+INSERT INTO "sys_logininfor" ("info_id", "user_name", "ipaddr", "login_location", "browser", "os", "status", "msg", "login_time")
 VALUES
 	(100,'admin','127.0.0.1','内网IP','Chrome 13','Mac OS X','0','登录成功','2025-12-02 11:35:16'),
 	(101,'admin','127.0.0.1','内网IP','Chrome 14','Mac OS X','0','登录成功','2025-12-02 11:36:40'),
@@ -361,43 +287,33 @@ VALUES
 	(151,'admin','127.0.0.1','内网IP','Chrome 14','Mac OS X','0','登录成功','2025-12-13 17:05:50'),
 	(152,'admin','127.0.0.1','内网IP','Chrome 14','Mac OS X','0','登录成功','2025-12-14 03:05:52');
 
-/*!40000 ALTER TABLE `sys_logininfor` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_menu";
 
+CREATE TABLE "sys_menu" (
+  "menu_id" bigserial,
+  "menu_name" varchar(50) NOT NULL,
+  "parent_id" bigint DEFAULT 0,
+  "order_num" int DEFAULT 0,
+  "path" varchar(200) DEFAULT '',
+  "component" varchar(255) DEFAULT NULL,
+  "query" varchar(255) DEFAULT NULL,
+  "route_name" varchar(50) DEFAULT '',
+  "is_frame" int DEFAULT 1,
+  "is_cache" int DEFAULT 0,
+  "menu_type" char(1) DEFAULT '',
+  "visible" char(1) DEFAULT '0',
+  "status" char(1) DEFAULT '0',
+  "perms" varchar(100) DEFAULT NULL,
+  "icon" varchar(100) DEFAULT '#',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT '',
+  PRIMARY KEY ("menu_id")
+);
 
-# Dump of table sys_menu
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_menu`;
-
-CREATE TABLE `sys_menu` (
-  `menu_id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `menu_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '菜单名称',
-  `parent_id` bigint DEFAULT '0' COMMENT '父菜单ID',
-  `order_num` int DEFAULT '0' COMMENT '显示顺序',
-  `path` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '路由地址',
-  `component` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组件路径',
-  `query` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '路由参数',
-  `route_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '路由名称',
-  `is_frame` int DEFAULT '1' COMMENT '是否为外链（0是 1否）',
-  `is_cache` int DEFAULT '0' COMMENT '是否缓存（0缓存 1不缓存）',
-  `menu_type` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
-  `visible` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
-  `perms` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限标识',
-  `icon` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '#' COMMENT '菜单图标',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '备注',
-  PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='菜单权限表';
-
-LOCK TABLES `sys_menu` WRITE;
-/*!40000 ALTER TABLE `sys_menu` DISABLE KEYS */;
-
-INSERT INTO `sys_menu` (`menu_id`, `menu_name`, `parent_id`, `order_num`, `path`, `component`, `query`, `route_name`, `is_frame`, `is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_menu" ("menu_id", "menu_name", "parent_id", "order_num", "path", "component", "query", "route_name", "is_frame", "is_cache", "menu_type", "visible", "status", "perms", "icon", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'系统管理',0,1,'system',NULL,'','',1,0,'M','0','0','','setting-outlined','admin','2025-12-01 04:31:32','',NULL,'系统管理目录'),
 	(2,'系统监控',0,2,'monitor',NULL,'','',1,0,'M','0','0','','dashboard-outlined','admin','2025-12-01 04:31:32','',NULL,'系统监控目录'),
@@ -477,33 +393,23 @@ VALUES
 	(2000,'AI 功能',0,5,'ai',NULL,'','Ai',1,0,'M','0','0','','robot-outlined','admin','2025-12-14 03:35:49','',NULL,'AI 功能目录'),
 	(2001,'AI 聊天测试',2000,1,'chat','ai/chat/index','','AiChat',1,0,'C','0','0','ai:chat:view','message-outlined','admin','2025-12-14 03:35:49','',NULL,'AI 聊天测试功能，用于测试 Spring AI 集成的 DeepSeek 聊天功能');
 
-/*!40000 ALTER TABLE `sys_menu` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_notice";
 
+CREATE TABLE "sys_notice" (
+  "notice_id" serial,
+  "notice_title" varchar(50) NOT NULL,
+  "notice_type" char(1) NOT NULL,
+  "notice_content" text,
+  "status" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(255) DEFAULT NULL,
+  PRIMARY KEY ("notice_id")
+);
 
-# Dump of table sys_notice
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_notice`;
-
-CREATE TABLE `sys_notice` (
-  `notice_id` int NOT NULL AUTO_INCREMENT COMMENT '公告ID',
-  `notice_title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '公告标题',
-  `notice_type` char(1) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '公告类型（1通知 2公告）',
-  `notice_content` longblob COMMENT '公告内容',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '公告状态（0正常 1关闭）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`notice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='通知公告表';
-
-LOCK TABLES `sys_notice` WRITE;
-/*!40000 ALTER TABLE `sys_notice` DISABLE KEYS */;
-
-INSERT INTO `sys_notice` (`notice_id`, `notice_title`, `notice_type`, `notice_content`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_notice" ("notice_id", "notice_title", "notice_type", "notice_content", "status", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(10,'系统升级通知','1',X'E7B3BBE7BB9FE5B086E4BA8EE69CACE591A8E585ADE5878CE699A8323A30302D343A3030E8BF9BE8A18CE7B3BBE7BB9FE58D87E7BAA7E7BBB4E68AA4EFBC8CE69C9FE997B4E7B3BBE7BB9FE5B086E69A82E5819CE69C8DE58AA1EFBC8CE8AFB7E68F90E5898DE5819AE5A5BDE58786E5A487E5B7A5E4BD9CE38082','0','admin','2025-12-11 14:53:58','',NULL,'系统维护通知'),
 	(11,'新功能上线公告','2',X'E69CACE6ACA1E69BB4E696B0E696B0E5A29EE4BA86E4BBA5E4B88BE58A9FE883BDEFBC9A312E20E799BBE5BD95E7958CE99DA2E4BC98E58C96EFBC8CE694AFE68C81E8838CE699AFE6A8A1E7B38AE5928CE981AEE7BDA9E69588E69E9CEFBC9B322E20E983A8E997A8E7AEA1E79086E58A9FE883BDE5A29EE5BCBAEFBC9B332E20E9809AE79FA5E585ACE5918AE7B3BBE7BB9FE4BC98E58C96E38082E6ACA2E8BF8EE5A4A7E5AEB6E4BD93E9AA8CE696B0E58A9FE883BDEFBC81','0','admin','2025-12-11 14:53:58','',NULL,'功能更新'),
@@ -518,43 +424,34 @@ VALUES
 	(20,'月度优秀员工公告','2',X'E7BB8FE8BF87E8AF84E98089EFBC8CE69CACE69C88E4BC98E7A780E59198E5B7A5E4B8BAEFBC9AE7A791E68A80E7A094E58F91E983A82DE5898DE7ABAFE5BC80E58F91E7BB84E38082E6849FE8B0A2E4BB96E4BBACE79A84E7AA81E587BAE8B4A1E78CAEEFBC8CE5B88CE69C9BE5A4A7E5AEB6E59091E4BB96E4BBACE5ADA6E4B9A0E38082','0','admin','2025-12-11 14:53:58','',NULL,'优秀员工'),
 	(21,'系统维护完成通知','1',X'E7B3BBE7BB9FE7BBB4E68AA4E5B7B2E5AE8CE68890EFBC8CE68980E69C89E58A9FE883BDE5B7B2E681A2E5A48DE6ADA3E5B8B8E38082E6849FE8B0A2E5A4A7E5AEB6E79A84E88090E5BF83E7AD89E5BE85EFBC8CE5A682E69C89E997AEE9A298E8AFB7E58F8AE697B6E58F8DE9A688E38082','0','admin','2025-12-11 14:53:58','',NULL,'维护完成');
 
-/*!40000 ALTER TABLE `sys_notice` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_oper_log";
 
+CREATE TABLE "sys_oper_log" (
+  "oper_id" bigserial,
+  "title" varchar(50) DEFAULT '',
+  "business_type" int DEFAULT 0,
+  "method" varchar(200) DEFAULT '',
+  "request_method" varchar(10) DEFAULT '',
+  "operator_type" int DEFAULT 0,
+  "oper_name" varchar(50) DEFAULT '',
+  "dept_name" varchar(50) DEFAULT '',
+  "oper_url" varchar(255) DEFAULT '',
+  "oper_ip" varchar(128) DEFAULT '',
+  "oper_location" varchar(255) DEFAULT '',
+  "oper_param" varchar(2000) DEFAULT '',
+  "json_result" varchar(2000) DEFAULT '',
+  "status" int DEFAULT 0,
+  "error_msg" varchar(2000) DEFAULT '',
+  "oper_time" timestamp DEFAULT NULL,
+  "cost_time" bigint DEFAULT 0,
+  PRIMARY KEY ("oper_id")
+);
 
-# Dump of table sys_oper_log
-# ------------------------------------------------------------
+CREATE INDEX "idx_sys_oper_log_bt" ON "sys_oper_log" ("business_type");
+CREATE INDEX "idx_sys_oper_log_s" ON "sys_oper_log" ("status");
+CREATE INDEX "idx_sys_oper_log_ot" ON "sys_oper_log" ("oper_time");
 
-DROP TABLE IF EXISTS `sys_oper_log`;
-
-CREATE TABLE `sys_oper_log` (
-  `oper_id` bigint NOT NULL AUTO_INCREMENT COMMENT '日志主键',
-  `title` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '模块标题',
-  `business_type` int DEFAULT '0' COMMENT '业务类型（0其它 1新增 2修改 3删除）',
-  `method` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '方法名称',
-  `request_method` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '请求方式',
-  `operator_type` int DEFAULT '0' COMMENT '操作类别（0其它 1后台用户 2手机端用户）',
-  `oper_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '操作人员',
-  `dept_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '部门名称',
-  `oper_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '请求URL',
-  `oper_ip` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '主机地址',
-  `oper_location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '操作地点',
-  `oper_param` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '请求参数',
-  `json_result` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '返回参数',
-  `status` int DEFAULT '0' COMMENT '操作状态（0正常 1异常）',
-  `error_msg` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '错误消息',
-  `oper_time` datetime DEFAULT NULL COMMENT '操作时间',
-  `cost_time` bigint DEFAULT '0' COMMENT '消耗时间',
-  PRIMARY KEY (`oper_id`),
-  KEY `idx_sys_oper_log_bt` (`business_type`),
-  KEY `idx_sys_oper_log_s` (`status`),
-  KEY `idx_sys_oper_log_ot` (`oper_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='操作日志记录';
-
-LOCK TABLES `sys_oper_log` WRITE;
-/*!40000 ALTER TABLE `sys_oper_log` DISABLE KEYS */;
-
-INSERT INTO `sys_oper_log` (`oper_id`, `title`, `business_type`, `method`, `request_method`, `operator_type`, `oper_name`, `dept_name`, `oper_url`, `oper_ip`, `oper_location`, `oper_param`, `json_result`, `status`, `error_msg`, `oper_time`, `cost_time`)
+INSERT INTO "sys_oper_log" ("oper_id", "title", "business_type", "method", "request_method", "operator_type", "oper_name", "dept_name", "oper_url", "oper_ip", "oper_location", "oper_param", "json_result", "status", "error_msg", "oper_time", "cost_time")
 VALUES
 	(100,'用户头像',2,'com.ruoyi.web.controller.system.SysProfileController.avatar()','POST',1,'admin','研发部门','/system/user/profile/avatar','127.0.0.1','内网IP','',NULL,1,'文件[logo.svg]后缀[svg]不正确，请上传[bmp, gif, jpg, jpeg, png]格式','2025-12-04 12:25:34',7),
 	(101,'菜单管理',2,'com.ruoyi.web.controller.system.SysMenuController.edit()','PUT',1,'admin','研发部门','/system/menu','127.0.0.1','内网IP','{\"children\":[],\"createTime\":\"2025-12-01 04:31:33\",\"icon\":\"guide\",\"isCache\":\"0\",\"isFrame\":\"0\",\"menuId\":4,\"menuName\":\"官方网站\",\"menuType\":\"M\",\"orderNum\":4,\"params\":{},\"parentId\":0,\"path\":\"http://#\",\"perms\":\"\",\"query\":\"\",\"routeName\":\"\",\"status\":\"0\",\"updateBy\":\"admin\",\"visible\":\"0\"}','{\"msg\":\"操作成功\",\"code\":200}',0,NULL,'2025-12-04 12:38:50',52),
@@ -632,117 +529,77 @@ VALUES
 	(173,'AI聊天',0,'com.ruoyi.web.controller.ai.AiChatController.streamChat()','POST',1,'admin','科技研发部','/ai/chat/stream','127.0.0.1','内网IP','{\"message\":\"你好啊\",\"temperature\":null}','{\"prefetch\":-1,\"scanAvailable\":true}',0,NULL,'2025-12-14 04:08:12',58),
 	(174,'AI聊天',0,'com.ruoyi.web.controller.ai.AiChatController.streamChat()','POST',1,'admin','科技研发部','/ai/chat/stream','127.0.0.1','内网IP','{\"message\":\"你好\",\"temperature\":null}','{\"prefetch\":-1,\"scanAvailable\":true}',0,NULL,'2025-12-14 04:09:46',11);
 
-/*!40000 ALTER TABLE `sys_oper_log` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_post";
 
+CREATE TABLE "sys_post" (
+  "post_id" bigserial,
+  "post_code" varchar(64) NOT NULL,
+  "post_name" varchar(50) NOT NULL,
+  "post_sort" int NOT NULL,
+  "status" char(1) NOT NULL,
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("post_id")
+);
 
-# Dump of table sys_post
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_post`;
-
-CREATE TABLE `sys_post` (
-  `post_id` bigint NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
-  `post_code` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '岗位编码',
-  `post_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '岗位名称',
-  `post_sort` int NOT NULL COMMENT '显示顺序',
-  `status` char(1) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '状态（0正常 1停用）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='岗位信息表';
-
-LOCK TABLES `sys_post` WRITE;
-/*!40000 ALTER TABLE `sys_post` DISABLE KEYS */;
-
-INSERT INTO `sys_post` (`post_id`, `post_code`, `post_name`, `post_sort`, `status`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_post" ("post_id", "post_code", "post_name", "post_sort", "status", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'ceo','董事长',1,'0','admin','2025-12-01 04:31:32','',NULL,''),
 	(2,'se','项目经理',2,'0','admin','2025-12-01 04:31:32','',NULL,''),
 	(3,'hr','人力资源',3,'0','admin','2025-12-01 04:31:32','',NULL,''),
 	(4,'user','普通员工',4,'0','admin','2025-12-01 04:31:32','',NULL,'');
 
-/*!40000 ALTER TABLE `sys_post` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_role";
 
+CREATE TABLE "sys_role" (
+  "role_id" bigserial,
+  "role_name" varchar(30) NOT NULL,
+  "role_key" varchar(100) NOT NULL,
+  "role_sort" int NOT NULL,
+  "data_scope" char(1) DEFAULT '1',
+  "menu_check_strictly" smallint DEFAULT 1,
+  "dept_check_strictly" smallint DEFAULT 1,
+  "status" char(1) NOT NULL,
+  "del_flag" char(1) DEFAULT '0',
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("role_id")
+);
 
-# Dump of table sys_role
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_role`;
-
-CREATE TABLE `sys_role` (
-  `role_id` bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `role_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色名称',
-  `role_key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色权限字符串',
-  `role_sort` int NOT NULL COMMENT '显示顺序',
-  `data_scope` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
-  `menu_check_strictly` tinyint(1) DEFAULT '1' COMMENT '菜单树选择项是否关联显示',
-  `dept_check_strictly` tinyint(1) DEFAULT '1' COMMENT '部门树选择项是否关联显示',
-  `status` char(1) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
-  `del_flag` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色信息表';
-
-LOCK TABLES `sys_role` WRITE;
-/*!40000 ALTER TABLE `sys_role` DISABLE KEYS */;
-
-INSERT INTO `sys_role` (`role_id`, `role_name`, `role_key`, `role_sort`, `data_scope`, `menu_check_strictly`, `dept_check_strictly`, `status`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_role" ("role_id", "role_name", "role_key", "role_sort", "data_scope", "menu_check_strictly", "dept_check_strictly", "status", "del_flag", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,'超级管理员','admin',1,'1',1,1,'0','0','admin','2025-12-01 04:31:32','',NULL,'超级管理员'),
 	(2,'普通角色','common',2,'2',1,1,'0','0','admin','2025-12-01 04:31:32','',NULL,'普通角色');
 
-/*!40000 ALTER TABLE `sys_role` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_role_dept";
 
+CREATE TABLE "sys_role_dept" (
+  "role_id" bigint NOT NULL,
+  "dept_id" bigint NOT NULL,
+  PRIMARY KEY ("role_id","dept_id")
+);
 
-# Dump of table sys_role_dept
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_role_dept`;
-
-CREATE TABLE `sys_role_dept` (
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `dept_id` bigint NOT NULL COMMENT '部门ID',
-  PRIMARY KEY (`role_id`,`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色和部门关联表';
-
-LOCK TABLES `sys_role_dept` WRITE;
-/*!40000 ALTER TABLE `sys_role_dept` DISABLE KEYS */;
-
-INSERT INTO `sys_role_dept` (`role_id`, `dept_id`)
+INSERT INTO "sys_role_dept" ("role_id", "dept_id")
 VALUES
 	(2,100),
 	(2,101),
 	(2,105);
 
-/*!40000 ALTER TABLE `sys_role_dept` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_role_menu";
 
+CREATE TABLE "sys_role_menu" (
+  "role_id" bigint NOT NULL,
+  "menu_id" bigint NOT NULL,
+  PRIMARY KEY ("role_id","menu_id")
+);
 
-# Dump of table sys_role_menu
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_role_menu`;
-
-CREATE TABLE `sys_role_menu` (
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  `menu_id` bigint NOT NULL COMMENT '菜单ID',
-  PRIMARY KEY (`role_id`,`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='角色和菜单关联表';
-
-LOCK TABLES `sys_role_menu` WRITE;
-/*!40000 ALTER TABLE `sys_role_menu` DISABLE KEYS */;
-
-INSERT INTO `sys_role_menu` (`role_id`, `menu_id`)
+INSERT INTO "sys_role_menu" ("role_id", "menu_id")
 VALUES
 	(1,2000),
 	(1,2001),
@@ -822,43 +679,33 @@ VALUES
 	(2,1053),
 	(2,1054);
 
-/*!40000 ALTER TABLE `sys_role_menu` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_user";
 
+CREATE TABLE "sys_user" (
+  "user_id" bigserial,
+  "dept_id" bigint DEFAULT NULL,
+  "user_name" varchar(30) NOT NULL,
+  "nick_name" varchar(30) NOT NULL,
+  "user_type" varchar(2) DEFAULT '00',
+  "email" varchar(50) DEFAULT '',
+  "phonenumber" varchar(11) DEFAULT '',
+  "sex" char(1) DEFAULT '0',
+  "avatar" varchar(100) DEFAULT '',
+  "password" varchar(100) DEFAULT '',
+  "status" char(1) DEFAULT '0',
+  "del_flag" char(1) DEFAULT '0',
+  "login_ip" varchar(128) DEFAULT '',
+  "login_date" timestamp DEFAULT NULL,
+  "pwd_update_date" timestamp DEFAULT NULL,
+  "create_by" varchar(64) DEFAULT '',
+  "create_time" timestamp DEFAULT NULL,
+  "update_by" varchar(64) DEFAULT '',
+  "update_time" timestamp DEFAULT NULL,
+  "remark" varchar(500) DEFAULT NULL,
+  PRIMARY KEY ("user_id")
+);
 
-# Dump of table sys_user
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_user`;
-
-CREATE TABLE `sys_user` (
-  `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `dept_id` bigint DEFAULT NULL COMMENT '部门ID',
-  `user_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户账号',
-  `nick_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户昵称',
-  `user_type` varchar(2) COLLATE utf8mb4_unicode_ci DEFAULT '00' COMMENT '用户类型（00系统用户）',
-  `email` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '用户邮箱',
-  `phonenumber` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '手机号码',
-  `sex` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '用户性别（0男 1女 2未知）',
-  `avatar` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '头像地址',
-  `password` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '密码',
-  `status` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '账号状态（0正常 1停用）',
-  `del_flag` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
-  `login_ip` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '最后登录IP',
-  `login_date` datetime DEFAULT NULL COMMENT '最后登录时间',
-  `pwd_update_date` datetime DEFAULT NULL COMMENT '密码最后更新时间',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `remark` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户信息表';
-
-LOCK TABLES `sys_user` WRITE;
-/*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-
-INSERT INTO `sys_user` (`user_id`, `dept_id`, `user_name`, `nick_name`, `user_type`, `email`, `phonenumber`, `sex`, `avatar`, `password`, `status`, `del_flag`, `login_ip`, `login_date`, `pwd_update_date`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`)
+INSERT INTO "sys_user" ("user_id", "dept_id", "user_name", "nick_name", "user_type", "email", "phonenumber", "sex", "avatar", "password", "status", "del_flag", "login_ip", "login_date", "pwd_update_date", "create_by", "create_time", "update_by", "update_time", "remark")
 VALUES
 	(1,103,'admin','Quick Demo','00','ai-quick@dev.com','15888888888','1','/profile/avatar/2025/12/11/6f13ca471822454ea62b5748434574b7.png','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-12-14 11:05:53','2025-12-01 04:31:32','admin','2025-12-01 04:31:32','','2025-12-11 14:19:03','管理员'),
 	(2,105,'test','test','00','ai-quick@dev.com','15666666666','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','127.0.0.1','2025-12-01 04:31:32','2025-12-01 04:31:32','admin','2025-12-01 04:31:32','',NULL,'测试员'),
@@ -886,25 +733,15 @@ VALUES
 	(121,240,'liuyang','刘洋','00','liuyang@ai-quick.dev','13800001022','0','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','',NULL,NULL,'admin','2025-12-11 14:55:43','',NULL,'长沙技术部工程师'),
 	(122,241,'zhaoyan','赵燕','00','zhaoyan@ai-quick.dev','13800001023','1','','$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2','0','0','',NULL,NULL,'admin','2025-12-11 14:55:43','',NULL,'长沙运营部专员');
 
-/*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_user_post";
 
+CREATE TABLE "sys_user_post" (
+  "user_id" bigint NOT NULL,
+  "post_id" bigint NOT NULL,
+  PRIMARY KEY ("user_id","post_id")
+);
 
-# Dump of table sys_user_post
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_user_post`;
-
-CREATE TABLE `sys_user_post` (
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `post_id` bigint NOT NULL COMMENT '岗位ID',
-  PRIMARY KEY (`user_id`,`post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户与岗位关联表';
-
-LOCK TABLES `sys_user_post` WRITE;
-/*!40000 ALTER TABLE `sys_user_post` DISABLE KEYS */;
-
-INSERT INTO `sys_user_post` (`user_id`, `post_id`)
+INSERT INTO "sys_user_post" ("user_id", "post_id")
 VALUES
 	(1,1),
 	(2,2),
@@ -932,25 +769,15 @@ VALUES
 	(121,4),
 	(122,4);
 
-/*!40000 ALTER TABLE `sys_user_post` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS "sys_user_role";
 
+CREATE TABLE "sys_user_role" (
+  "user_id" bigint NOT NULL,
+  "role_id" bigint NOT NULL,
+  PRIMARY KEY ("user_id","role_id")
+);
 
-# Dump of table sys_user_role
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `sys_user_role`;
-
-CREATE TABLE `sys_user_role` (
-  `user_id` bigint NOT NULL COMMENT '用户ID',
-  `role_id` bigint NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户和角色关联表';
-
-LOCK TABLES `sys_user_role` WRITE;
-/*!40000 ALTER TABLE `sys_user_role` DISABLE KEYS */;
-
-INSERT INTO `sys_user_role` (`user_id`, `role_id`)
+INSERT INTO "sys_user_role" ("user_id", "role_id")
 VALUES
 	(1,1),
 	(2,2),
@@ -978,14 +805,29 @@ VALUES
 	(121,2),
 	(122,2);
 
-/*!40000 ALTER TABLE `sys_user_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+DO $$
+DECLARE
+  r RECORD;
+BEGIN
+  FOR r IN
+    SELECT
+      c.table_schema,
+      c.table_name,
+      c.column_name,
+      pg_get_serial_sequence(format('%I.%I', c.table_schema, c.table_name), c.column_name) AS seq_name
+    FROM information_schema.columns c
+    WHERE c.table_schema = 'public'
+      AND c.column_default LIKE 'nextval(%'
+  LOOP
+    IF r.seq_name IS NOT NULL THEN
+      EXECUTE format(
+        'SELECT setval(%L, GREATEST(COALESCE((SELECT MAX(%I) FROM %I.%I), 0), 1), true)',
+        r.seq_name,
+        r.column_name,
+        r.table_schema,
+        r.table_name
+      );
+    END IF;
+  END LOOP;
+END $$;
+COMMIT;

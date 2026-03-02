@@ -3,7 +3,7 @@
 基于 RuoYi 成熟框架的 **AI 快速开发框架**，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
 ## 技术栈
 
-**后端：** Spring Boot 3.x + MyBatis + Redis + MySQL + Quartz  
+**后端：** Spring Boot 3.x + MyBatis + Redis + PostgreSQL + Quartz  
 **前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
 **移动端：** uni-app、React Native、HarmonyOS
 
@@ -11,13 +11,15 @@
 
 ### 环境要求
 
-JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | MySQL 8.0+ | Redis 6.0+
+JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | PostgreSQL 15+ | Redis 6.0+
 
 ### 启动步骤
 
 1. **初始化数据库**
    ```bash
-   # 执行 sql/ry_20250522.sql 初始化数据库
+   # 先执行 sql/ry-demo-postgresql.sql 初始化业务库
+   # 再执行 sql/quartz-postgresql.sql 初始化 Quartz 表
+   # 如需 AI 能力基础表，执行 sql/ai-postgresql.sql
    # 修改 ruoyi-admin/src/main/resources/application-dev.yml 中的数据库连接信息
    ```
 
@@ -103,7 +105,7 @@ ruoyi-quick-starter/
 **快速使用：**
 - 代码生成：`@文件名 创建类似的类`
 - 代码重构：选中代码 → `Cmd/Ctrl + K`
-- 数据库操作：使用 MySQL MCP 工具直接操作
+- 数据库操作：使用 PostgreSQL MCP 工具直接操作
 
 ### 📋 规范驱动开发（OpenSpec）
 
