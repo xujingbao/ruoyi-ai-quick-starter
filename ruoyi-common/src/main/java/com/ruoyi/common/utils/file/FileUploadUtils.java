@@ -134,6 +134,13 @@ public class FileUploadUtils
         String fileName = useCustomNaming ? uuidFilename(file) : extractFilename(file);
 
         String absPath = getAbsoluteFile(baseDir, fileName).getAbsolutePath();
+        File absFile = new File(absPath);
+        String canonicalPath = absFile.getCanonicalPath();
+        String canonicalBaseDir = new File(baseDir).getCanonicalPath();
+        if (!canonicalPath.startsWith(canonicalBaseDir))
+        {
+            throw new IOException("文件上传路径非法: " + fileName);
+        }
         file.transferTo(Paths.get(absPath));
         return getPathFileName(baseDir, fileName);
     }
@@ -196,22 +203,22 @@ public class FileUploadUtils
         String extension = getExtension(file);
         if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension))
         {
-            if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION)
+            if (java.util.Arrays.equals(allowedExtension, MimeTypeUtils.IMAGE_EXTENSION))
             {
                 throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension,
                         fileName);
             }
-            else if (allowedExtension == MimeTypeUtils.FLASH_EXTENSION)
+            else if (java.util.Arrays.equals(allowedExtension, MimeTypeUtils.FLASH_EXTENSION))
             {
                 throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension,
                         fileName);
             }
-            else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION)
+            else if (java.util.Arrays.equals(allowedExtension, MimeTypeUtils.MEDIA_EXTENSION))
             {
                 throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
                         fileName);
             }
-            else if (allowedExtension == MimeTypeUtils.VIDEO_EXTENSION)
+            else if (java.util.Arrays.equals(allowedExtension, MimeTypeUtils.VIDEO_EXTENSION))
             {
                 throw new InvalidExtensionException.InvalidVideoExtensionException(allowedExtension, extension,
                         fileName);

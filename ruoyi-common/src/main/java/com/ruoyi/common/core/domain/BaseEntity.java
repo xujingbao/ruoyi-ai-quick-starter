@@ -111,6 +111,7 @@ public class BaseEntity implements Serializable
         return params;
     }
 
+    @JsonIgnore
     public void setParams(Map<String, Object> params)
     {
         this.params = params;

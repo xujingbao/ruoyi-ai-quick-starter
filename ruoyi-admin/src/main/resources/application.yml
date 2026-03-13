@@ -3,7 +3,7 @@ ruoyi:
   # 名称
   name: RuoYi
   # 版本
-  version: 4.2.1
+  version: 5.1.0
   # 版权年份
   copyrightYear: 2025
   # 获取ip地址开关
@@ -47,7 +47,7 @@ token:
   # 令牌自定义标识
   header: Authorization
   # 令牌密钥
-  secret: abcdefghijklmnopqrstuvwxyz
+  secret: ${JWT_SECRET:N2JhODk0ZjVhMjNiNDc2OGE5YzRkNWUwZjZhOTdiMzJkMGVhZTFmNTc4YWIzNDU2Nzg5MGFiY2RlZjEyMzQ1Ng==}
   # 令牌有效期（默认30分钟）
   expireTime: 30
 
@@ -94,4 +94,4 @@ xss:
   # 排除链接（多个用逗号分隔）
   excludes: /system/notice
   # 匹配链接
-  urlPatterns: /system/*,/monitor/*,/tool/*
+  urlPatterns: /*
