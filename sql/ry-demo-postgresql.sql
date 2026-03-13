@@ -1,9 +1,11 @@
--- PostgreSQL initialization script (auto-converted)
--- Source: sql/ry-demo-121412-14-26.sql
--- Notes:
--- 1) This file is auto-converted from MySQL dump.
--- 2) Review serial/identity behavior and indexes before production use.
--- 3) Run under UTF-8 database.
+-- RuoYi AI Quick Starter - PostgreSQL 完整初始化脚本
+-- Version: 5.1.0
+-- 包含: 系统表 + Quartz 调度表 + AI 能力表
+-- 说明:
+-- 1) 主键统一使用 bigserial
+-- 2) 末尾包含性能索引
+-- 3) 需在 UTF-8 编码的数据库中执行
+-- 4) AI 向量能力需预装 pgvector 扩展
 
 BEGIN;
 DROP TABLE IF EXISTS "sys_config";
@@ -836,5 +838,185 @@ CREATE INDEX IF NOT EXISTS idx_sys_user_user_name ON sys_user (user_name);
 CREATE INDEX IF NOT EXISTS idx_sys_user_dept_id ON sys_user (dept_id);
 CREATE INDEX IF NOT EXISTS idx_sys_dict_data_dict_type ON sys_dict_data (dict_type);
 CREATE INDEX IF NOT EXISTS idx_sys_config_config_key ON sys_config (config_key);
+
+-- ============================================================
+-- Quartz 调度表
+-- ============================================================
+
+DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;
+DROP TABLE IF EXISTS QRTZ_SCHEDULER_STATE;
+DROP TABLE IF EXISTS QRTZ_LOCKS;
+DROP TABLE IF EXISTS QRTZ_SIMPLE_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_SIMPROP_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_CRON_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_BLOB_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_TRIGGERS;
+DROP TABLE IF EXISTS QRTZ_JOB_DETAILS;
+DROP TABLE IF EXISTS QRTZ_CALENDARS;
+
+create table QRTZ_JOB_DETAILS (
+    sched_name           varchar(120)    not null,
+    job_name             varchar(200)    not null,
+    job_group            varchar(200)    not null,
+    description          varchar(250)    null,
+    job_class_name       varchar(250)    not null,
+    is_durable           varchar(1)      not null,
+    is_nonconcurrent     varchar(1)      not null,
+    is_update_data       varchar(1)      not null,
+    requests_recovery    varchar(1)      not null,
+    job_data             bytea            null,
+    primary key (sched_name, job_name, job_group)
+);
+
+create table QRTZ_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    job_name             varchar(200)    not null,
+    job_group            varchar(200)    not null,
+    description          varchar(250)    null,
+    next_fire_time       bigint      null,
+    prev_fire_time       bigint      null,
+    priority             integer         null,
+    trigger_state        varchar(16)     not null,
+    trigger_type         varchar(8)      not null,
+    start_time           bigint      not null,
+    end_time             bigint      null,
+    calendar_name        varchar(200)    null,
+    misfire_instr        smallint     null,
+    job_data             bytea            null,
+    primary key (sched_name, trigger_name, trigger_group),
+    foreign key (sched_name, job_name, job_group) references QRTZ_JOB_DETAILS(sched_name, job_name, job_group)
+);
+
+create table QRTZ_SIMPLE_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    repeat_count         bigint       not null,
+    repeat_interval      bigint      not null,
+    times_triggered      bigint      not null,
+    primary key (sched_name, trigger_name, trigger_group),
+    foreign key (sched_name, trigger_name, trigger_group) references QRTZ_TRIGGERS(sched_name, trigger_name, trigger_group)
+);
+
+create table QRTZ_CRON_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    cron_expression      varchar(200)    not null,
+    time_zone_id         varchar(80),
+    primary key (sched_name, trigger_name, trigger_group),
+    foreign key (sched_name, trigger_name, trigger_group) references QRTZ_TRIGGERS(sched_name, trigger_name, trigger_group)
+);
+
+create table QRTZ_BLOB_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    blob_data            bytea            null,
+    primary key (sched_name, trigger_name, trigger_group),
+    foreign key (sched_name, trigger_name, trigger_group) references QRTZ_TRIGGERS(sched_name, trigger_name, trigger_group)
+);
+
+create table QRTZ_CALENDARS (
+    sched_name           varchar(120)    not null,
+    calendar_name        varchar(200)    not null,
+    calendar             bytea            not null,
+    primary key (sched_name, calendar_name)
+);
+
+create table QRTZ_PAUSED_TRIGGER_GRPS (
+    sched_name           varchar(120)    not null,
+    trigger_group        varchar(200)    not null,
+    primary key (sched_name, trigger_group)
+);
+
+create table QRTZ_FIRED_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    entry_id             varchar(95)     not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    instance_name        varchar(200)    not null,
+    fired_time           bigint      not null,
+    sched_time           bigint      not null,
+    priority             integer         not null,
+    state                varchar(16)     not null,
+    job_name             varchar(200)    null,
+    job_group            varchar(200)    null,
+    is_nonconcurrent     varchar(1)      null,
+    requests_recovery    varchar(1)      null,
+    primary key (sched_name, entry_id)
+);
+
+create table QRTZ_SCHEDULER_STATE (
+    sched_name           varchar(120)    not null,
+    instance_name        varchar(200)    not null,
+    last_checkin_time    bigint      not null,
+    checkin_interval     bigint      not null,
+    primary key (sched_name, instance_name)
+);
+
+create table QRTZ_LOCKS (
+    sched_name           varchar(120)    not null,
+    lock_name            varchar(40)     not null,
+    primary key (sched_name, lock_name)
+);
+
+create table QRTZ_SIMPROP_TRIGGERS (
+    sched_name           varchar(120)    not null,
+    trigger_name         varchar(200)    not null,
+    trigger_group        varchar(200)    not null,
+    str_prop_1           varchar(512)    null,
+    str_prop_2           varchar(512)    null,
+    str_prop_3           varchar(512)    null,
+    int_prop_1           int             null,
+    int_prop_2           int             null,
+    long_prop_1          bigint          null,
+    long_prop_2          bigint          null,
+    dec_prop_1           numeric(13,4)   null,
+    dec_prop_2           numeric(13,4)   null,
+    bool_prop_1          varchar(1)      null,
+    bool_prop_2          varchar(1)      null,
+    primary key (sched_name, trigger_name, trigger_group),
+    foreign key (sched_name, trigger_name, trigger_group) references QRTZ_TRIGGERS(sched_name, trigger_name, trigger_group)
+);
+
+-- ============================================================
+-- AI 能力表
+-- ============================================================
+
+CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+CREATE TABLE IF NOT EXISTS ai_knowledge_chunk (
+  chunk_id bigserial PRIMARY KEY,
+  biz_key varchar(128) NOT NULL,
+  source_type varchar(64) NOT NULL DEFAULT 'document',
+  content text NOT NULL,
+  metadata jsonb NOT NULL DEFAULT '{}'::jsonb,
+  embedding vector(1024),
+  tsv tsvector GENERATED ALWAYS AS (to_tsvector('simple', content)) STORED,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_chunk_biz_key ON ai_knowledge_chunk (biz_key);
+CREATE INDEX IF NOT EXISTS idx_ai_chunk_metadata_gin ON ai_knowledge_chunk USING gin (metadata);
+CREATE INDEX IF NOT EXISTS idx_ai_chunk_tsv_gin ON ai_knowledge_chunk USING gin (tsv);
+CREATE INDEX IF NOT EXISTS idx_ai_chunk_embedding_hnsw ON ai_knowledge_chunk USING hnsw (embedding vector_cosine_ops);
+
+CREATE TABLE IF NOT EXISTS ai_session_context (
+  session_id varchar(64) PRIMARY KEY,
+  user_id bigint,
+  context_data jsonb NOT NULL DEFAULT '{}'::jsonb,
+  summary text,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_session_user_id ON ai_session_context (user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_session_context_gin ON ai_session_context USING gin (context_data);
 
 COMMIT;
