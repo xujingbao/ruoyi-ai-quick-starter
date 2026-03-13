@@ -174,5 +174,4 @@ create table QRTZ_SIMPROP_TRIGGERS (
     foreign key (sched_name, trigger_name, trigger_group) references QRTZ_TRIGGERS(sched_name, trigger_name, trigger_group)
 );
 
-commit;
 COMMIT;

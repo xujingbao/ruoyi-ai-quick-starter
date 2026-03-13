@@ -9,7 +9,7 @@ BEGIN;
 DROP TABLE IF EXISTS "sys_config";
 
 CREATE TABLE "sys_config" (
-  "config_id" serial,
+  "config_id" bigserial,
   "config_name" varchar(100) DEFAULT '',
   "config_key" varchar(100) DEFAULT '',
   "config_value" varchar(500) DEFAULT '',
@@ -396,7 +396,7 @@ VALUES
 DROP TABLE IF EXISTS "sys_notice";
 
 CREATE TABLE "sys_notice" (
-  "notice_id" serial,
+  "notice_id" bigserial,
   "notice_title" varchar(50) NOT NULL,
   "notice_type" char(1) NOT NULL,
   "notice_content" text,
@@ -830,4 +830,11 @@ BEGIN
     END IF;
   END LOOP;
 END $$;
+
+-- Performance indexes
+CREATE INDEX IF NOT EXISTS idx_sys_user_user_name ON sys_user (user_name);
+CREATE INDEX IF NOT EXISTS idx_sys_user_dept_id ON sys_user (dept_id);
+CREATE INDEX IF NOT EXISTS idx_sys_dict_data_dict_type ON sys_dict_data (dict_type);
+CREATE INDEX IF NOT EXISTS idx_sys_config_config_key ON sys_config (config_key);
+
 COMMIT;

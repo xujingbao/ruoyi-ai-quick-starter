@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS ai_knowledge_chunk (
 CREATE INDEX IF NOT EXISTS idx_ai_chunk_biz_key ON ai_knowledge_chunk (biz_key);
 CREATE INDEX IF NOT EXISTS idx_ai_chunk_metadata_gin ON ai_knowledge_chunk USING gin (metadata);
 CREATE INDEX IF NOT EXISTS idx_ai_chunk_tsv_gin ON ai_knowledge_chunk USING gin (tsv);
-CREATE INDEX IF NOT EXISTS idx_ai_chunk_embedding_ivfflat ON ai_knowledge_chunk USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+CREATE INDEX IF NOT EXISTS idx_ai_chunk_embedding_ivfflat ON ai_knowledge_chunk USING hnsw (embedding vector_cosine_ops);
 
 -- AI session context baseline
 CREATE TABLE IF NOT EXISTS ai_session_context (
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS ai_session_context (
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE INDEX IF NOT EXISTS idx_ai_session_user_id ON ai_session_context (user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_session_context_gin ON ai_session_context USING gin (context_data);
 
 COMMIT;
