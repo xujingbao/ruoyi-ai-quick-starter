@@ -34,8 +34,7 @@ public class JobInvokeUtil
         }
         else
         {
-            Object bean = Class.forName(beanName).getDeclaredConstructor().newInstance();
-            invokeMethod(bean, methodName, methodParams);
+            throw new Exception("不允许通过全类名调用任务，请使用 Spring Bean 名称: " + beanName);
         }
     }
 

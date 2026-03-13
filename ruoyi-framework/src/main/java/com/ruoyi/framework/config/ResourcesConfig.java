@@ -3,6 +3,7 @@ package com.ruoyi.framework.config;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -32,6 +33,9 @@ public class ResourcesConfig implements WebMvcConfigurer
     @Autowired
     @Qualifier("threadPoolTaskExecutor")
     private AsyncTaskExecutor asyncTaskExecutor;
+
+    @Value("${ruoyi.cors.allowed-origins:*}")
+    private String allowedOrigins;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
@@ -75,7 +79,7 @@ public class ResourcesConfig implements WebMvcConfigurer
     {
         CorsConfiguration config = new CorsConfiguration();
         // 设置访问源地址
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOriginPattern(allowedOrigins);
         // 设置访问源请求头
         config.addAllowedHeader("*");
         // 设置访问源请求方法

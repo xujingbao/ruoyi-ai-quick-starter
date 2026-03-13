@@ -112,15 +112,18 @@ public class IpUtils
                 {
                     return true;
                 }
+                break;
             case SECTION_5:
                 switch (b1)
                 {
                     case SECTION_6:
                         return true;
                 }
+                break;
             default:
                 return false;
         }
+        return false;
     }
 
     /**
@@ -253,16 +256,15 @@ public class IpUtils
      */
     public static String getMultistageReverseProxyIp(String ip)
     {
-        // 多级反向代理检测
         if (ip != null && ip.indexOf(",") > 0)
         {
             final String[] ips = ip.trim().split(",");
             for (String subIp : ips)
             {
-                if (false == isUnknown(subIp))
+                String trimmed = subIp.trim();
+                if (!isUnknown(trimmed))
                 {
-                    ip = subIp;
-                    break;
+                    return StringUtils.substring(trimmed, 0, 255);
                 }
             }
         }

@@ -85,7 +85,7 @@ public class SysLoginService
             else
             {
                 AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
-                throw new ServiceException(e.getMessage());
+                throw new ServiceException("认证失败，请稍后再试");
             }
         }
         finally

@@ -82,7 +82,7 @@ public class CacheController
     public AjaxResult getCacheKeys(@PathVariable String cacheName)
     {
         Set<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-        return AjaxResult.success(new TreeSet<>(cacheKeys));
+        return AjaxResult.success(cacheKeys != null ? new TreeSet<>(cacheKeys) : new TreeSet<>());
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
@@ -99,7 +99,10 @@ public class CacheController
     public AjaxResult clearCacheName(@PathVariable String cacheName)
     {
         Collection<String> cacheKeys = redisTemplate.keys(cacheName + "*");
-        redisTemplate.delete(cacheKeys);
+        if (cacheKeys != null && !cacheKeys.isEmpty())
+        {
+            redisTemplate.delete(cacheKeys);
+        }
         return AjaxResult.success();
     }
 
@@ -111,12 +114,28 @@ public class CacheController
         return AjaxResult.success();
     }
 
+    private static final String[] CACHE_PREFIXES = {
+        CacheConstants.SYS_CONFIG_KEY,
+        CacheConstants.SYS_DICT_KEY,
+        CacheConstants.LOGIN_TOKEN_KEY,
+        CacheConstants.CAPTCHA_CODE_KEY,
+        CacheConstants.REPEAT_SUBMIT_KEY,
+        CacheConstants.RATE_LIMIT_KEY,
+        CacheConstants.PWD_ERR_CNT_KEY
+    };
+
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
     @DeleteMapping("/clearCacheAll")
     public AjaxResult clearCacheAll()
     {
-        Collection<String> cacheKeys = redisTemplate.keys("*");
-        redisTemplate.delete(cacheKeys);
+        for (String prefix : CACHE_PREFIXES)
+        {
+            Collection<String> cacheKeys = redisTemplate.keys(prefix + "*");
+            if (cacheKeys != null && !cacheKeys.isEmpty())
+            {
+                redisTemplate.delete(cacheKeys);
+            }
+        }
         return AjaxResult.success();
     }
 }
