@@ -135,6 +135,10 @@ public class SysConfigServiceImpl implements ISysConfigService
     public int updateConfig(SysConfig config)
     {
         SysConfig temp = configMapper.selectConfigById(config.getConfigId());
+        if (temp == null)
+        {
+            throw new ServiceException("参数配置不存在");
+        }
         if (!StringUtils.equals(temp.getConfigKey(), config.getConfigKey()))
         {
             redisCache.deleteObject(getCacheKey(temp.getConfigKey()));

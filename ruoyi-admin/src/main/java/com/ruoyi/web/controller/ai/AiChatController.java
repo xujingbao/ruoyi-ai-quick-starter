@@ -6,6 +6,7 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -59,7 +60,7 @@ public class AiChatController extends BaseController
 
         try
         {
-            logger.info("开始流式 AI 聊天，消息：{}", request.getMessage());
+            logger.info("开始流式 AI 聊天，消息长度：{}", request.getMessage() != null ? request.getMessage().length() : 0);
 
             List<Message> messages = new ArrayList<>();
             if (request.getSystemPrompt() != null && !request.getSystemPrompt().trim().isEmpty())
@@ -68,7 +69,18 @@ public class AiChatController extends BaseController
             }
             messages.add(new UserMessage(request.getMessage()));
 
-            return chatModel.stream(new Prompt(messages))
+            Prompt prompt;
+            if (request.getTemperature() != null)
+            {
+                OpenAiChatOptions options = OpenAiChatOptions.builder().temperature(request.getTemperature()).build();
+                prompt = new Prompt(messages, options);
+            }
+            else
+            {
+                prompt = new Prompt(messages);
+            }
+
+            return chatModel.stream(prompt)
                     .onErrorMap(error -> {
                         // 处理 DeepSeek API 401 错误，转换为友好的错误消息
                         if (error instanceof WebClientResponseException.Unauthorized)

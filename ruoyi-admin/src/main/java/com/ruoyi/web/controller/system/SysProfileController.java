@@ -94,6 +94,10 @@ public class SysProfileController extends BaseController
     {
         String oldPassword = params.get("oldPassword");
         String newPassword = params.get("newPassword");
+        if (StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword))
+        {
+            return error("旧密码和新密码不能为空");
+        }
         LoginUser loginUser = getLoginUser();
         Long userId = loginUser.getUserId();
         String password = loginUser.getPassword();

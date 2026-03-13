@@ -179,6 +179,10 @@ public class FileUtils
     {
         final String agent = request.getHeader("USER-AGENT");
         String filename = fileName;
+        if (agent == null)
+        {
+            return URLEncoder.encode(filename, "utf-8");
+        }
         if (agent.contains("MSIE"))
         {
             // IE浏览器
@@ -246,6 +250,10 @@ public class FileUtils
      */
     public static String getFileExtendName(byte[] photoByte)
     {
+        if (photoByte == null || photoByte.length < 10)
+        {
+            return "jpg";
+        }
         String strFileExtendName = "jpg";
         if ((photoByte[0] == 71) && (photoByte[1] == 73) && (photoByte[2] == 70) && (photoByte[3] == 56)
                 && ((photoByte[4] == 55) || (photoByte[4] == 57)) && (photoByte[5] == 97))

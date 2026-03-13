@@ -74,6 +74,10 @@ public class CaptchaController
             capStr = code = captchaProducer.createText();
             image = captchaProducer.createImage(capStr);
         }
+        else
+        {
+            throw new com.ruoyi.common.exception.ServiceException("不支持的验证码类型: " + captchaType);
+        }
 
         redisCache.setCacheObject(verifyKey, code, Constants.CAPTCHA_EXPIRATION, TimeUnit.MINUTES);
         // 转换流信息写出

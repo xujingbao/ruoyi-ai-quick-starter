@@ -148,6 +148,11 @@ public class CommonController
             String localPath = RuoYiConfig.getProfile();
             // 数据库资源地址
             String downloadPath = localPath + FileUtils.stripPrefix(resource);
+            // 路径穿越校验
+            if (!new java.io.File(downloadPath).getCanonicalPath().startsWith(new java.io.File(localPath).getCanonicalPath()))
+            {
+                throw new Exception(StringUtils.format("资源文件({})非法，不允许下载。 ", resource));
+            }
             // 下载名称
             String downloadName = StringUtils.substringAfterLast(downloadPath, "/");
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);

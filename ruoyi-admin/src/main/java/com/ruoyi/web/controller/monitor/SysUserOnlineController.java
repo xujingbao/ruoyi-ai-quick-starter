@@ -44,6 +44,7 @@ public class SysUserOnlineController extends BaseController
     {
         Collection<String> keys = redisCache.keys(CacheConstants.LOGIN_TOKEN_KEY + "*");
         List<SysUserOnline> userOnlineList = new ArrayList<SysUserOnline>();
+        if (keys == null) keys = new ArrayList<>();
         for (String key : keys)
         {
             LoginUser user = redisCache.getCacheObject(key);

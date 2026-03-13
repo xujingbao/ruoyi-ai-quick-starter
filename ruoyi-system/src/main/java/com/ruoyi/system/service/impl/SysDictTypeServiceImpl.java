@@ -1,5 +1,6 @@
 package com.ruoyi.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
             DictUtils.setDictCache(dictType, dictDatas);
             return dictDatas;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -189,7 +190,7 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
      * @return 结果
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int updateDictType(SysDictType dict)
     {
         SysDictType oldDict = dictTypeMapper.selectDictTypeById(dict.getDictId());
