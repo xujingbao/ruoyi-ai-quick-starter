@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Dropdown, Tooltip, Modal } from 'antd'
 import { SunOutlined, MoonOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons'
@@ -15,6 +15,12 @@ const Navbar = ({ onSetLayout }) => {
   const userStore = useUserStore()
   const settingsStore = useSettingsStore()
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', handler)
+    return () => document.removeEventListener('fullscreenchange', handler)
+  }, [])
 
   const toggleSideBar = () => {
     appStore.toggleSideBar()

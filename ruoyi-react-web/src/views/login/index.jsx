@@ -85,7 +85,8 @@ const Login = () => {
       await userStore.getInfo()
       
       const redirect = new URLSearchParams(window.location.search).get('redirect')
-      navigate(redirect || '/', { replace: true })
+      const safeRedirect = (redirect && redirect.startsWith('/') && !redirect.includes('//')) ? redirect : '/'
+      navigate(safeRedirect, { replace: true })
       modal.msgSuccess('登录成功')
     } catch (error) {
       console.error('登录失败', error)

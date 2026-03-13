@@ -1,4 +1,4 @@
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, Suspense, Component } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { Spin } from 'antd'
 import { useSettingsStore } from './store/settingsStore'
@@ -8,6 +8,35 @@ import { getToken } from './utils/auth'
 import { handleThemeStyle } from './utils/theme'
 import { constantRoutes, createRouter, dynamicRoutes, filterAsyncRouter } from './router'
 import { filterDynamicRoutes } from './store/permissionStore'
+
+class ErrorBoundary extends Component {
+  state = { hasError: false }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidCatch(error, info) {
+    console.error('ErrorBoundary caught:', error, info)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <h2>页面加载失败</h2>
+          <button
+            style={{ marginTop: 16, padding: '8px 24px', cursor: 'pointer' }}
+            onClick={() => window.location.reload()}
+          >
+            重试
+          </button>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 function App() {
   const theme = useSettingsStore((state) => state.theme)
@@ -61,7 +90,7 @@ function App() {
     loadRoutes()
     // 只在首次和角色变化时运行，避免引用整个 store 对象导致无限重跑
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roles?.length])
+  }, [JSON.stringify(roles)])
 
   if (!routesReady) {
     return (
@@ -81,18 +110,20 @@ function App() {
   }
 
   return (
-    <Suspense fallback={
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        <Spin size="large" />
-      </div>
-    }>
-      <RouterProvider router={router} />
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '100vh' 
+        }}>
+          <Spin size="large" />
+        </div>
+      }>
+        <RouterProvider router={router} />
+      </Suspense>
+    </ErrorBoundary>
   )
 }
 

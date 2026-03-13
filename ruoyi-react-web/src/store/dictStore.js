@@ -5,7 +5,7 @@ export const useDictStore = create((set, get) => ({
   
   // 获取字典
   getDict: (_key) => {
-    if (_key == null && _key == "") {
+    if (_key == null || _key === "") {
       return null
     }
     try {

@@ -31,11 +31,12 @@ const Editor = ({
     }
   }, [value])
 
-  useEffect(() => {
+  const handleContentChange = (val) => {
+    setContent(val)
     if (onChange) {
-      onChange(content)
+      onChange(val)
     }
-  }, [content])
+  }
 
   useEffect(() => {
     if (type === 'url' && quillRef.current) {
@@ -163,7 +164,7 @@ const Editor = ({
           ref={quillRef}
           theme="snow"
           value={content}
-          onChange={setContent}
+          onChange={handleContentChange}
           readOnly={readOnly}
           modules={modules}
           placeholder="请输入内容"

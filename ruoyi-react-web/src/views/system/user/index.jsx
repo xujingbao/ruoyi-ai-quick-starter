@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Row, Col, Form, Input, Select, DatePicker, Button, Table, Switch, Modal, Upload, Checkbox, Space, Tooltip, Radio, TreeSelect } from 'antd'
+import { Row, Col, Form, Input, Select, DatePicker, Button, Table, Switch, Modal, Space, Tooltip } from 'antd'
 import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined, DownloadOutlined, KeyOutlined, CheckCircleOutlined, SearchOutlined, ReloadOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -23,11 +23,12 @@ import { getToken } from '@/utils/auth'
 import modal from '@/plugins/modal'
 import Pagination from '@/components/Pagination'
 import RightToolbar from '@/components/RightToolbar'
+import UserFormModal from './UserFormModal'
+import UserImportModal from './UserImportModal'
 import { Tree, Input as TreeInput } from 'antd'
 import './index.scss'
 
 const { RangePicker } = DatePicker
-const { TextArea } = Input
 
 const User = () => {
   const navigate = useNavigate()
@@ -35,7 +36,6 @@ const User = () => {
   const [form] = Form.useForm()
   const [queryForm] = Form.useForm()
   const deptTreeRef = useRef(null)
-  const uploadRef = useRef(null)
 
   const [userList, setUserList] = useState([])
   const [loading, setLoading] = useState(true)
@@ -267,12 +267,16 @@ const User = () => {
           modal.msgSuccess(`${text}成功`)
           getList()
         } catch (error) {
-          row.status = row.status === '0' ? '1' : '0'
+          setUserList(prev => prev.map(u =>
+            u.userId === row.userId ? { ...u, status: u.status === '0' ? '1' : '0' } : u
+          ))
           console.error('Failed to change status:', error)
         }
       },
       onCancel: () => {
-        row.status = row.status === '0' ? '1' : '0'
+        setUserList(prev => prev.map(u =>
+          u.userId === row.userId ? { ...u, status: u.status === '0' ? '1' : '0' } : u
+        ))
       }
     })
   }
@@ -368,7 +372,7 @@ const User = () => {
       
       Modal.info({
         title: '导入结果',
-        content: <div dangerouslySetInnerHTML={{ __html: result.msg }} />,
+        content: result.msg,
         width: 600
       })
       
@@ -499,8 +503,8 @@ const User = () => {
         <Switch
           checked={record.status === '0'}
           onChange={(checked) => {
-            record.status = checked ? '0' : '1'
-            handleStatusChange(record)
+            const updatedRecord = { ...record, status: checked ? '0' : '1' }
+            handleStatusChange(updatedRecord)
           }}
           checkedChildren="启用"
           unCheckedChildren="停用"
@@ -752,193 +756,35 @@ const User = () => {
         </div>
       </Row>
 
-      {/* 添加或修改用户对话框 */}
-      <Modal
-        title={title}
+      <UserFormModal
         open={open}
+        title={title}
+        isEdit={isEdit}
         onCancel={cancel}
         onOk={submitForm}
-        width={600}
-        destroyOnHidden
-      >
-        <Form
-          form={form}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 18 }}
-        >
-          {/* 关键：编辑时需要带上 userId，否则 submitForm 会被判断为新增 */}
-          <Form.Item name="userId" hidden>
-            <Input />
-          </Form.Item>
+        form={form}
+        enabledDeptOptions={enabledDeptOptions}
+        postOptions={postOptions}
+        roleOptions={roleOptions}
+        sysNormalDisable={sys_normal_disable.sys_normal_disable}
+        sysUserSex={sys_user_sex.sys_user_sex}
+      />
 
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="用户昵称"
-                name="nickName"
-                rules={[{ required: true, message: '用户昵称不能为空' }]}
-              >
-                <Input placeholder="请输入用户昵称" maxLength={30} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="归属部门"
-                name="deptId"
-              >
-                <TreeSelect
-                  treeData={enabledDeptOptions}
-                  fieldNames={{ label: 'label', value: 'id', children: 'children' }}
-                  placeholder="请选择归属部门"
-                  allowClear
-                  treeDefaultExpandAll
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="手机号码"
-                name="phonenumber"
-                rules={[
-                  { pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: '请输入正确的手机号码' }
-                ]}
-              >
-                <Input placeholder="请输入手机号码" maxLength={11} />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                label="邮箱"
-                name="email"
-                rules={[{ type: 'email', message: '请输入正确的邮箱地址' }]}
-              >
-                <Input placeholder="请输入邮箱" maxLength={50} />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                label="用户名称"
-                name="userName"
-                rules={[
-                  { required: true, message: '用户名称不能为空' },
-                  { min: 2, max: 20, message: '用户名称长度必须介于 2 和 20 之间' }
-                ]}
-              >
-                <Input placeholder="请输入用户名称" maxLength={30} disabled={isEdit} />
-              </Form.Item>
-            </Col>
-            {!isEdit && (
-              <Col span={12}>
-                <Form.Item
-                  label="用户密码"
-                  name="password"
-                  rules={[
-                    { required: true, message: '用户密码不能为空' },
-                    { min: 5, max: 20, message: '用户密码长度必须介于 5 和 20 之间' },
-                    { pattern: /^[^<>"'|\\]+$/, message: '不能包含非法字符：< > " \' \\ |' }
-                  ]}
-                >
-                  <Input.Password placeholder="请输入用户密码" maxLength={20} />
-                </Form.Item>
-              </Col>
-            )}
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="用户性别" name="sex">
-                <Select placeholder="请选择">
-                  {sys_user_sex.sys_user_sex?.map(dict => (
-                    <Select.Option key={dict.value} value={dict.value}>
-                      {dict.label}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="状态" name="status">
-                <Radio.Group>
-                  {sys_normal_disable.sys_normal_disable?.map(dict => (
-                    <Radio key={dict.value} value={dict.value}>
-                      {dict.label}
-                    </Radio>
-                  ))}
-                </Radio.Group>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item label="岗位" name="postIds">
-                <Select mode="multiple" placeholder="请选择">
-                  {postOptions.map(item => (
-                    <Select.Option key={item.postId} value={item.postId} disabled={item.status == 1}>
-                      {item.postName}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="角色" name="roleIds">
-                <Select mode="multiple" placeholder="请选择">
-                  {roleOptions.map(item => (
-                    <Select.Option key={item.roleId} value={item.roleId} disabled={item.status == 1}>
-                      {item.roleName}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Form.Item label="备注" name="remark">
-                <TextArea placeholder="请输入内容" rows={3} />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Modal>
-
-      {/* 用户导入对话框 */}
-      <Modal
-        title="用户导入"
+      <UserImportModal
         open={uploadOpen}
         onCancel={() => {
           setUploadOpen(false)
           setSelectedFile(null)
         }}
         onOk={handleUpload}
-        confirmLoading={uploading}
-        width={400}
-      >
-        <Upload
-          ref={uploadRef}
-          beforeUpload={beforeUpload}
-          fileList={selectedFile ? [selectedFile] : []}
-          onRemove={() => setSelectedFile(null)}
-          accept=".xlsx,.xls"
-          maxCount={1}
-        >
-          <Button icon={<UploadOutlined />}>选择文件</Button>
-        </Upload>
-        <div style={{ marginTop: 16 }}>
-          <Checkbox checked={updateSupport === 1} onChange={(e) => setUpdateSupport(e.target.checked ? 1 : 0)}>
-            是否更新已经存在的用户数据
-          </Checkbox>
-          <div style={{ marginTop: 8, fontSize: 12, color: '#999' }}>
-            仅允许导入xls、xlsx格式文件。
-            <Button type="link" size="small" onClick={importTemplate} style={{ padding: 0, height: 'auto' }}>
-              下载模板
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        uploading={uploading}
+        selectedFile={selectedFile}
+        onFileChange={beforeUpload}
+        onFileRemove={() => setSelectedFile(null)}
+        updateSupport={updateSupport}
+        onUpdateSupportChange={(e) => setUpdateSupport(e.target.checked ? 1 : 0)}
+        onImportTemplate={importTemplate}
+      />
     </div>
   )
 }
