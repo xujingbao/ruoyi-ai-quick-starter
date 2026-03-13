@@ -2,6 +2,85 @@
 
 本项目的所有重要更改都将记录在此文件中。
 
+## [5.1.0] - 2026-03-13
+
+### 版本定位
+- 全面安全加固与代码质量提升版本。基于 Code Review 发现的 61 个问题（8 Critical / 16 High / 22 Medium / 15 Low），系统性修复安全漏洞、运行时 Bug 和代码规范问题。
+
+### 破坏性变更（Breaking Changes）
+- **JWT 升级**: jjwt 从 0.9.1 升级到 0.12.6，密钥格式变为 Base64 编码，需通过环境变量 `JWT_SECRET` 注入（dev 环境保留默认值）。
+- **API Key 外部化**: AI API Key 不再硬编码，需通过 `SPRING_AI_OPENAI_API_KEY` 环境变量注入。
+- **凭据外部化**: 数据库密码（`DB_PASSWORD`）、Redis 密码（`REDIS_PASSWORD`）、Druid 密码（`DRUID_PASSWORD`）均改为环境变量注入，test/prod 环境无默认值。
+- **异常消息变更**: `RuntimeException`/`Exception` 不再返回原始异常消息，统一返回"系统内部错误，请联系管理员"。`ServiceException` 业务消息保持不变。
+- **登录消息统一**: 用户不存在、已删除、已停用等场景统一返回"用户名或密码错误"，防止用户名枚举。
+- **Quartz 任务**: 禁止通过全类名（`Class.forName`）调用任务，仅允许 Spring Bean 名称调用。
+- **javax.xml.bind 移除**: 随 jjwt 升级不再需要 jaxb-api 依赖。
+
+### 安全修复
+- JWT Token 增加 `exp` 过期 claim，不再完全依赖 Redis TTL。
+- JWT 密钥强度从 26 字节提升至 64+ 字节（Base64 编码），符合 HS512 规范。
+- Token 前缀处理从 `replace` 改为 `substring`，避免误替换 Token 内容。
+- `BaseEntity.setParams` 增加 `@JsonIgnore`，阻断 `${params.dataScope}` SQL 注入攻击向量。
+- `SysUser.password` 增加 `@JsonProperty(WRITE_ONLY)`，API 响应不再泄露密码哈希。
+- 文件上传增加路径规范化校验（`getCanonicalPath`），防止目录穿越。
+- CORS 配置从 `*` 改为可配置白名单（`ruoyi.cors.allowed-origins`）。
+- Druid 监控控制台在生产环境关闭。
+- XSS 过滤范围从部分接口扩展到所有接口（`/*`）。
+- Druid Wall 禁止多语句 SQL 执行（`multi-statement-allow: false`）。
+- `IpUtils.internalIp` 修复缺失的 `break` 语句，修正内网 IP 判断逻辑。
+- `SecurityConfig` 移除 `MODE_INHERITABLETHREADLOCAL`，消除线程池场景下的权限串用风险。
+- Swagger/API Docs 在生产环境通过 springdoc 配置禁用。
+
+### Bug 修复
+- 修复 `SysRoleServiceImpl.insertRoleMenu`/`insertRoleDept` 在 menuIds/deptIds 为 null 时的 NPE。
+- 修复 `CaptchaController` 在验证码类型不支持时的 NPE。
+- 修复 `CacheController` 中 `keys()` 返回 null 时的 NPE，`clearCacheAll` 改为按已知前缀清理。
+- 修复 `SysUserOnlineController` 中 `keys()` 返回 null 时的 NPE。
+- 修复 `SysConfigServiceImpl.updateConfig` 在配置不存在时的 NPE。
+- 修复 `SysDictTypeServiceImpl.selectDictDataByType` 返回 null 改为空集合。
+- 修复 `SysUserMapper.xml` INSERT 语句列条件与值条件不一致的问题。
+- 修复 `SysDeptController` 和 `SysMenuServiceImpl` 中 Long 类型比较使用 `==` 的问题。
+- 修复 `FileUtils.setFileDownloadHeader` 在 User-Agent 为 null 时的 NPE。
+- 修复 `FileUtils.getFileExtendName` 在字节数组长度不足时的越界异常。
+- 修复 `FileUploadUtils` 中数组比较使用 `==` 而非 `Arrays.equals()` 的问题。
+- 修复前端 `request.js` 拦截器错误回调缺少 `return` 导致错误被静默吞噬。
+- 修复前端 `dictStore.getDict` 中 `&&` 逻辑恒为 false 的 Bug。
+- 修复前端 `Editor` 组件双 `useEffect` 导致的潜在无限循环。
+- 修复前端登录页 `redirect` 参数未校验导致的开放重定向风险。
+
+### 改进
+- 所有 `@Transactional` 注解补充 `rollbackFor = Exception.class`，确保 checked exception 也能回滚。
+- `SysDeptServiceImpl.updateDept` 增加事务注解，保证多步更新的原子性。
+- `CommonController` 文件下载增加路径规范化校验。
+- `AiChatController` 的 `temperature` 参数现在正确应用到 AI 模型调用。
+- `AiChatController` 日志不再记录完整用户消息内容（PII 保护）。
+- 角色权限修改后刷新所有关联在线用户的权限缓存，而非仅刷新当前用户。
+- 密码修改接口增加空值校验。
+- 生产环境日志级别从 `debug` 改为 `info`，关闭 DevTools。
+- `RyTask` 从 `System.out.println` 改为 SLF4J Logger。
+
+### 前端改进
+- 用户管理页面拆分为 `UserFormModal` + `UserImportModal` 子组件（951行 → 792行）。
+- 角色管理页面拆分为 `RoleFormModal` + `RoleDataScopeModal` 子组件（933行 → 771行）。
+- 所有 state 变更改为不可变更新，消除 React state 直接变异。
+- 导入结果改为纯文本展示，消除 `dangerouslySetInnerHTML` XSS 风险。
+- `App.jsx` 的 roles 依赖改为内容比较，避免角色内容变更但长度不变时路由不刷新。
+- `App.jsx` 增加 `ErrorBoundary`，懒加载失败时显示恢复界面。
+- `Navbar` 全屏状态同步浏览器 `fullscreenchange` 事件。
+- `Promise.reject` 统一传入 Error 对象而非字符串。
+
+### 依赖升级
+- jjwt: 0.9.1 → 0.12.6（含 jjwt-api/jjwt-impl/jjwt-jackson 模块化拆分）
+- Apache POI: 4.1.2 → 5.3.0
+- 移除 javax.xml.bind:jaxb-api（不再需要）
+- 移除未使用的 swagger.version 属性
+
+### SQL 优化
+- 添加索引：`sys_user(user_name)`、`sys_user(dept_id)`、`sys_dict_data(dict_type)`、`sys_config(config_key)`、`ai_session_context(user_id)`。
+- AI 向量索引从 IVFFlat 改为 HNSW（无需预填充数据）。
+- 主键类型统一为 `bigserial`。
+- 修复 quartz SQL 重复 COMMIT 问题。
+
 ## [5.0.0] - 2026-03-01
 
 ### 版本定位
