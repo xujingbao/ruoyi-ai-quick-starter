@@ -33,12 +33,11 @@ spring:
   # Spring AI 配置
   ai:
     openai:
-      base-url: https://api.deepseek.com
-      # 安全起见，API KEY 可以设置从系统环境变量读取：export SPRING_AI_OPENAI_API_KEY="sk-xxxxxx"
-      api-key: ${SPRING_AI_OPENAI_API_KEY:sk-change-me}
+      base-url: ${AI_API_BASE_URL:https://api.routin.ai}
+      api-key: ${AI_API_KEY:your-api-key-here}
       chat:
         options:
-          model: deepseek-chat
+          model: ${AI_MODEL:gpt-5.2}
           temperature: 0.7
   # 数据源配置
   datasource:

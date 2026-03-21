@@ -26,6 +26,9 @@ export default defineConfig(({ mode, command }) => {
       // https://cn.vitejs.dev/config/#resolve-extensions
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
     },
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router-dom']
+    },
     // 打包配置
     build: {
       // https://vite.dev/config/build-options.html
