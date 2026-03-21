@@ -4,7 +4,7 @@
 
 - **Java**: 17
 - **Spring Boot**: 3.5.4
-- **Spring AI**: 1.1.2
+- **Spring AI**: 1.1.3
 - **MyBatis**: 3.0.4
 - **PostgreSQL JDBC**: 42.7.7
 - **PostgreSQL**: 15+ (数据库)
@@ -22,7 +22,8 @@
 - **Ant Design**: 6.1.4
 - **React Router**: 6.28.0
 - **Zustand**: 5.0.2
-- **Vite**: 7.2.7
+- **Vite**: 8.0.0
+- **@vitejs/plugin-react**: 6.0.1
 - **Axios**: 1.9.0
 - **ECharts**: 5.6.0
 
