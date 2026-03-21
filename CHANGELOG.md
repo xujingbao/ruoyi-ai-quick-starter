@@ -13,6 +13,7 @@
 - Spring AI 升级至 1.1.3
 - Vite 7.2.7 → 8.0.0
 - @vitejs/plugin-react 4.3.3 → 6.0.1
+- OpenSpec 1.1.1 → 1.2.0
 - API 密钥移至环境变量，消除硬编码凭据
 - 新增 Vite 优化配置
 - 移除 ai-quick-dev-website 子模块

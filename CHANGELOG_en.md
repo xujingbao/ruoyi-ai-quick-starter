@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Spring AI upgraded to 1.1.3
 - Vite 7.2.7 → 8.0.0
 - @vitejs/plugin-react 4.3.3 → 6.0.1
+- OpenSpec 1.1.1 → 1.2.0
 - API keys moved to environment variables, eliminating hardcoded credentials
 - Vite optimization configuration added
 - ai-quick-dev-website submodule removed
