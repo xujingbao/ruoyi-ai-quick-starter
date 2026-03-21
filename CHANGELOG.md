@@ -20,9 +20,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 - **Vite 配置**: 新增 `optimizeDeps` 配置优化依赖预构建
 
-### Infrastructure
-- **子模块**: 更新 ai-quick-dev-website 至最新 commit
-
 ## [5.1.0] - 2026-03-19
 
 ### Changed
