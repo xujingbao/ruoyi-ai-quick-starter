@@ -4,19 +4,52 @@
 
 ## [5.2.0] - 2026-03-21
 
-**标题:** 升级 Vite8 和 Spring AI 1.1.3
+**标题:** Spring AI 1.1.3 升级、前端构建链更新与配置安全增强
 
 **发布地址:** [v5.2.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
 
-### 变更
+### 发行摘要
 
-- Spring AI 升级至 1.1.3
-- Vite 7.2.7 → 8.0.0
-- @vitejs/plugin-react 4.3.3 → 6.0.1
-- OpenSpec 1.1.1 → 1.2.0
-- API 密钥移至环境变量，消除硬编码凭据
-- 新增 Vite 优化配置
-- 移除 ai-quick-dev-website 子模块
+本版本聚焦于 AI 依赖升级、前端构建链更新和开发配置安全加固，同时清理仓库结构，降低本地开发环境耦合。
+
+### 主要亮点
+
+- Spring AI 升级至 `1.1.3`，与当前 Spring Boot 3.5.4 依赖体系保持一致
+- React Web 前端升级到 Vite 8 构建链，提升开发与构建兼容性
+- AI 相关配置切换为环境变量驱动，移除开发配置中的硬编码凭据
+- 仓库不再追踪 `ai-quick-dev-website` 子模块，减少多仓库协作带来的干扰
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `5.2.0`
+- `spring-ai.version`: `1.1.2` → `1.1.3`
+- `vite`: `7.2.7` → `8.0.0`
+- `@vitejs/plugin-react`: `4.3.3` → `6.0.1`
+- `vite-plugin-svg-icons`: 调整为兼容当前前端依赖的版本声明
+
+### 配置与安全增强
+
+- `application-dev.yml` 中的 AI 接口地址改为 `AI_API_BASE_URL` 环境变量读取
+- AI API Key 改为 `AI_API_KEY` 环境变量读取
+- AI 模型名改为 `AI_MODEL` 环境变量读取
+- 移除默认硬编码凭据，降低开发配置误提交风险
+
+### 前端构建优化
+
+- 新增 Vite `optimizeDeps.include` 配置
+- 预构建 `react`、`react-dom`、`react-router-dom`
+- 更新 `pnpm-lock.yaml` 以匹配新的依赖解析结果
+
+### 仓库维护
+
+- `.gitignore` 新增 `Claude Code` 本地配置文件排除规则
+- 移除 `ai-quick-dev-website` 的 git 子模块追踪，保留为本地目录
+
+### 适用场景
+
+- 需要升级到 Spring AI 1.1.3 的项目
+- 需要更稳定 React + Vite 8 本地开发体验的团队
+- 希望减少本地敏感配置硬编码风险的开发环境
 
 ---
 

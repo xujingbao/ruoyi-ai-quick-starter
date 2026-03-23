@@ -4,19 +4,52 @@ All notable changes to this project will be documented in this file.
 
 ## [5.2.0] - 2026-03-21
 
-**Title:** Upgrade Vite8 and Spring AI 1.1.3
+**Title:** Spring AI 1.1.3 Upgrade, Frontend Build Chain Refresh, and Safer Local Configuration
 
 **Release:** [v5.2.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
 
-### Changed
+### Summary
 
-- Spring AI upgraded to 1.1.3
-- Vite 7.2.7 → 8.0.0
-- @vitejs/plugin-react 4.3.3 → 6.0.1
-- OpenSpec 1.1.1 → 1.2.0
-- API keys moved to environment variables, eliminating hardcoded credentials
-- Vite optimization configuration added
-- ai-quick-dev-website submodule removed
+This release focuses on AI dependency upgrades, a refreshed frontend toolchain, safer environment-based configuration, and repository cleanup for smoother local development.
+
+### Highlights
+
+- Upgraded Spring AI to `1.1.3` to stay aligned with the current Spring Boot 3.5.4 stack
+- Refreshed the React Web build toolchain to Vite 8
+- Moved AI-related configuration to environment variables to avoid hardcoded credentials
+- Stopped tracking the `ai-quick-dev-website` submodule to simplify repository maintenance
+
+### Dependency Upgrades
+
+- Root project version bumped to `5.2.0`
+- `spring-ai.version`: `1.1.2` → `1.1.3`
+- `vite`: `7.2.7` → `8.0.0`
+- `@vitejs/plugin-react`: `4.3.3` → `6.0.1`
+- `vite-plugin-svg-icons`: version declaration adjusted for the refreshed frontend dependency set
+
+### Security and Configuration
+
+- AI base URL now reads from the `AI_API_BASE_URL` environment variable
+- AI API key now reads from the `AI_API_KEY` environment variable
+- AI model selection now reads from the `AI_MODEL` environment variable
+- Removed hardcoded credential defaults from local development configuration
+
+### Frontend Build Improvements
+
+- Added Vite `optimizeDeps.include`
+- Pre-bundled `react`, `react-dom`, and `react-router-dom`
+- Updated `pnpm-lock.yaml` to reflect the new dependency resolution
+
+### Repository Maintenance
+
+- Added ignore rules for local `Claude Code` settings
+- Removed git submodule tracking for `ai-quick-dev-website` while keeping the local directory workflow intact
+
+### Best For
+
+- Projects upgrading to Spring AI 1.1.3
+- Teams wanting a more stable React + Vite 8 local dev experience
+- Environments that want to reduce accidental commits of sensitive local configuration
 
 ---
 
