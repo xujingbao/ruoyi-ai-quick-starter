@@ -11,7 +11,7 @@
 
 ### 环境要求
 
-JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 8+ | PostgreSQL 15+ | Redis 6.0+
+JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 9+ | PostgreSQL 15+ | Redis 6.0+
 
 ### 启动步骤
 
@@ -133,7 +133,7 @@ npm install -g @fission-ai/openspec@latest
 
 项目技术文档位于 `docs/` 目录：
 
-- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.2 集成指南和问题排查
+- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.3 集成指南和问题排查
 - [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
 - [HarmonyOS 支持文档](docs/HARMONYOS_SUPPORT.md) - DevEco Studio + hvigor + 资源说明
 

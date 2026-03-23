@@ -18,7 +18,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **Spring Security** - 安全框架
 - **MyBatis 3.0.4** - ORM 框架
 - **Redis 6.0+** - 缓存数据库
-- **MySQL 8.0+** - 关系型数据库
+- **PostgreSQL 15+** - 关系型数据库
 - **Quartz** - 定时任务调度
 - **Maven** - 构建工具
 
@@ -26,7 +26,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **React 18** - 用于构建用户界面的 JavaScript 库
 - **Ant Design** - React UI 组件库
 - **Vite** - 前端构建工具
-- **pnpm 8+** - 包管理器
+- **pnpm 9+** - 包管理器
 - **Zustand** - 状态管理
 - **React Router** - 路由管理
 - **Axios** - HTTP 客户端
@@ -38,7 +38,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 ### Development Tools
 - **Cursor** - AI 辅助开发 IDE（推荐）
 - **OpenSpec** - 规范驱动开发工具 (v1.2.0)
-- **MySQL MCP** - 数据库操作工具
+- **PostgreSQL MCP** - 数据库操作工具
 
 ## Project Conventions
 
@@ -199,14 +199,14 @@ git push github main
 - **开发规范**：`.cursor/rules/default.mdc` 定义了 AI 开发规范
 - **调试配置**：`.vscode/launch.json` 预配置了调试启动项
 - **推荐工作流**：使用 Cursor 调试配置启动服务（F5），而非脚本启动
-- **数据库操作**：使用 MySQL MCP 工具在 Cursor 中直接操作数据库
+- **数据库操作**：使用 PostgreSQL MCP 工具在 Cursor 中直接操作数据库
 
 ## Important Constraints
 
 ### 技术约束
 - **JDK 版本**：必须使用 JDK 17+
 - **Spring Boot 版本**：3.5.4（Spring Boot 3.x 系列）
-- **数据库**：MySQL 8.0+，不支持其他数据库
+- **数据库**：PostgreSQL 15+，不支持其他数据库
 - **前端构建**：必须使用 pnpm 作为包管理器
 - **前端页面限制**：单文件不超过 800 行，超过需组件化
 
@@ -214,7 +214,7 @@ git push github main
 - **不自动启动服务**：不要自动编译代码或启动服务，等待用户明确指令
 - **不自动打包**：不要自动打包，等待用户明确指令
 - **不生成测试脚本**：除非明确要求，否则不生成测试脚本
-- **数据库操作**：统一使用 MySQL MCP 相关工具
+- **数据库操作**：统一使用 PostgreSQL MCP 相关工具
 - **环境配置**：默认使用 `dev` 环境（`--spring.profiles.active=dev`）
 
 ### 业务约束
@@ -230,7 +230,7 @@ git push github main
 ## External Dependencies
 
 ### 数据库
-- **MySQL 8.0+** - 主数据库
+- **PostgreSQL 15+** - 主数据库
 - **Redis 6.0+** - 缓存数据库（用于会话、字典、参数配置缓存）
 
 ### 第三方服务
@@ -238,7 +238,7 @@ git push github main
 
 ### 开发工具依赖
 - **Cursor** - 推荐使用的 AI 辅助开发 IDE
-- **MySQL MCP** - 数据库操作工具（在 Cursor 中使用）
+- **PostgreSQL MCP** - 数据库操作工具（在 Cursor 中使用）
 - **OpenSpec** - 规范驱动开发工具
 
 ### Maven 仓库

@@ -1,5 +1,5 @@
 -- RuoYi AI Quick Starter - PostgreSQL 完整初始化脚本
--- Version: 5.1.0
+-- Version: 5.2.0
 -- 包含: 系统表 + Quartz 调度表 + AI 能力表
 -- 说明:
 -- 1) 主键统一使用 bigserial
