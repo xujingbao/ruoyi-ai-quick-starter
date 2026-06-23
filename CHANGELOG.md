@@ -10,14 +10,14 @@
 
 ### 发行摘要
 
-本版本聚焦认证页面体验升级、AI 依赖与前端组件库更新，并同步 OpenSpec 1.2.0 工作流配置。
+本版本聚焦认证页面体验升级、AI 依赖与前端组件库更新，并同步 OpenSpec 1.4.1 工作流配置。
 
 ### 主要亮点
 
 - 登录/注册页全新双栏布局，新增 `AuthBrandPanel` 品牌展示组件，支持响应式适配
 - Spring AI 升级至 `1.1.8`，Druid 适配 Spring Boot 4 自动配置
 - Ant Design 升级至 `6.4.5`，Ant Design X 升级至 `2.8.0`
-- OpenSpec 命令与技能同步至 1.2.0，移除过时的 `.cursor/rules/default.mdc`
+- OpenSpec 命令与技能同步至 1.4.1，移除过时的 `.cursor/rules/default.mdc`
 - 默认侧边栏主题调整为浅色（`theme-light`）
 
 ### 依赖与版本升级
@@ -29,6 +29,7 @@
 - `@ant-design/icons`: `6.1.0` → `6.2.5`
 - `vite`: `8.0.0` → `8.0.16`
 - `@vitejs/plugin-react`: `6.0.1` → `6.0.2`
+- OpenSpec CLI: `1.1.1` → `1.4.1`
 
 ### 配置与安全
 
@@ -39,7 +40,7 @@
 
 - 需要升级 Spring AI 1.1.8 的项目
 - 希望获得更现代登录/注册体验的团队
-- 使用 OpenSpec 1.2.0 规范驱动开发的团队
+- 使用 OpenSpec 1.4.1 规范驱动开发的团队
 
 ---
 

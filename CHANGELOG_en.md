@@ -10,14 +10,14 @@ All notable changes to this project will be documented in this file.
 
 ### Summary
 
-This release focuses on a refreshed login/register experience, AI dependency upgrades, frontend component library updates, and OpenSpec 1.2.0 workflow sync.
+This release focuses on a refreshed login/register experience, AI dependency upgrades, frontend component library updates, and OpenSpec 1.4.1 workflow sync.
 
 ### Highlights
 
 - New two-column login/register layout with `AuthBrandPanel` brand showcase and responsive design
 - Upgraded Spring AI to `1.1.8`; Druid adapted to Spring Boot 4 auto-configuration
 - Ant Design upgraded to `6.4.5`, Ant Design X to `2.8.0`
-- OpenSpec commands and skills synced to 1.2.0; removed legacy `.cursor/rules/default.mdc`
+- OpenSpec commands and skills synced to 1.4.1; removed legacy `.cursor/rules/default.mdc`
 - Default sidebar theme changed to light (`theme-light`)
 
 ### Dependency Upgrades
@@ -29,6 +29,7 @@ This release focuses on a refreshed login/register experience, AI dependency upg
 - `@ant-design/icons`: `6.1.0` → `6.2.5`
 - `vite`: `8.0.0` → `8.0.16`
 - `@vitejs/plugin-react`: `6.0.1` → `6.0.2`
+- OpenSpec CLI: `1.1.1` → `1.4.1`
 
 ### Security and Configuration
 
@@ -39,7 +40,7 @@ This release focuses on a refreshed login/register experience, AI dependency upg
 
 - Projects upgrading to Spring AI 1.1.8
 - Teams wanting a modern login/register experience
-- Teams using OpenSpec 1.2.0 for spec-driven development
+- Teams using OpenSpec 1.4.1 for spec-driven development
 
 ---
 
