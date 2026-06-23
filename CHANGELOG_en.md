@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.0] - 2026-06-23
+
+**Title:** Auth Page Refresh, Spring AI 1.1.8 Upgrade, and Frontend Dependency Updates
+
+**Release:** [v5.3.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release focuses on a refreshed login/register experience, AI dependency upgrades, frontend component library updates, and OpenSpec 1.2.0 workflow sync.
+
+### Highlights
+
+- New two-column login/register layout with `AuthBrandPanel` brand showcase and responsive design
+- Upgraded Spring AI to `1.1.8`; Druid adapted to Spring Boot 4 auto-configuration
+- Ant Design upgraded to `6.4.5`, Ant Design X to `2.8.0`
+- OpenSpec commands and skills synced to 1.2.0; removed legacy `.cursor/rules/default.mdc`
+- Default sidebar theme changed to light (`theme-light`)
+
+### Dependency Upgrades
+
+- Root project version bumped to `5.3.0`
+- `spring-ai.version`: `1.1.3` → `1.1.8`
+- `antd`: `6.1.4` → `6.4.5`
+- `@ant-design/x`: `2.1.3` → `2.8.0`
+- `@ant-design/icons`: `6.1.0` → `6.2.5`
+- `vite`: `8.0.0` → `8.0.16`
+- `@vitejs/plugin-react`: `6.0.1` → `6.0.2`
+
+### Security and Configuration
+
+- AI configuration remains environment-variable driven (`AI_API_BASE_URL`, `AI_API_KEY`, `AI_MODEL`)
+- Removed hardcoded internal API URLs from development configuration
+
+### Best For
+
+- Projects upgrading to Spring AI 1.1.8
+- Teams wanting a modern login/register experience
+- Teams using OpenSpec 1.2.0 for spec-driven development
+
+---
+
 ## [5.2.0] - 2026-03-21
 
 **Title:** Spring AI 1.1.3 Upgrade, Frontend Build Chain Refresh, and Safer Local Configuration

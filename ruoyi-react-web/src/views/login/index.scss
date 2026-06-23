@@ -1,108 +1,285 @@
 .login {
+  position: relative;
+  min-height: 100vh;
   display: flex;
+  background: #f4f7fc;
+  overflow-x: hidden;
+}
+
+.login--compact {
+  display: block;
+}
+
+/* ===== 品牌左栏 ===== */
+.auth-brand-panel {
+  flex: 0 0 48%;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 72px 56px;
+  background: linear-gradient(160deg, #3a76d8 0%, #1d5ccc 50%, #1648a6 100%);
+  color: #fff;
   position: relative;
-  width: 100%;
-  min-height: 100vh;
-  background-image: url('@/assets/images/login-background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: 16px;
-  // 预留底部版权区域，避免被表单遮挡
-  padding-bottom: 64px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: var(--app-bg);
+  overflow: hidden;
 }
 
-.login-overlay {
+.auth-brand-panel__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.45));
-  z-index: 1;
+  opacity: 0.18;
+  background-image:
+    radial-gradient(circle at 12% 88%, rgba(255, 255, 255, 0.6) 0, transparent 38%),
+    radial-gradient(circle at 92% 6%, rgba(255, 255, 255, 0.45) 0, transparent 32%);
+  pointer-events: none;
 }
 
-.login-form {
+.auth-brand-panel__content {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  max-width: 460px;
+  width: 100%;
+}
+
+.auth-brand-panel__title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.4px;
+  margin-top: 24px;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.auth-brand-panel__highlights {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.auth-brand-panel__highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.auth-brand-panel__highlight-icon {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #fff;
+}
+
+.auth-brand-panel__highlight-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.auth-brand-panel__highlight-desc {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+}
+
+.auth-brand-panel--compact {
+  flex: none;
+  min-height: 260px;
+  padding: 36px 24px 40px;
+}
+
+.auth-brand-panel--compact .auth-brand-panel__title {
+  font-size: 22px;
+  margin-top: 18px;
+}
+
+.auth-brand-panel--compact .auth-brand-panel__highlights {
+  margin-top: 28px;
+  gap: 16px;
+}
+
+.auth-brand-panel--compact .auth-brand-panel__highlight-title {
+  font-size: 15px;
+}
+
+.auth-brand-panel--compact .auth-brand-panel__highlight-desc {
+  font-size: 12px;
+}
+
+/* ===== 右侧表单栏 ===== */
+.login-form-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 40px 24px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+
+.login--compact .login-form-side {
+  padding: 32px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+.login-form-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form-wrap {
   width: 100%;
   max-width: 400px;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
-  backdrop-filter: blur(10px);
-  color: var(--app-text);
-
-  a {
-    color: var(--ant-color-primary, #1677ff);
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
-.title {
-  text-align: center;
-  margin-bottom: 30px;
+.login-page-title {
+  margin: 0 0 6px;
   font-size: 24px;
-  font-weight: 500;
-  color: var(--app-text);
+  font-weight: 600;
+  color: #0f172a;
+  letter-spacing: 0.3px;
 }
 
-.input-icon {
-  color: var(--app-text-secondary);
+.login-page-subtitle {
+  margin: 0 0 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #64748b;
 }
 
-// 登录按钮（仅登录页范围）
+.login--compact .login-page-title {
+  font-size: 20px;
+}
+
+.login--compact .login-page-subtitle {
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
 .login-form {
+  .ant-form-item {
+    margin-bottom: 18px;
+  }
+
+  .ant-form-item-label {
+    padding-bottom: 6px;
+  }
+
+  .ant-form-item-label > label {
+    height: 22px;
+    color: #1f2937;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .ant-input,
+  .ant-input-affix-wrapper,
+  .ant-input-password {
+    border-radius: 10px;
+    border-color: #e2e8f0;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .ant-input:hover,
+  .ant-input-affix-wrapper:hover,
+  .ant-input-password:hover {
+    border-color: #1d5ccc;
+  }
+
+  .ant-input-affix-wrapper-focused,
+  .ant-input-affix-wrapper:focus-within,
+  .ant-input:focus {
+    border-color: #1d5ccc;
+    box-shadow: 0 0 0 2px rgba(29, 92, 204, 0.12);
+  }
+
+  .ant-input-prefix {
+    margin-inline-end: 8px;
+    color: #94a3b8;
+    font-size: 15px;
+    transition: color 0.2s ease;
+  }
+
+  .ant-input-affix-wrapper:hover .ant-input-prefix,
+  .ant-input-affix-wrapper-focused .ant-input-prefix,
+  .ant-input-affix-wrapper:focus-within .ant-input-prefix {
+    color: #1d5ccc;
+  }
+
   .ant-btn-primary {
     height: 44px;
-    border-radius: 8px;
+    font-weight: 500;
+    border-radius: 10px;
     border: none;
-    background: var(--ant-color-primary, var(--ant-primary-color, #1677ff));
-    box-shadow: 0 8px 18px rgba(22, 119, 255, 0.24);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    background: #1d5ccc;
+    box-shadow: 0 8px 18px rgba(29, 92, 204, 0.2);
+    transition:
+      background 0.2s ease,
+      box-shadow 0.2s ease,
+      transform 0.1s ease;
 
     &:hover {
-      background: var(--ant-color-primary-hover, var(--ant-primary-color-light-1, #4096ff));
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(22, 119, 255, 0.28);
+      background: #3a76d8 !important;
+      box-shadow: 0 10px 22px rgba(29, 92, 204, 0.26);
     }
 
     &:active {
-      background: var(--ant-color-primary-active, var(--ant-primary-color-dark-1, #0958d9));
-      transform: translateY(0);
-      box-shadow: 0 6px 14px rgba(22, 119, 255, 0.2);
-    }
-
-    &:focus-visible {
-      outline: 3px solid rgba(22, 119, 255, 0.28);
-      outline-offset: 2px;
+      background: #1648a6 !important;
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(29, 92, 204, 0.2);
     }
   }
 }
 
+.login-remember {
+  margin-bottom: 12px !important;
+}
+
+.login-submit {
+  margin-bottom: 12px !important;
+}
+
+.input-icon {
+  color: inherit;
+}
+
+.login-captcha-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  gap: 10px;
+  align-items: center;
+}
+
 .login-code {
-  width: 100px;
   height: 40px;
-  cursor: pointer;
-  border: 1px solid var(--app-border);
-  border-radius: 4px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  background: #f8fafc;
   overflow: hidden;
-  display: flex;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.75);
-  transition: all 0.3s;
+  transition: border-color 0.2s ease;
 
   &:hover {
-    border-color: var(--ant-color-primary, #1677ff);
+    border-color: #1d5ccc;
   }
 }
 
@@ -114,67 +291,126 @@
 }
 
 .login-code-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  color: var(--app-text-secondary);
+  font-size: 13px;
+  color: #64748b;
   user-select: none;
 }
 
-.el-login-footer {
-  position: fixed;
-  bottom: 12px;
-  width: 100%;
+.login-foot-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.login-foot-links__primary {
+  color: #1d5ccc;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+
+  &:hover {
+    color: #3a76d8;
+  }
+}
+
+.login-foot-links__register {
+  color: #64748b;
+}
+
+.auth-register-foot {
+  justify-content: flex-start;
+  margin-top: 4px;
+}
+
+.auth-register-foot .login-foot-links__primary {
+  margin-left: 4px;
+}
+
+.login-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 32px;
+  padding-top: 24px;
+  color: #8c98a4;
+  font-size: 12px;
+  line-height: 1.6;
   text-align: center;
-  color: #fff;
-  z-index: 3;
-  left: 0;
-  padding: 0 16px;
-  pointer-events: none;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
-@media (max-width: 480px) {
-  .login-form {
-    padding: 28px 20px;
+.login-footer__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ===== 手机端：品牌区压缩，表单优先 ===== */
+@media (max-width: 575.98px) {
+  .auth-brand-panel.auth-brand-panel--compact {
+    min-height: 168px;
+    padding: 22px 18px 24px;
+  }
+
+  .auth-brand-panel--compact .auth-brand-panel__title {
+    margin-top: 0;
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: 0.2px;
+  }
+
+  .auth-brand-panel--compact .auth-brand-panel__highlights {
+    display: none;
+  }
+
+  .login-form .ant-form-item {
+    margin-bottom: 14px;
   }
 }
 
-/* 暗色模式下的登录页优化 */
+/* ===== 暗色模式 ===== */
 html.dark {
-  .login-overlay {
-    background: radial-gradient(1200px 600px at 10% 10%, rgba(24, 144, 255, 0.18), rgba(0, 0, 0, 0)) ,
-      linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7));
+  .login {
+    background: #0f1419;
+  }
+
+  .login-form-side {
+    background: rgba(20, 24, 28, 0.92);
+  }
+
+  .login-page-title {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .login-page-subtitle,
+  .login-foot-links,
+  .login-foot-links__register,
+  .login-footer {
+    color: rgba(255, 255, 255, 0.55);
   }
 
   .login-form {
-    background: rgba(20, 20, 20, 0.82);
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+    .ant-form-item-label > label {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .ant-input,
+    .ant-input-affix-wrapper {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .ant-input-prefix {
+      color: rgba(255, 255, 255, 0.45);
+    }
   }
 
   .login-code {
-    background: rgba(0, 0, 0, 0.22);
-  }
-
-  .login-form {
-    .ant-btn-primary {
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
-
-      &:hover {
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
-      }
-
-      &:active {
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
-      }
-
-      &:focus-visible {
-        outline-color: rgba(22, 119, 255, 0.35);
-      }
-    }
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
   }
 }

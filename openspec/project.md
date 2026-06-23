@@ -196,7 +196,7 @@ git push github main
 ### AI 开发支持
 
 - **Cursor AI 配置**：项目已针对 Cursor AI 进行优化
-- **开发规范**：`.cursor/rules/default.mdc` 定义了 AI 开发规范
+- **开发规范**：`openspec/AGENTS.md` 与 `openspec/conventions/` 定义了 AI 开发规范
 - **调试配置**：`.vscode/launch.json` 预配置了调试启动项
 - **推荐工作流**：使用 Cursor 调试配置启动服务（F5），而非脚本启动
 - **数据库操作**：使用 PostgreSQL MCP 工具在 Cursor 中直接操作数据库

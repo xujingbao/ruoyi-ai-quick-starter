@@ -2,10 +2,10 @@
 
 ## 后端
 
-- **RuoYi**: 5.2.0
+- **RuoYi**: 5.3.0
 - **Java**: 17
 - **Spring Boot**: 3.5.4
-- **Spring AI**: 1.1.3
+- **Spring AI**: 1.1.8
 - **MyBatis**: 3.0.4
 - **PostgreSQL JDBC**: 42.7.7
 - **PostgreSQL**: 15+ (数据库)
@@ -24,12 +24,12 @@
 
 - **React**: 18.3.1
 - **React DOM**: 18.3.1
-- **Ant Design**: 6.1.4
-- **Ant Design X**: 2.1.3
+- **Ant Design**: 6.4.5
+- **Ant Design X**: 2.8.0
 - **React Router**: 6.30.3
 - **Zustand**: 5.0.9
-- **Vite**: 8.0.1
-- **@vitejs/plugin-react**: 6.0.1
+- **Vite**: 8.0.16
+- **@vitejs/plugin-react**: 6.0.2
 - **Axios**: 1.9.0
 - **ECharts**: 5.6.0
 

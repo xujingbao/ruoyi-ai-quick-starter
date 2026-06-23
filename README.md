@@ -98,7 +98,7 @@ ruoyi-quick-starter/
 - 🛠️ 断点调试、AI 辅助
 
 **项目配置：**
-- AI 开发规范：`.cursor/rules/default.mdc`
+- AI 开发规范：`openspec/AGENTS.md` 与 `openspec/conventions/`
 - 调试配置：`.vscode/launch.json`（按 `F5` 启动）
 - 开发规范：`openspec/conventions/` 目录
 
@@ -133,7 +133,7 @@ npm install -g @fission-ai/openspec@latest
 
 项目技术文档位于 `docs/` 目录：
 
-- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.3 集成指南和问题排查
+- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.8 集成指南和问题排查
 - [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
 - [HarmonyOS 支持文档](docs/HARMONYOS_SUPPORT.md) - DevEco Studio + hvigor + 资源说明
 

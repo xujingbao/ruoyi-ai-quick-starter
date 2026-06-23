@@ -12,7 +12,7 @@ const getInitialDarkMode = () => {
   if (stored !== null) {
     return stored === 'true'
   }
-  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  return false
 }
 
 const toggleDarkMode = (isDark) => {

@@ -2,6 +2,47 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [5.3.0] - 2026-06-23
+
+**标题:** 登录注册页焕新、Spring AI 1.1.8 升级与前端依赖更新
+
+**发布地址:** [v5.3.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本聚焦认证页面体验升级、AI 依赖与前端组件库更新，并同步 OpenSpec 1.2.0 工作流配置。
+
+### 主要亮点
+
+- 登录/注册页全新双栏布局，新增 `AuthBrandPanel` 品牌展示组件，支持响应式适配
+- Spring AI 升级至 `1.1.8`，Druid 适配 Spring Boot 4 自动配置
+- Ant Design 升级至 `6.4.5`，Ant Design X 升级至 `2.8.0`
+- OpenSpec 命令与技能同步至 1.2.0，移除过时的 `.cursor/rules/default.mdc`
+- 默认侧边栏主题调整为浅色（`theme-light`）
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `5.3.0`
+- `spring-ai.version`: `1.1.3` → `1.1.8`
+- `antd`: `6.1.4` → `6.4.5`
+- `@ant-design/x`: `2.1.3` → `2.8.0`
+- `@ant-design/icons`: `6.1.0` → `6.2.5`
+- `vite`: `8.0.0` → `8.0.16`
+- `@vitejs/plugin-react`: `6.0.1` → `6.0.2`
+
+### 配置与安全
+
+- AI 配置保持环境变量驱动（`AI_API_BASE_URL`、`AI_API_KEY`、`AI_MODEL`）
+- 移除开发配置中的硬编码内部 API 地址
+
+### 适用场景
+
+- 需要升级 Spring AI 1.1.8 的项目
+- 希望获得更现代登录/注册体验的团队
+- 使用 OpenSpec 1.2.0 规范驱动开发的团队
+
+---
+
 ## [5.2.0] - 2026-03-21
 
 **标题:** Spring AI 1.1.3 升级、前端构建链更新与配置安全增强
