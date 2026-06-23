@@ -23,22 +23,22 @@ JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 9+ | PostgreSQL 15+ | Re
    # 修改 ruoyi-admin/src/main/resources/application-dev.yml 中的数据库连接信息
    ```
 
-2. **配置 DeepSeek API Key**（AI 功能需要）
-   
-   编辑 `ruoyi-admin/src/main/resources/application-dev.yml`，将 `api-key` 替换为你的实际 API Key：
-   ```yaml
-   spring:
-     ai:
-       openai:
-         api-key: sk-your-api-key-here
+2. **配置 AI API Key**（AI 功能需要）
+
+   AI 配置通过环境变量注入（`application-dev.yml` 已默认读取），推荐设置环境变量：
+   ```bash
+   export AI_API_BASE_URL=https://api.deepseek.com
+   export AI_API_KEY=sk-your-api-key-here
+   export AI_MODEL=deepseek-chat
    ```
+   也可直接修改 `ruoyi-admin/src/main/resources/application-dev.yml` 中对应默认值，但请勿提交真实密钥。
 
 3. **启动后端**（推荐使用 Cursor 调试配置）
    - 按 `F5` → 选择 **"RuoYi Backend"** → 启动
    - 或使用命令：`mvn spring-boot:run`
    - 访问：<http://localhost:8080/swagger-ui.html>
 
-3. **启动前端（React）**（推荐使用 Cursor 调试配置）
+4. **启动前端（React）**（推荐使用 Cursor 调试配置）
    ```bash
    cd ruoyi-react-web
    pnpm install

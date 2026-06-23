@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.1] - 2026-06-23
+
+**Title:** README Documentation Polish and Release Automation
+
+**Release:** [v5.3.1 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+A documentation and tooling patch release that polishes the README startup guide and adds release automation.
+
+### Highlights
+
+- README AI configuration switched to environment-variable driven setup (`AI_API_BASE_URL`, `AI_API_KEY`, `AI_MODEL`) to match the actual config
+- Fixed incorrect step numbering in the README startup guide
+- Added the `ruoyi-release` skill and `/release` command for one-command releases
+- Added `create-release.sh` to automatically create Gitee / GitHub releases
+
+### Best For
+
+- Teams wanting a standardized, automated release workflow
+
+---
+
 ## [5.3.0] - 2026-06-23
 
 **Title:** Auth Page Refresh, Spring AI 1.1.8 Upgrade, and Frontend Dependency Updates

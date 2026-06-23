@@ -2,7 +2,7 @@
 
 ## 后端
 
-- **RuoYi**: 5.3.0
+- **RuoYi**: 5.3.1
 - **Java**: 17
 - **Spring Boot**: 3.5.4
 - **Spring AI**: 1.1.8

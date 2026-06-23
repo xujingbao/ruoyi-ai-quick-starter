@@ -2,6 +2,29 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [5.3.1] - 2026-06-23
+
+**标题:** README 文档完善与发版流程自动化
+
+**发布地址:** [v5.3.1 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本为文档与工具链补丁更新，完善 README 启动说明，并新增自动化发版能力。
+
+### 主要亮点
+
+- README AI 配置说明改为环境变量驱动（`AI_API_BASE_URL`、`AI_API_KEY`、`AI_MODEL`），与实际配置一致
+- 修正 README 启动步骤编号错误
+- 新增 `ruoyi-release` 发版 Skill 与 `/release` 命令，支持一键发版
+- 新增 `create-release.sh` 脚本，自动创建 Gitee / GitHub Release
+
+### 适用场景
+
+- 需要标准化、自动化发版流程的团队
+
+---
+
 ## [5.3.0] - 2026-06-23
 
 **标题:** 登录注册页焕新、Spring AI 1.1.8 升级与前端依赖更新

@@ -54,3 +54,4 @@ nbdist/
 # Independent repositories
 ai-quick-dev-website/
 .claude/settings.local.json
+.env.release.local
