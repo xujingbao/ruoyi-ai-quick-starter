@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.3] - 2026-06-30
+
+**Title:** Cloud Agent Release Rules and Mobile Development Docs
+
+**Release:** [v5.3.3 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+A documentation and process patch release capturing Cloud Agent release lessons and adding mobile remote-development guidance.
+
+### Highlights
+
+- Added a "Cloud Agent" section to the `ruoyi-release` skill: remote verification, push code before creating the release, Gitee inline-token push, 429 backoff retry, post-release API verification
+- Added a "Cursor iOS + Cloud Agent development" section to the README describing the mobile remote-development flow
+
+### Best For
+
+- Teams doing remote development and dual-platform releases via Cursor Cloud Agent / iOS
+
+---
+
 ## [5.3.2] - 2026-06-30
 
 **Title:** README Documentation Polish and Multi-platform Module Info

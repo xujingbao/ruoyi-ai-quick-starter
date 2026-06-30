@@ -2,6 +2,27 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [5.3.3] - 2026-06-30
+
+**标题:** Cloud Agent 发版规则与移动端开发文档
+
+**发布地址:** [v5.3.3 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本为文档与流程补丁更新，沉淀 Cloud Agent 云端发版经验，并补充移动端远程开发说明。
+
+### 主要亮点
+
+- `ruoyi-release` 发版 Skill 新增「Cloud Agent 环境」章节：远程确认、先推代码再建 Release、Gitee 内联 token 推送、429 退避重试、发版后 API 核验
+- README 新增「Cursor iOS + Cloud Agent 开发」说明，介绍移动端远程开发流程
+
+### 适用场景
+
+- 在 Cursor Cloud Agent / iOS 上进行远程开发与双平台发版的团队
+
+---
+
 ## [5.3.2] - 2026-06-30
 
 **标题:** README 文档完善与多端模块信息补全
