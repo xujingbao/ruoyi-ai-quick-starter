@@ -99,9 +99,12 @@ git push origin main --tags
 git push github main --tags
 ```
 
-**远程：**
+**远程（本地开发约定）：**
 - `origin` → Gitee（主仓库）
 - `github` → GitHub 镜像
+
+> ⚠️ Cloud Agent 环境的远程不同（通常只有 `origin` → GitHub，**没有 Gitee 远程**）。
+> 发版前**务必先 `git remote -v` 确认**，不要照搬上面的 `origin`/`github` 名称。详见下方「Cloud Agent 环境」。
 
 **标签修正：** 发版后若仅文档/OpenSpec 版本需修补，在新提交上重建标签后 force push **仅标签**：
 
@@ -113,6 +116,59 @@ git push github vX.Y.Z --force
 ```
 
 禁止 `git push --force` 到 `main`。
+
+## Cloud Agent 环境（云端发版必读）
+
+在 Cursor Cloud Agent 中发版与本地差异较大，需特别注意：
+
+### 1. 远程与凭据现状
+
+| 平台 | 远程是否自动配置 | 凭据来源 |
+|------|----------------|---------|
+| **GitHub** | ✅ 自动（`origin` 内嵌 `x-access-token`，`gh` 已登录 `ghs_` 安装令牌） | Cursor 自动注入 |
+| **Gitee** | ❌ 无远程、无凭据 | 需 `GITEE_TOKEN`（Dashboard Secret 或本次会话临时提供） |
+
+发版第一步永远先：
+
+```bash
+git remote -v   # 确认实际远程名称，不要假设 origin=Gitee
+```
+
+### 2. 关键顺序：先推代码，再建 Release（易错点）
+
+`create-release.sh` 创建 Gitee Release 时 `target_commitish` 取 Gitee 的 **`main` 当前 HEAD**。
+若新提交未推到 Gitee，标签会被挂在**旧提交**上 → Release 源码包仍是旧代码。
+
+**正确顺序：先把 `main` + 标签推到每个远程，再创建 Release。**
+
+### 3. 推送到 Gitee（无远程时用内联 token）
+
+```bash
+# main 与标签都要推；标签若已被 API 建在旧提交上，需 --force 仅推标签
+git push https://oauth2:$GITEE_TOKEN@gitee.com/xujingbao/ruoyi-ai-quick-starter.git main
+git push https://oauth2:$GITEE_TOKEN@gitee.com/xujingbao/ruoyi-ai-quick-starter.git vX.Y.Z --force
+```
+
+- 不要把带 token 的 URL `git remote add` 持久化进 `.git/config`，用一次性内联 URL。
+- 输出中务必用 `sed -E "s/$GITEE_TOKEN/[REDACTED]/g"` 脱敏。
+- 用户在聊天里临时提供的 token，**用完提醒其去 Gitee 吊销重置**。
+
+### 4. Gitee 429 限流
+
+Gitee 对云端/数据中心 IP 的 git 协议会偶发 **HTTP 429**（`ls-remote`/`push` 报 `RPC failed; HTTP 429`）。
+多为**暂时性**——按 4s/8s/16s/32s 退避重试，通常可成功。API（`/api/v5`）限流更宽松。
+
+### 5. 发版后核验（用 API，避开 git 限流）
+
+确认 Gitee 的 `main` 分支与标签 commit 都等于本地 `HEAD`：
+
+```bash
+git rev-parse HEAD
+curl -s "https://gitee.com/api/v5/repos/xujingbao/ruoyi-ai-quick-starter/branches/main?access_token=$GITEE_TOKEN" | grep -oE '"sha":"[a-f0-9]+"' | head -1
+curl -s "https://gitee.com/api/v5/repos/xujingbao/ruoyi-ai-quick-starter/tags?access_token=$GITEE_TOKEN" | tr ',' '\n' | grep -A2 'vX.Y.Z'
+```
+
+三者 sha 一致才算 Gitee 真正同步到新代码。
 
 ## 自动创建 Release
 
@@ -161,6 +217,8 @@ set -a && source .env.release.local && set +a
 - [ ] 无硬编码凭据
 - [ ] 已提交、打标签、推送双远程
 - [ ] 标签指向包含最终文档修正的提交
+- [ ] （Cloud Agent）已 `git remote -v` 确认远程，代码已先推到 Gitee 再建 Release
+- [ ] （Cloud Agent）已用 API 核验 Gitee main/tag 的 sha 与本地 HEAD 一致
 - [ ] 已运行 `create-release.sh` 或确认 Release 页面已创建
 ```
 
