@@ -111,6 +111,17 @@ ruoyi-quick-starter/
 - 代码重构：选中代码 → `Cmd/Ctrl + K`
 - 数据库操作：使用 PostgreSQL MCP 工具直接操作
 
+### 📱 Cursor iOS + Cloud Agent 开发
+
+可在 **Cursor iOS App** 中通过 **Cloud Agent** 远程开发本项目，随时随地发起任务、查看进度。
+
+- **绑定仓库**：在 App 中登录并连接 GitHub 仓库（`xujingbao/ruoyi-ai-quick-starter`）
+- **下发任务**：用自然语言描述需求，Cloud Agent 在云端 VM 自动改码、提交并创建 PR
+- **配置 Secret**：发版等需要的密钥（如 `GITEE_TOKEN`）在 [Cursor Dashboard](https://cursor.com) → Cloud Agents → Secrets 配置，跨会话复用
+- **查看结果**：在 App 内审阅 diff 与 PR，确认后合并
+
+> 提示：Cloud Agent 默认只接入 GitHub；如需同步 Gitee，请按上文配置 `GITEE_TOKEN`。
+
 ### 📋 规范驱动开发（OpenSpec）
 
 项目已集成 **OpenSpec**，用于管理功能规格说明和变更提案。
