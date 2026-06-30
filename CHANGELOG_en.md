@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [5.3.2] - 2026-06-30
+
+**Title:** README Documentation Polish and Multi-platform Module Info
+
+**Release:** [v5.3.2 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+A documentation patch release that polishes the README so it stays consistent with the current repository structure and versions.
+
+### Highlights
+
+- Added version and tech-stack badges to the README header (version, JDK, Spring Boot, Spring AI, React, License)
+- Added concrete version numbers to the tech-stack description; clarified React Native (Expo) on mobile
+- Added the missing `ruoyi-rn-app/` (React Native + Expo) module to the project structure
+- Added links to `VERSIONS.md` (version list) and `CHANGELOG.md` (changelog) in the docs section
+
+### Best For
+
+- Developers who want a clear view of the tech stack and multi-platform module structure
+
+---
+
 ## [5.3.1] - 2026-06-23
 
 **Title:** README Documentation Polish and Release Automation

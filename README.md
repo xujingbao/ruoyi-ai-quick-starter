@@ -1,6 +1,6 @@
 # RuoYi AI Quick Starter
 
-![version](https://img.shields.io/badge/version-5.3.1-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-green) ![Spring%20AI](https://img.shields.io/badge/Spring%20AI-1.1.8-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-5.3.2-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-green) ![Spring%20AI](https://img.shields.io/badge/Spring%20AI-1.1.8-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
 
 基于 RuoYi 成熟框架的 **AI 快速开发框架**，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
 

@@ -2,6 +2,29 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [5.3.2] - 2026-06-30
+
+**标题:** README 文档完善与多端模块信息补全
+
+**发布地址:** [v5.3.2 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本为文档补丁更新，完善 README 项目信息展示，使其与当前仓库实际结构与版本保持一致。
+
+### 主要亮点
+
+- README 顶部新增版本与技术栈徽章（version、JDK、Spring Boot、Spring AI、React、License）
+- 技术栈描述补充具体版本号，移动端明确 React Native（Expo）
+- 项目结构补全缺失的 `ruoyi-rn-app/`（React Native + Expo 模块）
+- 技术文档区新增 `VERSIONS.md`（版本清单）与 `CHANGELOG.md`（更新日志）链接
+
+### 适用场景
+
+- 需要清晰了解项目技术栈与多端模块结构的开发者
+
+---
+
 ## [5.3.1] - 2026-06-23
 
 **标题:** README 文档完善与发版流程自动化
