@@ -424,7 +424,7 @@ const Index = () => {
             <Col span={12}>
               <h4>后端技术</h4>
               <ul>
-                <li>Spring Boot 3.x</li>
+                <li>Spring Boot 4.x</li>
                 <li>MyBatis</li>
                 <li>Redis</li>
                 <li>PostgreSQL 15+</li>

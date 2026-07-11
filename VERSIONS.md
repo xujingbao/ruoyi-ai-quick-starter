@@ -2,18 +2,18 @@
 
 ## 后端
 
-- **RuoYi**: 5.3.3
+- **RuoYi**: 6.0.0
 - **Java**: 17
-- **Spring Boot**: 3.5.4
-- **Spring AI**: 1.1.8
-- **MyBatis**: 3.0.4
+- **Spring Boot**: 4.0.7
+- **Spring AI**: 2.0.0
+- **MyBatis**: 4.0.1
 - **PostgreSQL JDBC**: 42.7.7
 - **PostgreSQL**: 15+ (数据库)
 - **Redis**: 6.0+ (Lettuce 客户端)
-- **Druid**: 1.2.23
+- **Druid**: 1.2.28
 - **FastJSON2**: 2.0.58
-- **SpringDoc**: 2.8.9
-- **PageHelper**: 2.1.1
+- **SpringDoc**: 3.0.3
+- **PageHelper**: 4.1.1
 - **JWT**: 0.12.6
 - **Apache POI**: 5.3.0
 - **Quartz**: 已启用（版本由 Spring Boot 依赖管理）

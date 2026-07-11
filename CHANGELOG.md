@@ -2,6 +2,47 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [6.0.0] - 2026-07-11
+
+**标题:** Spring Boot 4.0 / Spring AI 2.0 主版本升级
+
+**发布地址:** [v6.0.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本将后端运行时升级至 Spring Boot 4.0.7 与 Spring AI 2.0.0，同步适配 Jackson 3、模块化自动配置及第三方 starter，并修复 Security 7 登录鉴权空指针问题。
+
+### 主要亮点
+
+- Spring Boot `3.5.4` → `4.0.7`，Spring AI `1.1.8` → `2.0.0`（破坏性升级）
+- 配套升级 MyBatis / PageHelper / Druid / springdoc，并补齐 Boot 4 所需 `quartz`、`cache`、`aspectj` starter
+- Jackson 3 适配：`JsonMapperBuilderCustomizer`、脱敏序列化器、`tools.jackson` 坐标
+- 修复 `LoginUser.getAuthorities()` 返回 null 导致登录失败；`BaseException` 错误消息正确返回前端
+- 新增 `.mvn/maven-settings.xml`，本项目构建可绕过公司 Nexus 私服
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `6.0.0`
+- `spring-boot.version`: `3.5.4` → `4.0.7`
+- `spring-ai.version`: `1.1.8` → `2.0.0`
+- `mybatis-spring-boot.version`: `3.0.4` → `4.0.1`
+- `pagehelper.boot.version`: `2.1.1` → `4.1.1`
+- `druid`: `druid-spring-boot-3-starter:1.2.23` → `druid-spring-boot-4-starter:1.2.28`
+- `springdoc.version`: `2.8.9` → `3.0.3`
+- `spring-boot-starter-aop` → `spring-boot-starter-aspectj`
+
+### 配置与安全
+
+- AI 配置继续通过环境变量驱动（`AI_API_BASE_URL`、`AI_API_KEY`、`AI_MODEL`）
+- 用户侧异常（验证码等）不再被统一遮罩为「系统内部错误」
+
+### 适用场景
+
+- 需要跟进 Spring Boot 4 / Spring AI 2.0 生态的项目
+- 从 RuoYi AI Quick Starter 5.x 迁移到 Boot 4 运行时的团队
+
+---
+
 ## [5.3.3] - 2026-06-30
 
 **标题:** Cloud Agent 发版规则与移动端开发文档

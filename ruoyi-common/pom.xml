@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>5.3.3</version>
+        <version>6.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -53,9 +53,9 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
   
-        <!-- JSON工具类 -->
+        <!-- JSON工具类 (Jackson 3 / Spring Boot 4) -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         
@@ -101,6 +101,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!-- Spring Cache 抽象（Boot 4 需显式引入，配合 @EnableCaching） -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
         <!-- pool 对象池 -->

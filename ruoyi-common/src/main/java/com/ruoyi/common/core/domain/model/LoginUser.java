@@ -261,6 +261,7 @@ public class LoginUser implements UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
     {
-        return null;
+        // Spring Security 7 会对 authorities 调用 size()，不可返回 null
+        return java.util.Collections.emptyList();
     }
 }

@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.0.0] - 2026-07-11
+
+**Title:** Spring Boot 4.0 / Spring AI 2.0 Major Upgrade
+
+**Release:** [v6.0.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+Upgrades the backend runtime to Spring Boot 4.0.7 and Spring AI 2.0.0, adapts Jackson 3 and modular auto-configuration, and fixes a Spring Security 7 login NPE.
+
+### Highlights
+
+- Spring Boot `3.5.4` → `4.0.7`, Spring AI `1.1.8` → `2.0.0` (breaking)
+- Companion upgrades for MyBatis / PageHelper / Druid / springdoc; add Boot 4 `quartz`, `cache`, and `aspectj` starters
+- Jackson 3 adaptations for mapper customization and desensitization serializers
+- Fix `LoginUser.getAuthorities()` null NPE; surface `BaseException` messages to the client
+- Add `.mvn/maven-settings.xml` so local builds can bypass a corporate Nexus mirror
+
+### Dependency Upgrades
+
+- Root project version bumped to `6.0.0`
+- `spring-boot.version`: `3.5.4` → `4.0.7`
+- `spring-ai.version`: `1.1.8` → `2.0.0`
+- `mybatis-spring-boot.version`: `3.0.4` → `4.0.1`
+- `pagehelper.boot.version`: `2.1.1` → `4.1.1`
+- `druid`: `druid-spring-boot-3-starter:1.2.23` → `druid-spring-boot-4-starter:1.2.28`
+- `springdoc.version`: `2.8.9` → `3.0.3`
+- `spring-boot-starter-aop` → `spring-boot-starter-aspectj`
+
+### Security and Configuration
+
+- AI settings remain environment-variable driven (`AI_API_BASE_URL`, `AI_API_KEY`, `AI_MODEL`)
+- User-facing exceptions (e.g. captcha) are no longer masked as a generic internal error
+
+### Best For
+
+- Teams adopting Spring Boot 4 / Spring AI 2.0
+- Projects migrating from RuoYi AI Quick Starter 5.x
+
+---
+
 ## [5.3.3] - 2026-06-30
 
 **Title:** Cloud Agent Release Rules and Mobile Development Docs

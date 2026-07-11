@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>5.3.3</version>
+        <version>6.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -24,7 +24,7 @@
         </dependency>
 
         <!-- SpringBoot WebFlux 支持流式响应 (用于 AI 聊天流式接口)
-             注意：虽然应用类型为 SERVLET，但 Spring Boot 3.x 支持在 SERVLET 模式下
+             注意：虽然应用类型为 SERVLET，但 Spring Boot 4.x 支持在 SERVLET 模式下
              处理返回 Flux/Mono 的响应式端点，无需移除 spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,16 +44,16 @@
             <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
 
-        <!-- SpringBoot 拦截器 -->
+        <!-- SpringBoot AspectJ / AOP (Boot 4: spring-boot-starter-aspectj) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
 
         <!-- 阿里数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <artifactId>druid-spring-boot-4-starter</artifactId>
         </dependency>
 
         <!-- 验证码 -->

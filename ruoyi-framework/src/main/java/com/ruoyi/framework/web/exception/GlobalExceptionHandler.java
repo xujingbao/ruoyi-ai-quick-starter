@@ -16,6 +16,7 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.exception.base.BaseException;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.html.EscapeUtil;
 
@@ -61,6 +62,16 @@ public class GlobalExceptionHandler
         log.error(e.getMessage(), e);
         Integer code = e.getCode();
         return StringUtils.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
+    }
+
+    /**
+     * 基础业务异常（验证码错误、用户密码错误等）
+     */
+    @ExceptionHandler(BaseException.class)
+    public AjaxResult handleBaseException(BaseException e, HttpServletRequest request)
+    {
+        log.error(e.getMessage(), e);
+        return AjaxResult.error(e.getMessage());
     }
 
     /**

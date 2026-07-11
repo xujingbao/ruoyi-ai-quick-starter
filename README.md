@@ -1,12 +1,12 @@
 # RuoYi AI Quick Starter
 
-![version](https://img.shields.io/badge/version-5.3.3-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-3.5.4-green) ![Spring%20AI](https://img.shields.io/badge/Spring%20AI-1.1.8-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-6.0.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![Spring%20AI](https://img.shields.io/badge/Spring%20AI-2.0.0-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
 
 基于 RuoYi 成熟框架的 **AI 快速开发框架**，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
 
 ## 技术栈
 
-**后端：** Spring Boot 3.5.4 + Spring AI 1.1.8 + MyBatis + Redis + PostgreSQL + Quartz  
+**后端：** Spring Boot 4.0.7 + Spring AI 2.0.0 + MyBatis + Redis + PostgreSQL + Quartz  
 **前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
 **移动端：** uni-app、React Native（Expo）、HarmonyOS
 
@@ -148,7 +148,7 @@ npm install -g @fission-ai/openspec@latest
 
 项目技术文档位于 `docs/` 目录：
 
-- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 1.1.8 集成指南和问题排查
+- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 2.0.0 集成指南和问题排查
 - [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
 - [HarmonyOS 支持文档](docs/HARMONYOS_SUPPORT.md) - DevEco Studio + hvigor + 资源说明
 - [技术栈版本清单](VERSIONS.md) - 各端依赖与版本明细

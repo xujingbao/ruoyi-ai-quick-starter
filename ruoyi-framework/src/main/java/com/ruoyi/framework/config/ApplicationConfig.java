@@ -2,7 +2,7 @@ package com.ruoyi.framework.config;
 
 import java.util.TimeZone;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -20,11 +20,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class ApplicationConfig
 {
     /**
-     * 时区配置
+     * 时区配置（Jackson 3 / Spring Boot 4）
      */
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization()
+    public JsonMapperBuilderCustomizer jacksonObjectMapperCustomization()
     {
-        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(TimeZone.getDefault());
+        return builder -> builder.defaultTimeZone(TimeZone.getDefault());
     }
 }

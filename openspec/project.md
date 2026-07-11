@@ -14,9 +14,10 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 
 ### Backend
 - **Java 17** - 编程语言
-- **Spring Boot 3.5.4** - 核心框架
+- **Spring Boot 4.0.7** - 核心框架
 - **Spring Security** - 安全框架
-- **MyBatis 3.0.4** - ORM 框架
+- **MyBatis 4.0.1** - ORM 框架
+- **Spring AI 2.0.0** - AI 集成
 - **Redis 6.0+** - 缓存数据库
 - **PostgreSQL 15+** - 关系型数据库
 - **Quartz** - 定时任务调度
@@ -205,7 +206,8 @@ git push github main
 
 ### 技术约束
 - **JDK 版本**：必须使用 JDK 17+
-- **Spring Boot 版本**：3.5.4（Spring Boot 3.x 系列）
+- **Spring Boot 版本**：4.0.7（Spring Boot 4.0.x 系列）
+- **Spring AI 版本**：2.0.0
 - **数据库**：PostgreSQL 15+，不支持其他数据库
 - **前端构建**：必须使用 pnpm 作为包管理器
 - **前端页面限制**：单文件不超过 800 行，超过需组件化
