@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Dropdown, Tooltip, Modal } from 'antd'
-import { SunOutlined, MoonOutlined, FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons'
+import { SunOutlined, MoonOutlined, FullscreenOutlined, FullscreenExitOutlined, RobotOutlined } from '@ant-design/icons'
 import { useAppStore } from '@/store/appStore'
 import { useUserStore } from '@/store/userStore'
 import { useSettingsStore } from '@/store/settingsStore'
+import { useAgentShellStore } from '@/store/agentShellStore'
 import Hamburger from '@/components/Hamburger'
 import { navbarMenuConfig } from '@/config/routeMeta'
 import './index.scss'
@@ -14,6 +15,7 @@ const Navbar = ({ onSetLayout }) => {
   const appStore = useAppStore()
   const userStore = useUserStore()
   const settingsStore = useSettingsStore()
+  const openShell = useAgentShellStore((s) => s.openShell)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
   useEffect(() => {
@@ -96,6 +98,12 @@ const Navbar = ({ onSetLayout }) => {
       />
       
       <div className="right-menu">
+        <Tooltip title="AI Agent（⌘/Ctrl+K）" placement="bottom">
+          <div className="right-menu-item hover-effect" onClick={openShell}>
+            <RobotOutlined />
+          </div>
+        </Tooltip>
+
         {appStore.device !== 'mobile' && (
           <>
             <Tooltip title="主题模式" placement="bottom">

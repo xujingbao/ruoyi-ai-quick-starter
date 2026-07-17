@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AiSessionContextMapper">
+
+    <resultMap type="AiSessionContext" id="AiSessionContextResult">
+        <id     property="sessionId"   column="session_id" />
+        <result property="userId"      column="user_id" />
+        <result property="contextData" column="context_data" />
+        <result property="summary"     column="summary" />
+        <result property="createdAt"   column="created_at" />
+        <result property="updatedAt"   column="updated_at" />
+    </resultMap>
+
+    <select id="selectBySessionId" parameterType="String" resultMap="AiSessionContextResult">
+        select session_id, user_id, context_data::text as context_data, summary, created_at, updated_at
+        from ai_session_context
+        where session_id = #{sessionId}
+    </select>
+
+    <select id="selectByUserId" parameterType="Long" resultMap="AiSessionContextResult">
+        select session_id, user_id, context_data::text as context_data, summary, created_at, updated_at
+        from ai_session_context
+        where user_id = #{userId}
+        order by updated_at desc
+    </select>
+
+    <insert id="insert" parameterType="AiSessionContext">
+        insert into ai_session_context (session_id, user_id, context_data, summary, created_at, updated_at)
+        values (
+            #{sessionId},
+            #{userId},
+            CAST(#{contextData} AS jsonb),
+            #{summary},
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <update id="update" parameterType="AiSessionContext">
+        update ai_session_context
+        <set>
+            <if test="contextData != null">context_data = CAST(#{contextData} AS jsonb),</if>
+            <if test="summary != null">summary = #{summary},</if>
+            updated_at = CURRENT_TIMESTAMP
+        </set>
+        where session_id = #{sessionId}
+    </update>
+
+</mapper>

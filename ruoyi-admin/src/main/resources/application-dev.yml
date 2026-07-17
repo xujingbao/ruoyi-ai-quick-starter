@@ -30,15 +30,6 @@ spring:
     restart:
       # 热部署开关
       enabled: true
-  # Spring AI 配置
-  ai:
-    openai:
-      base-url: ${AI_API_BASE_URL:https://api.deepseek.com}
-      api-key: ${AI_API_KEY:your-api-key-here}
-      chat:
-        options:
-          model: ${AI_MODEL:deepseek-chat}
-          temperature: 0.7
   # 数据源配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource

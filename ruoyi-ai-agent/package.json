@@ -1,0 +1,20 @@
+{
+  "name": "ruoyi-ai-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pi Coding Agent sidecar for RuoYi AI Quick Starter",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "0.80.7",
+    "@hono/node-server": "^1.19.1",
+    "hono": "^4.9.8",
+    "typebox": "^1.1.38"
+  }
+}

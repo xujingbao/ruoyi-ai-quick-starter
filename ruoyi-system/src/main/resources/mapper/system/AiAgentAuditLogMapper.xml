@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AiAgentAuditLogMapper">
+
+    <insert id="insert" parameterType="AiAgentAuditLog" useGeneratedKeys="true" keyProperty="id">
+        insert into ai_agent_audit_log (
+            correlation_id, user_id, session_id, tool_name, status, duration_ms, detail, create_time
+        ) values (
+            #{correlationId}, #{userId}, #{sessionId}, #{toolName}, #{status}, #{durationMs}, #{detail}, current_timestamp
+        )
+    </insert>
+
+</mapper>

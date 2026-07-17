@@ -19,6 +19,7 @@ import Navbar from './components/Navbar'
 import AppMain from './components/AppMain'
 import TagsView from './components/TagsView'
 import Settings from './components/Settings'
+import AgentShell from '@/components/AgentShell'
 import './index.scss'
 
 NProgress.configure({ showSpinner: false })
@@ -147,6 +148,7 @@ const Layout = () => {
         </div>
         <AppMain />
         <Settings ref={settingRef} />
+        <AgentShell />
       </div>
     </div>
   )

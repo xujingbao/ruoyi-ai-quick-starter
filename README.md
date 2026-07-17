@@ -1,60 +1,59 @@
 # RuoYi AI Quick Starter
 
-![version](https://img.shields.io/badge/version-6.0.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![Spring%20AI](https://img.shields.io/badge/Spring%20AI-2.0.0-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-6.1.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
 
-基于 RuoYi 成熟框架的 **AI 快速开发框架**，AI 友好设计，前后端统一仓库实现全栈开发，集成 AI 原生组件和规范驱动开发方法，支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
+基于 RuoYi 的 **AI 原生产品**：Pi Agent 作为核心引擎，Spring 提供鉴权与 System Tool Bus，前端全局 Agent Shell（⌘/Ctrl+K）为主交互。
 
 ## 技术栈
 
-**后端：** Spring Boot 4.0.7 + Spring AI 2.0.0 + MyBatis + Redis + PostgreSQL + Quartz  
-**前端：** React 18 + Ant Design + Vite + pnpm + Zustand + React Router  
+**后端：** Spring Boot 4.0.7 + MyBatis + Redis + PostgreSQL + Quartz  
+**Agent 引擎：** Pi Coding Agent SDK（`ruoyi-ai-agent`）+ System Tool Bus（`/ai/agent/tools/**`）  
+**前端：** React 18 + Ant Design + Vite + pnpm + Zustand + Agent Shell  
 **移动端：** uni-app、React Native（Expo）、HarmonyOS
 
 ## 快速开始
 
 ### 环境要求
 
-JDK 17+ | Maven 3.6+ | Node.js 20.19+ 或 22.12+ | pnpm 9+ | PostgreSQL 15+ | Redis 6.0+
+JDK 17+ | Maven 3.9+（推荐 `./mvnw`） | Node.js 20.19+ 或 22.12+ | pnpm 9+ | PostgreSQL 15+ | Redis 6.0+
 
 ### 启动步骤
 
 1. **初始化数据库**
    ```bash
-   # 先执行 sql/ry-demo-postgresql.sql 初始化业务库
-   # 再执行 sql/quartz-postgresql.sql 初始化 Quartz 表
-   # 如需 AI 能力基础表，执行 sql/ai-postgresql.sql
+   # 唯一终版脚本（系统表 + Quartz + AI + Agent 审计）
+   # 执行 sql/ry-demo-postgresql.sql
    # 修改 ruoyi-admin/src/main/resources/application-dev.yml 中的数据库连接信息
    ```
 
-2. **配置 AI API Key**（AI 功能需要）
+2. **配置 AI API Key**（Agent 侧车需要）
 
-   AI 配置通过环境变量注入（`application-dev.yml` 已默认读取），推荐设置环境变量：
+   LLM 配置通过环境变量注入到 `ruoyi-ai-agent`，推荐设置：
    ```bash
    export AI_API_BASE_URL=https://api.deepseek.com
    export AI_API_KEY=sk-your-api-key-here
    export AI_MODEL=deepseek-chat
    ```
-   也可直接修改 `ruoyi-admin/src/main/resources/application-dev.yml` 中对应默认值，但请勿提交真实密钥。
 
-3. **启动后端**（推荐使用 Cursor 调试配置）
-   - 按 `F5` → 选择 **"RuoYi Backend"** → 启动
-   - 或使用命令：`mvn spring-boot:run`
-   - 访问：<http://localhost:8080/swagger-ui.html>
-
-4. **启动前端（React）**（推荐使用 Cursor 调试配置）
+3. **本地启停（推荐）**
    ```bash
-   cd ruoyi-react-web
-   pnpm install
-   # 按 F5 → 选择 "RuoYi Frontend (React)" → 启动
-   # 或使用命令：pnpm dev
+   # 可选：export AI_API_KEY=... AI_API_BASE_URL=... AI_MODEL=...
+   ./scripts/ruoyi-dev.sh restart all   # admin:8080 + agent:19090 + web:80
+   ./scripts/ruoyi-dev.sh status all
    ```
-   - 访问：<http://localhost:80>
+   也可分别：`agent` / `admin` / `web`。Agent 单独也可用 `cd ruoyi-ai-agent && npm start`。  
+   架构说明见 `docs/ai-agent-architecture.md`。
+
+4. **或用 Cursor 调试配置单独启动**
+   - 后端：`F5` → **"RuoYi Backend"**，或 `./mvnw -s .mvn/maven-settings.xml spring-boot:run -pl ruoyi-admin`
+   - 前端：`F5` → **"RuoYi Frontend (React)"**，或 `cd ruoyi-react-web && pnpm install && pnpm dev`
+   - 访问：<http://localhost:80> → 顶部 **AI Agent**（或 ⌘/Ctrl+K）；Swagger：<http://localhost:8080/swagger-ui.html>
 
 ### 构建部署
 
 ```bash
-# 后端构建
-mvn clean package -DskipTests
+# 后端构建（推荐使用 Wrapper）
+./mvnw -s .mvn/maven-settings.xml clean package -DskipTests
 
 # 前端构建
 cd ruoyi-react-web && pnpm build:prod
@@ -64,22 +63,17 @@ cd ruoyi-react-web && pnpm build:prod
 
 ```
 ruoyi-quick-starter/
-├── ruoyi-admin/          # 后端主模块（启动入口）
+├── ruoyi-admin/          # 后端主模块（启动入口 / Agent 网关）
 ├── ruoyi-framework/      # 框架核心模块
 ├── ruoyi-system/         # 系统业务模块
 ├── ruoyi-common/         # 通用工具模块
 ├── ruoyi-quartz/         # 定时任务模块
+├── ruoyi-ai-agent/       # Pi Agent Node 侧车
 ├── ruoyi-react-web/      # Web 前端（React 18 + Ant Design + Vite）
 ├── ruoyi-uni-app/        # 移动端项目（uni-app + Vue3 + Pinia）
 ├── ruoyi-rn-app/         # 移动端项目（React Native + Expo）
 ├── ruoyi-harmony-app/    # HarmonyOS/OpenHarmony ArkTS 示例工程
-├── docs/                 # 技术文档
-│   ├── SPRING_AI_INTEGRATION.md    # Spring AI 集成文档
-│   └── STREAMING_RENDER_LOGIC.md   # 流式渲染逻辑文档
 ├── openspec/             # OpenSpec 规范文档
-│   ├── project.md        # 项目上下文
-│   ├── AGENTS.md         # AI 助手指令
-│   └── conventions/      # 开发规范
 └── sql/                  # 数据库脚本
 ```
 
@@ -148,16 +142,13 @@ npm install -g @fission-ai/openspec@latest
 
 项目技术文档位于 `docs/` 目录：
 
-- [Spring AI 集成文档](docs/SPRING_AI_INTEGRATION.md) - Spring AI 2.0.0 集成指南和问题排查
-- [流式渲染逻辑文档](docs/STREAMING_RENDER_LOGIC.md) - AI 聊天流式渲染完整流程梳理
-- [HarmonyOS 支持文档](docs/HARMONYOS_SUPPORT.md) - DevEco Studio + hvigor + 资源说明
+- [AI Agent 架构](docs/ai-agent-architecture.md) - Pi 侧车、网关与 Tool Bus
 - [技术栈版本清单](VERSIONS.md) - 各端依赖与版本明细
 - [更新日志](CHANGELOG.md) - 版本变更记录
 
 ## 参考文档
 
 - [RuoYi 官方文档](http://doc.ruoyi.vip) - 基础框架文档
-- [Spring AI 官方文档](https://docs.spring.io/spring-ai/reference/) - AI 集成文档
 - [React 文档](https://react.dev) - 前端框架文档
 - [Ant Design 文档](https://ant.design) - UI 组件库文档
 - [Spring Boot 文档](https://spring.io/projects/spring-boot) - 后端框架文档

@@ -578,8 +578,8 @@ const Index = () => {
           >
             <div className="body">
               <ol>
-                <li>环境准备：JDK 17+、Maven 3.6+、Node.js 20.19+ 或 22.12+、pnpm 9+、PostgreSQL 15+、Redis 6.0+</li>
-                <li>初始化数据库：执行 <code>sql/ry-demo-postgresql.sql</code> 和 <code>sql/quartz-postgresql.sql</code></li>
+                <li>环境准备：JDK 17+、Maven 3.9+（推荐 ./mvnw）、Node.js 20.19+ 或 22.12+、pnpm 9+、PostgreSQL 15+、Redis 6.0+</li>
+                <li>初始化数据库：执行 <code>sql/ry-demo-postgresql.sql</code></li>
                 <li>启动服务：在 Cursor 中按 <kbd>F5</kbd>，选择 "RuoYi Backend" 或 "RuoYi Frontend"</li>
                 <li>访问系统：前端 <a href="http://localhost" target="_blank" rel="noopener noreferrer">http://localhost</a>，API 文档 <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener noreferrer">http://localhost:8080/swagger-ui.html</a></li>
               </ol>

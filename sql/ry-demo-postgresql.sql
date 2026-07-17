@@ -1,11 +1,12 @@
--- RuoYi AI Quick Starter - PostgreSQL 完整初始化脚本
--- Version: 5.2.0
--- 包含: 系统表 + Quartz 调度表 + AI 能力表
+-- RuoYi AI Quick Starter - PostgreSQL 终版初始化脚本（唯一入口）
+-- Version: 6.0.0
+-- 包含: 系统表 + Quartz 调度表 + AI 能力表 + AI Agent 审计表
 -- 说明:
 -- 1) 主键统一使用 bigserial
 -- 2) 末尾包含性能索引
 -- 3) 需在 UTF-8 编码的数据库中执行
 -- 4) AI 向量能力需预装 pgvector 扩展
+-- 5) AI Agent 入口为顶部 Navbar / ⌘K，不占用左侧菜单（无 menu_id 2000/2001）
 
 BEGIN;
 DROP TABLE IF EXISTS "sys_config";
@@ -391,9 +392,7 @@ VALUES
 	(1051,'任务修改',110,3,'#','','','',1,0,'F','0','0','monitor:job:edit','#','admin','2025-12-01 04:31:34','',NULL,''),
 	(1052,'任务删除',110,4,'#','','','',1,0,'F','0','0','monitor:job:remove','#','admin','2025-12-01 04:31:34','',NULL,''),
 	(1053,'状态修改',110,5,'#','','','',1,0,'F','0','0','monitor:job:changeStatus','#','admin','2025-12-01 04:31:34','',NULL,''),
-	(1054,'任务导出',110,6,'#','','','',1,0,'F','0','0','monitor:job:export','#','admin','2025-12-01 04:31:34','',NULL,''),
-	(2000,'AI 功能',0,5,'ai',NULL,'','Ai',1,0,'M','0','0','','robot-outlined','admin','2025-12-14 03:35:49','',NULL,'AI 功能目录'),
-	(2001,'AI 聊天测试',2000,1,'chat','ai/chat/index','','AiChat',1,0,'C','0','0','ai:chat:view','message-outlined','admin','2025-12-14 03:35:49','',NULL,'AI 聊天测试功能，用于测试 Spring AI 集成的 DeepSeek 聊天功能');
+	(1054,'任务导出',110,6,'#','','','',1,0,'F','0','0','monitor:job:export','#','admin','2025-12-01 04:31:34','',NULL,'');
 
 DROP TABLE IF EXISTS "sys_notice";
 
@@ -603,8 +602,6 @@ CREATE TABLE "sys_role_menu" (
 
 INSERT INTO "sys_role_menu" ("role_id", "menu_id")
 VALUES
-	(1,2000),
-	(1,2001),
 	(2,1),
 	(2,2),
 	(2,4),
@@ -1018,5 +1015,21 @@ CREATE TABLE IF NOT EXISTS ai_session_context (
 
 CREATE INDEX IF NOT EXISTS idx_ai_session_user_id ON ai_session_context (user_id);
 CREATE INDEX IF NOT EXISTS idx_ai_session_context_gin ON ai_session_context USING gin (context_data);
+
+CREATE TABLE IF NOT EXISTS ai_agent_audit_log (
+  id bigserial PRIMARY KEY,
+  correlation_id varchar(64),
+  user_id bigint,
+  session_id varchar(64),
+  tool_name varchar(64) NOT NULL,
+  status varchar(16) NOT NULL,
+  duration_ms int,
+  detail varchar(1000),
+  create_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_agent_audit_user ON ai_agent_audit_log (user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_agent_audit_cid ON ai_agent_audit_log (correlation_id);
+CREATE INDEX IF NOT EXISTS idx_ai_agent_audit_time ON ai_agent_audit_log (create_time);
 
 COMMIT;

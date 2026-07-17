@@ -88,7 +88,7 @@ vX.Y.Z - <标题>
 | 字段 | 来源 |
 |------|------|
 | RuoYi | `pom.xml` `<ruoyi.version>` |
-| Spring Boot / Spring AI | `pom.xml` properties |
+| Spring Boot | `pom.xml` `<spring-boot.version>` |
 | React / Ant Design / Vite | `ruoyi-react-web/package.json` |
 | OpenSpec CLI | `openspec --version` |
 

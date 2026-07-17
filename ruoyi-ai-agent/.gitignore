@@ -1,0 +1,4 @@
+node_modules/
+.pi-agent/
+.ai-agent.pid
+.ai-agent.log

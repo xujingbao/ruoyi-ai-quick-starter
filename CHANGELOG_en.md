@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.1.0] - 2026-07-17
+
+**Title:** Pi Agent Productization and Spring AI Removal
+
+**Release:** [v6.1.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release makes the Pi Coding Agent sidecar the primary AI runtime, with Spring Boot as the auth gateway and System Tool Bus. The global Agent Shell (⌘/Ctrl+K) is the main UX. Spring AI lightweight chat is removed; session transcripts can persist and restore.
+
+### Highlights
+
+- Add `ruoyi-ai-agent` (Pi SDK) and gateway `/ai/agent/**` with business/full tool modes, SSE streaming, and session restore
+- Agent Shell + workbench: tool process UI, history picker, AI session titles, message persistence
+- System Tool Bus: users / config / notices / jobs (permission-aware)
+- Sidecar internal auth, loopback bind, audit logging, and `scripts/ruoyi-dev.sh`
+- **Remove** Spring AI: `/ai/chat/**`, chat UI, and `spring-ai` dependencies (breaking)
+
+### Dependency Upgrades
+
+- Root project version bumped to `6.1.0`
+- Removed `spring-ai-bom` / `spring-ai-starter-model-openai` (was `2.0.0`)
+- `@earendil-works/pi-coding-agent`: `0.80.7` (new sidecar)
+- OpenSpec CLI: `1.4.1`
+
+### Security and Configuration
+
+- LLM credentials for the sidecar only via `AI_API_BASE_URL` / `AI_API_KEY` / `AI_MODEL`
+- Sidecar binds `127.0.0.1:19090` with `X-AI-Agent-Token`
+- Cleanup script: `sql/remove-spring-ai-chat.sql`
+
+### Best For
+
+- Admin AI Agent with tool calling instead of single-turn chat
+- Projects migrating from Spring AI chat to the Pi Agent product shape
+
+---
+
 ## [6.0.0] - 2026-07-11
 
 **Title:** Spring Boot 4.0 / Spring AI 2.0 Major Upgrade

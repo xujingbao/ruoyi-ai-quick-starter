@@ -51,6 +51,15 @@ nbdist/
 .ssh/
 
 ######################################################################
+# AI Agent sandboxes / local runtime
+data/ai-workspaces/
+.dev-run/
+ruoyi-ai-agent/node_modules/
+ruoyi-ai-agent/.pi-agent/
+ruoyi-ai-agent/.ai-agent.pid
+ruoyi-ai-agent/.ai-agent.log
+
+######################################################################
 # Independent repositories
 ai-quick-dev-website/
 .claude/settings.local.json

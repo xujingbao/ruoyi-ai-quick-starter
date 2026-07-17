@@ -32,7 +32,7 @@ git remote -v
 
 ## 安全检查（发版前必做）
 
-- `ruoyi-admin/src/main/resources/application-dev.yml`：AI 配置必须用环境变量（`AI_API_BASE_URL`、`AI_API_KEY`、`AI_MODEL`），禁止硬编码内部 URL 或密钥
+- Agent 侧车 LLM 配置必须用环境变量（`AI_API_BASE_URL`、`AI_API_KEY`、`AI_MODEL`），禁止硬编码密钥
 - 确认无 `.env`、凭据文件进入暂存区（尤其 `.env.release.local`）
 - 用户若在聊天中粘贴了 Token：**用完立即提醒其到对应平台吊销并重建**
 

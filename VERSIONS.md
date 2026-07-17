@@ -2,10 +2,9 @@
 
 ## 后端
 
-- **RuoYi**: 6.0.0
+- **RuoYi**: 6.1.0
 - **Java**: 17
 - **Spring Boot**: 4.0.7
-- **Spring AI**: 2.0.0
 - **MyBatis**: 4.0.1
 - **PostgreSQL JDBC**: 42.7.7
 - **PostgreSQL**: 15+ (数据库)
@@ -67,5 +66,8 @@
 
 - **Node.js**: 20.19+ 或 22.12+
 - **pnpm**: 9.x（锁文件版本 9.0）
-- **Maven**: 3.6+
+- **Maven**: 3.9+（推荐使用项目根目录 `./mvnw`，锁定 3.9.16）
 - **OpenSpec CLI**: 1.4.1
+- **Pi Coding Agent**: `@earendil-works/pi-coding-agent` 0.80.7（侧车 `ruoyi-ai-agent`，默认 `127.0.0.1:19090`）
+- **System Tool Bus**: `/ai/agent/tools/**`（只读：users / config / notices / jobs）
+- **Agent Shell**: 全局 Drawer（⌘/Ctrl+K）

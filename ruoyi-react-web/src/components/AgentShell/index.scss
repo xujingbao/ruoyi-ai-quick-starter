@@ -1,0 +1,33 @@
+.agent-shell-drawer {
+  .ant-drawer-body {
+    overflow: hidden;
+  }
+}
+
+.agent-shell-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.agent-shell-hint {
+  font-size: 12px;
+}
+
+.ai-agent-workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  min-height: 360px;
+}
+
+.ai-agent-workbench--compact {
+  min-height: 0;
+  flex: 1;
+
+  .ai-agent-list {
+    flex: 1;
+    min-height: 200px;
+  }
+}

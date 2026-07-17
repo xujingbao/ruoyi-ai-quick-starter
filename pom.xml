@@ -6,19 +6,20 @@
 	
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>6.0.0</version>
+    <version>6.1.0</version>
 
     <name>ruoyi-ai-quick-starter</name>
     <url>https://github.com/xujingbao/ruoyi-ai-quick-starter</url>
-    <description>RuoYi AI Quick Starter - 基于 RuoYi 的 AI 快速开发框架，集成 Spring AI、Flux 流式响应和 MarkdownRender 流式渲染</description>
+    <description>RuoYi AI Quick Starter - 基于 RuoYi 的 AI 原生产品，集成 Pi Agent 侧车、System Tool Bus 与 Agent Shell</description>
     
     <properties>
-        <ruoyi.version>6.0.0</ruoyi.version>
+        <ruoyi.version>6.1.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
         <spring-boot.version>4.0.7</spring-boot.version>
-        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+        <maven.compiler.release>${java.version}</maven.compiler.release>
         <mybatis-spring-boot.version>4.0.1</mybatis-spring-boot.version>
         <druid.version>1.2.28</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
@@ -34,7 +35,6 @@
 
         <jakarta.version>6.1.0</jakarta.version>
         <springdoc.version>3.0.3</springdoc.version>
-        <spring-ai.version>2.0.0</spring-ai.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -46,15 +46,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- Spring AI BOM (统一管理所有 Spring AI 依赖版本) -->
-            <dependency>
-                <groupId>org.springframework.ai</groupId>
-                <artifactId>spring-ai-bom</artifactId>
-                <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -211,13 +202,35 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.0</version>
                 <configuration>
                     <parameters>true</parameters>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <release>${java.version}</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-maven</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>[3.9.0,)</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>[17,)</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -2,6 +2,44 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [6.1.0] - 2026-07-17
+
+**标题:** Pi Agent 产品化与移除 Spring AI
+
+**发布地址:** [v6.1.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本以 Pi Coding Agent 侧车作为产品 AI 主引擎，Spring Boot 承担鉴权网关与 System Tool Bus；全局 Agent Shell（⌘/Ctrl+K）成为主交互。同步移除 Spring AI 轻量聊天路径，会话消息可落库回显。
+
+### 主要亮点
+
+- 新增 `ruoyi-ai-agent`（Pi SDK）与网关 `/ai/agent/**`，支持业务/沙箱工具模式、SSE 流式与会话恢复
+- 前端 Agent Shell + 工作台：工具过程可视化、历史会话选择、会话主题摘要、消息持久化回显
+- System Tool Bus：`sys_list_users` / `sys_get_config` / `sys_list_notices` / `sys_list_jobs`（受权限约束）
+- 侧车内部鉴权、loopback 绑定、审计表与本地启停脚本（`scripts/ruoyi-dev.sh`）
+- **移除** Spring AI：`/ai/chat/**`、相关前端页与 `spring-ai` 依赖（破坏性：旧聊天接口不再可用）
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `6.1.0`
+- 移除 `spring-ai-bom` / `spring-ai-starter-model-openai`（原 `2.0.0`）
+- `@earendil-works/pi-coding-agent`: `0.80.7`（新增侧车）
+- OpenSpec CLI: `1.4.1`
+
+### 配置与安全
+
+- LLM 仅由侧车环境变量驱动：`AI_API_BASE_URL` / `AI_API_KEY` / `AI_MODEL`
+- 侧车默认绑定 `127.0.0.1:19090`，内部 Token `X-AI-Agent-Token`
+- 清理脚本：`sql/remove-spring-ai-chat.sql`
+
+### 适用场景
+
+- 需要可工具调用的管理端 AI Agent，而非单轮补全聊天
+- 从 Spring AI 聊天迁移到 Pi Agent 产品形态的项目
+
+---
+
 ## [6.0.0] - 2026-07-11
 
 **标题:** Spring Boot 4.0 / Spring AI 2.0 主版本升级

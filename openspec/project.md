@@ -2,13 +2,12 @@
 
 ## Purpose
 
-RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**，旨在通过 AI 友好设计和规范驱动开发方法，实现前后端统一仓库的全栈开发。项目支持 Web 和移动端多端部署，可快速生成模块完整代码，助力快速搭建多端的企业级管理系统。
+RuoYi AI Quick Starter 是基于 RuoYi 的 **AI 原生产品**：以 Pi Agent 为系统核心引擎，Spring Boot 提供鉴权网关与 System Tool Bus，管理端以 Agent Shell 为全局主交互；传统菜单为专家模式补充。
 
 **核心目标：**
-- 提供 AI 友好的开发环境，让 AI 工具能够理解完整的业务上下文
-- 集成规范驱动开发（SDD）方法，通过规格说明作为"单一事实来源"
-- 支持端到端的代码生成，从数据库设计到前后端接口，从页面组件到业务逻辑
-- 确保代码质量和一致性，助力团队快速交付高质量的企业级应用
+- Agent 编排业务：意图 → 工具调用 → 域服务 → 结果回写（只读 MVP 已接用户/配置/公告/任务）
+- 全局 Agent Shell（⌘/Ctrl+K）作为产品主入口
+- 规范驱动开发（OpenSpec）与多端企业级能力继续保留
 
 ## Tech Stack
 
@@ -17,11 +16,14 @@ RuoYi AI Quick Starter 是基于 RuoYi 成熟框架的 **AI 快速开发框架**
 - **Spring Boot 4.0.7** - 核心框架
 - **Spring Security** - 安全框架
 - **MyBatis 4.0.1** - ORM 框架
-- **Spring AI 2.0.0** - AI 集成
 - **Redis 6.0+** - 缓存数据库
 - **PostgreSQL 15+** - 关系型数据库
 - **Quartz** - 定时任务调度
-- **Maven** - 构建工具
+- **Maven 3.9+** - 构建工具（项目提供 `./mvnw`，锁定 3.9.16）
+
+### AI Agent Runtime
+- **Pi Coding Agent**（`@earendil-works/pi-coding-agent`）- Agent harness / SDK
+- **`ruoyi-ai-agent`** - Node 侧车（本机 `127.0.0.1:19090`，沙箱工作区）
 
 ### Frontend
 - **React 18** - 用于构建用户界面的 JavaScript 库
@@ -207,7 +209,6 @@ git push github main
 ### 技术约束
 - **JDK 版本**：必须使用 JDK 17+
 - **Spring Boot 版本**：4.0.7（Spring Boot 4.0.x 系列）
-- **Spring AI 版本**：2.0.0
 - **数据库**：PostgreSQL 15+，不支持其他数据库
 - **前端构建**：必须使用 pnpm 作为包管理器
 - **前端页面限制**：单文件不超过 800 行，超过需组件化
