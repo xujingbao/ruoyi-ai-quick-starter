@@ -1,0 +1,652 @@
+# Instincts generated from https://github.com/xujingbao/ruoyi-ai-quick-starter
+# Generated: 2026-03-13T05:51:52.815Z
+# Version: 2.0
+
+---
+id: ruoyi-ai-quick-starter-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, chore, fix, docs, style
+
+## Evidence
+
+- 76 commits analyzed
+- Detected conventional commit pattern
+- Examples: chore: 更新 .gitignore 文件以排除 ai-quick-dev-website 目录, refactor(sql): 合并三个 SQL 文件为单一初始化脚本
+
+---
+id: ruoyi-ai-quick-starter-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Commit Length
+
+## Action
+
+Write moderate-length commit messages (~50 characters)
+
+## Evidence
+
+- Average commit message length: 56 chars
+- Based on 76 commits
+
+---
+id: ruoyi-ai-quick-starter-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: ruoyi-ai-quick-starter-import-alias
+trigger: "when importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Import Alias
+
+## Action
+
+Use path aliases (@/, ~/) instead of relative imports
+
+## Evidence
+
+- Import analysis shows alias pattern
+- Example: import { x } from '@/lib/x'
+
+---
+id: ruoyi-ai-quick-starter-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: ruoyi-ai-quick-starter-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: 
+
+---
+id: ruoyi-ai-quick-starter-test-framework
+trigger: "when writing tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Test Framework
+
+## Action
+
+Use jest as the test framework
+
+## Evidence
+
+- Test framework detected: jest
+- File pattern: *.test.ts
+
+---
+id: ruoyi-ai-quick-starter-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.ts
+
+## Evidence
+
+- File pattern: *.test.ts
+- Consistent across test files
+
+---
+id: ruoyi-ai-quick-starter-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~10x per month
+- Files: ruoyi-front-react/src/components/hamburger/*, ruoyi-front-react/src/components/parentview/*, ruoyi-front-react/src/layout/components/appmain/*
+
+---
+id: ruoyi-ai-quick-starter-workflow-test-driven-development
+trigger: "when adding new functionality"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Test Driven Development
+
+## Action
+
+Follow the test-driven-development workflow:
+1. Write failing test
+2. Implement code to pass test
+3. Refactor if needed
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: **/*.test.*, **/*.spec.*, src/**/*
+
+---
+id: ruoyi-ai-quick-starter-workflow-refactoring
+trigger: "when refactoring code"
+confidence: 0.75
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Refactoring
+
+## Action
+
+Follow the refactoring workflow:
+1. Ensure tests pass before refactor
+2. Refactor code structure
+3. Verify tests still pass
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~5x per month
+- Files: src/**/*
+
+---
+id: ruoyi-ai-quick-starter-workflow-version-release-management
+trigger: "when doing version release management"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Version Release Management
+
+## Action
+
+Follow the version-release-management workflow:
+1. Update version numbers in all pom.xml files
+2. Update CHANGELOG.md with version details
+3. Update package.json versions
+4. Update documentation files
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: pom.xml, ruoyi-admin/pom.xml, ruoyi-framework/pom.xml
+
+---
+id: ruoyi-ai-quick-starter-workflow-sql-schema-management
+trigger: "when doing sql schema management"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Sql Schema Management
+
+## Action
+
+Follow the sql-schema-management workflow:
+1. Update PostgreSQL schema files
+2. Add or modify indexes
+3. Update data types
+4. Merge or split SQL files
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: sql/ry-demo-postgresql.sql, sql/ai-postgresql.sql, sql/quartz-postgresql.sql
+
+---
+id: ruoyi-ai-quick-starter-workflow-frontend-quality-fixes
+trigger: "when doing frontend quality fixes"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Frontend Quality Fixes
+
+## Action
+
+Follow the frontend-quality-fixes workflow:
+1. Refactor large components into smaller ones
+2. Fix React hooks and state management issues
+3. Add security validations
+4. Update component styling
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: ruoyi-react-web/src/views/**/*.jsx, ruoyi-react-web/src/components/**/*.jsx, ruoyi-react-web/src/**/*.scss
+
+---
+id: ruoyi-ai-quick-starter-workflow-backend-service-fixes
+trigger: "when doing backend service fixes"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Backend Service Fixes
+
+## Action
+
+Follow the backend-service-fixes workflow:
+1. Add null pointer exception checks
+2. Update transaction annotations
+3. Fix service implementation logic
+4. Update controller validation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: ruoyi-system/src/main/java/**/service/impl/*.java, ruoyi-admin/src/main/java/**/controller/**/*.java, ruoyi-system/src/main/resources/mapper/**/*.xml
+
+---
+id: ruoyi-ai-quick-starter-workflow-security-hardening
+trigger: "when doing security hardening"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Security Hardening
+
+## Action
+
+Follow the security-hardening workflow:
+1. Externalize credentials from config files
+2. Add input validation and sanitization
+3. Update security configurations
+4. Fix authentication and authorization issues
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: ruoyi-admin/src/main/resources/application-*.yml, ruoyi-framework/src/main/java/**/config/*.java, ruoyi-framework/src/main/java/**/web/service/*.java
+
+---
+id: ruoyi-ai-quick-starter-workflow-dependency-upgrades
+trigger: "when doing dependency upgrades"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Dependency Upgrades
+
+## Action
+
+Follow the dependency-upgrades workflow:
+1. Update dependency versions in package.json or pom.xml
+2. Update lock files
+3. Update version documentation
+4. Test compatibility
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: package.json, pnpm-lock.yaml, pom.xml
+
+---
+id: ruoyi-ai-quick-starter-workflow-ui-styling-improvements
+trigger: "when doing ui styling improvements"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Workflow Ui Styling Improvements
+
+## Action
+
+Follow the ui-styling-improvements workflow:
+1. Update component SCSS files
+2. Refine CSS variables and theming
+3. Improve responsive design
+4. Enhance visual consistency
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: **/*.scss, **/index.scss, src/assets/styles/**
+
+---
+id: ruoyi-ai-quick-starter-conventional-commits
+trigger: "When creating a commit message"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Conventional Commits
+
+## Action
+
+Use conventional commit format with Chinese descriptions: 'type: 中文描述' or 'type(scope): 中文描述'
+
+## Evidence
+
+- All commits follow pattern like 'chore: 更新 .gitignore 文件以排除 ai-quick-dev-website 目录'
+- Consistent use of feat, chore, fix, docs, style, refactor prefixes
+
+---
+id: ruoyi-ai-quick-starter-java-naming
+trigger: "When creating Java classes, methods, or variables"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Java Naming
+
+## Action
+
+Use PascalCase for classes, camelCase for methods/variables, SCREAMING_SNAKE_CASE for constants
+
+## Evidence
+
+- Java language detected
+- Standard Java naming patterns in codeStyle analysis
+
+---
+id: ruoyi-ai-quick-starter-multi-module-structure
+trigger: "When organizing code in this project"
+confidence: 0.95
+domain: architecture
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Multi Module Structure
+
+## Action
+
+Separate code by type into modules: ruoyi-common, ruoyi-system, ruoyi-framework, ruoyi-admin, ruoyi-quartz
+
+## Evidence
+
+- Module structure shows ruoyi-common, ruoyi-system, ruoyi-framework, ruoyi-admin, ruoyi-quartz
+- Type-based module organization pattern
+
+---
+id: ruoyi-ai-quick-starter-frontend-multi-platform
+trigger: "When developing frontend components"
+confidence: 0.9
+domain: architecture
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Frontend Multi Platform
+
+## Action
+
+Support multiple platforms with separate apps: ruoyi-uni-app, ruoyi-react-web, ruoyi-harmony-app, ruoyi-rn-app
+
+## Evidence
+
+- Multiple frontend folders detected
+- Package.json files in ruoyi-react-web and ruoyi-rn-app
+
+---
+id: ruoyi-ai-quick-starter-version-sync
+trigger: "When releasing a new version"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Version Sync
+
+## Action
+
+Update version numbers consistently across all pom.xml files, package.json files, and CHANGELOG.md
+
+## Evidence
+
+- Version-release-management workflow shows coordinated updates
+- Multiple pom.xml and package.json files require synchronization
+
+---
+id: ruoyi-ai-quick-starter-postgresql-schema
+trigger: "When modifying database schema"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Postgresql Schema
+
+## Action
+
+Update PostgreSQL-specific SQL files and optimize with proper indexes and data types
+
+## Evidence
+
+- Commit 'feat: 迁移至PostgreSQL并发布5.0.0版本'
+- SQL files: ry-demo-postgresql.sql, ai-postgresql.sql, quartz-postgresql.sql
+
+---
+id: ruoyi-ai-quick-starter-security-first
+trigger: "When implementing authentication or handling sensitive data"
+confidence: 0.87
+domain: workflow
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Security First
+
+## Action
+
+Externalize credentials, add input validation, implement CORS protection, and prevent login enumeration
+
+## Evidence
+
+- Commit 'fix(security): 安全加固 — 凭据外部化、CORS、登录防枚举'
+- Security-hardening workflow pattern
+
+---
+id: ruoyi-ai-quick-starter-component-refactoring
+trigger: "When frontend components become too large or complex"
+confidence: 0.88
+domain: workflow
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Component Refactoring
+
+## Action
+
+Break down large components into smaller, reusable components and fix React hooks issues
+
+## Evidence
+
+- Commit 'fix(frontend): 前端代码质量修复 — 组件拆分、Bug修复、安全加固'
+- Frontend-quality-fixes workflow pattern
+
+---
+id: ruoyi-ai-quick-starter-npe-prevention
+trigger: "When writing backend service methods"
+confidence: 0.92
+domain: workflow
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Npe Prevention
+
+## Action
+
+Add null pointer exception checks and proper transaction annotations
+
+## Evidence
+
+- Commit 'fix: 后端代码质量修复 — NPE防护、事务规范、类型安全'
+- Backend-service-fixes workflow pattern
+
+---
+id: ruoyi-ai-quick-starter-try-catch-errors
+trigger: "When handling potential exceptions in Java code"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Try Catch Errors
+
+## Action
+
+Use try-catch blocks for exception handling without custom error classes
+
+## Evidence
+
+- Error handling style shows 'try-catch' approach
+- No custom error classes detected
+
+---
+id: ruoyi-ai-quick-starter-uni-modules
+trigger: "When adding UI components to uni-app"
+confidence: 0.85
+domain: architecture
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Uni Modules
+
+## Action
+
+Use uni-app component modules with individual package.json files in uni_modules structure
+
+## Evidence
+
+- Extensive uni_modules structure with individual package.json files
+- Components like uni-badge, uni-calendar, uni-forms etc.
+
+---
+id: ruoyi-ai-quick-starter-bilingual-commits
+trigger: "When writing commit messages for this project"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: xujingbao/ruoyi-ai-quick-starter
+---
+
+# Ruoyi Ai Quick Starter Bilingual Commits
+
+## Action
+
+Write commit descriptions in Chinese while keeping conventional commit prefixes in English
+
+## Evidence
+
+- All example commits use Chinese descriptions
+- English prefixes with Chinese content pattern consistent
+
