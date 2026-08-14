@@ -2,6 +2,61 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [6.2.0] - 2026-08-14
+
+**标题:** 依赖升级与 Pi Agent 0.84 引擎适配
+
+**发布地址:** [v6.2.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本完成一轮低风险依赖升级：后端补丁级依赖、Web 前端 minor 升级与 Pi Coding Agent 0.84.1 引擎适配，并重构 README 为「用这个框架可以做什么」导向，同步 OpenSpec CLI 版本。
+
+### 主要亮点
+
+- 后端：fastjson2 / PostgreSQL JDBC / commons-io / POI / Velocity / jjwt 升级
+- 前端：antd 6.6.0、@ant-design/x 2.9.0、axios 1.19.0、Vite 8.2.1 等升级，适配 jsencrypt 3.5.4 导入方式
+- Agent 侧车：pi-coding-agent 0.80.7 → 0.84.1，适配新 ModelRuntime API（移除 AuthStorage / ModelRegistry.create）
+- 文档：README 新增「用这个框架可以做什么」章节，VERSIONS.md 修正版本记录
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `6.2.0`
+- `fastjson2`: `2.0.58` → `2.0.64`
+- `postgresql`: `42.7.7` → `42.7.13`
+- `commons-io`: `2.19.0` → `2.22.0`
+- `poi-ooxml`: `5.3.0` → `5.5.1`
+- `velocity-engine-core`: `2.3` → `2.4.1`
+- `jjwt`: `0.12.6` → `0.13.0`
+- `antd`: `6.4.5` → `6.6.0`
+- `@ant-design/x`: `2.8.0` → `2.9.0`
+- `@ant-design/icons`: `6.2.5` → `6.3.2`
+- `axios`: `1.9.0` → `1.19.0`
+- `vite`: `8.0.16` → `8.2.1`
+- `@vitejs/plugin-react`: `6.0.2` → `6.0.5`
+- `zustand`: `5.0.14` → `5.0.15`
+- `js-cookie`: `3.0.5` → `3.0.8`
+- `jsencrypt`: `3.3.2` → `3.5.4`
+- `react-split-pane`: `3.0.4` → `3.2.0`
+- `sass` / `sass-embedded`: `1.97.2` / `1.89.1` → `1.102.0`
+- `@earendil-works/pi-coding-agent`: `0.80.7` → `0.84.1`
+- `hono`: `4.12.30` → `4.13.2`
+- `@hono/node-server`: `1.19.14` → `1.19.17`
+- `typebox`: `1.1.38` → `1.3.13`
+- OpenSpec CLI: `1.4.1` → `1.9.0`
+
+### 配置与安全
+
+- LLM 配置继续通过环境变量注入（`AI_API_BASE_URL` / `AI_API_KEY` / `AI_MODEL`），无硬编码密钥
+- Agent 侧车保持 loopback 绑定与内部 Token 鉴权
+
+### 适用场景
+
+- 从 6.1.0 升级、希望保持依赖与 Pi Agent 引擎更新的项目
+- 以 README 快速了解框架能力的新用户
+
+---
+
 ## [6.1.0] - 2026-07-17
 
 **标题:** Pi Agent 产品化与移除 Spring AI

@@ -2,6 +2,61 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.2.0] - 2026-08-14
+
+**Title:** Dependency Upgrades and Pi Agent 0.84 Engine Adaptation
+
+**Release:** [v6.2.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release applies a batch of low-risk dependency upgrades: patch-level backend dependencies, minor Web frontend upgrades, and the Pi Coding Agent 0.84.1 engine adaptation. The README is restructured around "what you can do with this framework", and the OpenSpec CLI version is synced.
+
+### Highlights
+
+- Backend: fastjson2 / PostgreSQL JDBC / commons-io / POI / Velocity / jjwt upgraded
+- Frontend: antd 6.6.0, @ant-design/x 2.9.0, axios 1.19.0, Vite 8.2.1 and more; jsencrypt 3.5.4 import path adapted
+- Agent sidecar: pi-coding-agent 0.80.7 → 0.84.1, adapted to the new ModelRuntime API (AuthStorage / ModelRegistry.create removed)
+- Docs: README gains a "what can you do" section; VERSIONS.md version records corrected
+
+### Dependency Upgrades
+
+- Root project version bumped to `6.2.0`
+- `fastjson2`: `2.0.58` → `2.0.64`
+- `postgresql`: `42.7.7` → `42.7.13`
+- `commons-io`: `2.19.0` → `2.22.0`
+- `poi-ooxml`: `5.3.0` → `5.5.1`
+- `velocity-engine-core`: `2.3` → `2.4.1`
+- `jjwt`: `0.12.6` → `0.13.0`
+- `antd`: `6.4.5` → `6.6.0`
+- `@ant-design/x`: `2.8.0` → `2.9.0`
+- `@ant-design/icons`: `6.2.5` → `6.3.2`
+- `axios`: `1.9.0` → `1.19.0`
+- `vite`: `8.0.16` → `8.2.1`
+- `@vitejs/plugin-react`: `6.0.2` → `6.0.5`
+- `zustand`: `5.0.14` → `5.0.15`
+- `js-cookie`: `3.0.5` → `3.0.8`
+- `jsencrypt`: `3.3.2` → `3.5.4`
+- `react-split-pane`: `3.0.4` → `3.2.0`
+- `sass` / `sass-embedded`: `1.97.2` / `1.89.1` → `1.102.0`
+- `@earendil-works/pi-coding-agent`: `0.80.7` → `0.84.1`
+- `hono`: `4.12.30` → `4.13.2`
+- `@hono/node-server`: `1.19.14` → `1.19.17`
+- `typebox`: `1.1.38` → `1.3.13`
+- OpenSpec CLI: `1.4.1` → `1.9.0`
+
+### Security and Configuration
+
+- LLM config remains environment-driven (`AI_API_BASE_URL` / `AI_API_KEY` / `AI_MODEL`); no hardcoded secrets
+- Agent sidecar keeps loopback binding and internal token auth
+
+### Best For
+
+- Projects upgrading from 6.1.0 that want current dependencies and the latest Pi Agent engine
+- New users who want a quick overview of framework capabilities from the README
+
+---
+
 ## [6.1.0] - 2026-07-17
 
 **Title:** Pi Agent Productization and Spring AI Removal

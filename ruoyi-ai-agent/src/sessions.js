@@ -2,10 +2,9 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { randomUUID } from 'node:crypto'
 import {
-  AuthStorage,
   createAgentSession,
   DefaultResourceLoader,
-  ModelRegistry,
+  ModelRuntime,
   SessionManager
 } from '@earendil-works/pi-coding-agent'
 import { config, resolveToolMode, resolveToolNames } from './config.js'
@@ -114,16 +113,15 @@ export async function createSession(params) {
   assertUnderWorkspacesRoot(workspace)
   await seedWorkspace(workspace)
 
-  const authStorage = AuthStorage.create(path.join(config.agentDir, 'auth.json'))
+  const modelRuntime = await ModelRuntime.create({
+    authPath: path.join(config.agentDir, 'auth.json'),
+    modelsPath: path.join(config.agentDir, 'models.json'),
+    refreshOnCreate: false
+  })
   if (config.apiKey) {
-    authStorage.setRuntimeApiKey(config.providerId, config.apiKey)
+    await modelRuntime.setRuntimeApiKey(config.providerId, config.apiKey)
   }
-
-  const modelRegistry = ModelRegistry.create(
-    authStorage,
-    path.join(config.agentDir, 'models.json')
-  )
-  const model = modelRegistry.find(config.providerId, config.modelId)
+  const model = modelRuntime.getModel(config.providerId, config.modelId)
   if (!model) {
     throw new Error(
       `Model not found: ${config.providerId}/${config.modelId}. Check AI_API_* env and models.json.`
@@ -149,12 +147,11 @@ export async function createSession(params) {
   const { session } = await createAgentSession({
     cwd: workspace,
     agentDir: config.agentDir,
+    modelRuntime,
     model,
     tools: toolNames,
     customTools: systemTools,
     sessionManager: SessionManager.inMemory(workspace),
-    authStorage,
-    modelRegistry,
     resourceLoader: loader
   })
 

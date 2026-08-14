@@ -40,7 +40,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 的 **AI 原生产品**：以 Pi Agent �
 
 ### Development Tools
 - **Cursor** - AI 辅助开发 IDE（推荐）
-- **OpenSpec** - 规范驱动开发工具 (v1.4.1)
+- **OpenSpec** - 规范驱动开发工具 (v1.9.0)
 - **PostgreSQL MCP** - 数据库操作工具
 
 ## Project Conventions

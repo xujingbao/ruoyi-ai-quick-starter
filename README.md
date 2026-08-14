@@ -1,8 +1,40 @@
 # RuoYi AI Quick Starter
 
-![version](https://img.shields.io/badge/version-6.1.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-6.2.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![license](https://img.shields.io/badge/license-MIT-green)
 
-基于 RuoYi 的 **AI 原生产品**：Pi Agent 作为核心引擎，Spring 提供鉴权与 System Tool Bus，前端全局 Agent Shell（⌘/Ctrl+K）为主交互。
+基于 RuoYi 的 **AI 原生产品**：Pi Agent 作为核心引擎，Spring 提供鉴权与 System Tool Bus，前端全局 Agent Shell（⌘/Ctrl+K）为主交互。装好即得一套带 AI 助手的多端企业后台：既能用自然语言查询系统数据、分析沙箱文件，也能按传统 Spring Boot 后台的方式继续开发业务模块。
+
+## 用这个框架可以做什么
+
+### 🤖 开箱即用的 AI 企业后台
+
+启动后，顶部导航的 **AI Agent（⌘/Ctrl+K）** 就是系统的智能助手：
+
+- **自然语言查系统数据**：直接问「有哪些用户」「查询公告」「列出定时任务」，Agent 通过 System Tool Bus 实时查询，权限与登录用户一致
+- **工具过程可视化**：对话中展示推理与每次工具调用（工具名、参数、结果），AI 结论有据可查
+- **流式对话与会话持久化**：SSE 流式输出，会话自动生成主题，历史会话可回显、可继续
+- **业务 / 沙箱双模式**：业务模式只读访问系统数据；沙箱模式额外提供只读文件工具（read / grep / find / ls），可分析每个会话独立的沙箱工作区
+
+上手最快的方式，直接在 Agent Shell 里提问：
+
+- 业务模式：「列出用户」「查询公告」「列出定时任务」「查询配置 sys.user.initPassword」
+- 沙箱模式：「沙箱里有哪些文件？」
+
+### 🏢 完整的企业后台基础框架
+
+用户 / 角色 / 菜单 / 部门权限管理、系统监控（在线用户、服务、缓存）、定时任务、操作日志、登录日志、字典与参数配置等 RuoYi 能力全部保留，开箱即用，可直接在此基础上扩展业务模块。
+
+### 🛠️ 可扩展的 Agent 工具生态
+
+System Tool Bus 是 Spring 侧一组受权限约束的只读 API（`/ai/agent/tools/**`）。把业务 Service 按同样模式暴露为 `sys_*` 工具，Agent 就能"学会"查询你的业务数据；每次工具调用都有审计日志（用户、工具、耗时、成败），可追溯。
+
+### 🧑‍💻 AI 友好的全栈开发环境
+
+前后端统一仓库 + Cursor 预配置（F5 一键调试）+ OpenSpec 规范驱动开发，AI 能理解完整业务上下文，按规范快速生成模块代码。
+
+### 📱 一套代码多端交付
+
+Web（React 18 + Ant Design）、uni-app、React Native（Expo）、HarmonyOS 示例工程共享同一套后端 API，覆盖主流端场景。
 
 ## 技术栈
 
@@ -62,7 +94,7 @@ cd ruoyi-react-web && pnpm build:prod
 ## 项目结构
 
 ```
-ruoyi-quick-starter/
+ruoyi-ai-quick-starter/
 ├── ruoyi-admin/          # 后端主模块（启动入口 / Agent 网关）
 ├── ruoyi-framework/      # 框架核心模块
 ├── ruoyi-system/         # 系统业务模块
@@ -76,13 +108,6 @@ ruoyi-quick-starter/
 ├── openspec/             # OpenSpec 规范文档
 └── sql/                  # 数据库脚本
 ```
-
-## 核心功能
-
-- ✅ 用户权限管理（用户、角色、菜单、部门）
-- ✅ 系统监控（在线用户、服务监控、缓存监控）
-- ✅ 定时任务管理、操作日志、登录日志
-- ✅ 字典管理、参数配置
 
 ## 开发指南
 
