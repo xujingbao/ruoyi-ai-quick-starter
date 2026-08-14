@@ -2,7 +2,7 @@
 
 ## 后端
 
-- **RuoYi**: 6.2.0
+- **RuoYi**: 6.3.0
 - **Java**: 17
 - **Spring Boot**: 4.0.7
 - **MyBatis**: 4.0.1
@@ -70,6 +70,8 @@
 - **pnpm**: 9.x（锁文件版本 9.0）
 - **Maven**: 3.9+（推荐使用项目根目录 `./mvnw`，锁定 3.9.16）
 - **OpenSpec CLI**: 1.9.0
+- **Comet CLI**: `@rpamis/comet` 0.4.0-beta.18（Classic 五阶段工作流）
+- **Superpowers**: obra/superpowers（14 个技能：brainstorming / writing-plans / executing-plans 等）
 - **Pi Coding Agent**: `@earendil-works/pi-coding-agent` 0.84.1（侧车 `ruoyi-ai-agent`，默认 `127.0.0.1:19090`）
 - **hono**: 4.13.2（侧车 HTTP 框架）
 - **typebox**: 1.3.13（侧车工具参数 schema）

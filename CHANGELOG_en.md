@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.3.0] - 2026-08-14
+
+**Title:** Comet Workflow Integration and README Polish
+
+**Release:** [v6.3.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release introduces the Comet Classic workflow, orchestrating OpenSpec's `open → design → build → verify → archive` into a resumable, dashboard-visible requirement flow, and installs the Superpowers skill set. The README is also polished with a table of contents, more version badges, and executable quick-start steps.
+
+### Highlights
+
+- Comet (`@rpamis/comet` 0.4.0-beta.18): CLI, phase skills, phase-guard rule, read-only Dashboard
+- Superpowers skill set installed (14 skills: brainstorming / writing-plans / executing-plans / TDD, etc.)
+- Root `package.json` pins the Comet CLI and adds `comet` / `comet:doctor` / `comet:dashboard` / `comet:status` scripts
+- Cursor and Claude Code both configured: Comet skills, `/comet-*` commands, phase-guard hook
+- README polish: TOC, 15 version badges, runnable quick-start commands, default admin account
+
+### Dependency Upgrades
+
+- Root project version bumped to `6.3.0`
+- Added `@rpamis/comet`: `0.4.0-beta.18` (root devDependency)
+- Added Superpowers: obra/superpowers skill set (14 skills)
+
+### Security and Configuration
+
+- Comet session state (`.comet/*` except `config.yaml`) stays gitignored
+- No hardcoded secrets; `.env.release.local` is not committed
+
+### Best For
+
+- Teams that want a spec-driven, resumable, dashboard-visible AI development workflow
+- Developers driving requirements through the five phases in Cursor / Claude Code
+
+---
+
 ## [6.2.0] - 2026-08-14
 
 **Title:** Dependency Upgrades and Pi Agent 0.84 Engine Adaptation

@@ -1,0 +1,33 @@
+schema: spec-driven
+
+# Project context (optional)
+context: |
+  RuoYi AI Quick Starter —— 基于 RuoYi 的 AI 原生产品：Pi Coding Agent 0.84 核心引擎、
+  Spring Boot 鉴权网关与 System Tool Bus、前端全局 Agent Shell（⌘/Ctrl+K）。
+  Tech stack: Java 17 / Spring Boot 4.0.7 / MyBatis / PostgreSQL / Redis / Quartz；
+  Agent 侧车 ruoyi-ai-agent（Node + Hono）；Web: React 18 + Ant Design 6 + Vite 8；
+  移动端: uni-app / React Native / HarmonyOS。
+  研发流程: OpenSpec 1.9.0 + Comet Classic（open → design → build → verify → archive），
+  产物以简体中文为主。
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

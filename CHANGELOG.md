@@ -2,6 +2,42 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [6.3.0] - 2026-08-14
+
+**标题:** 集成 Comet 工作流与 README 优化
+
+**发布地址:** [v6.3.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本引入 Comet Classic 工作流，把 OpenSpec 的 `open → design → build → verify → archive` 编排成可恢复、可看板的需求流程，并同步安装 Superpowers 技能集；同时整体优化 README（目录、多版本徽章、可执行的快速开始）。
+
+### 主要亮点
+
+- 引入 Comet（`@rpamis/comet` 0.4.0-beta.18）：CLI、阶段技能、防跳阶段守则、只读 Dashboard
+- 安装 Superpowers 技能集（14 个技能：brainstorming / writing-plans / executing-plans / TDD 等）
+- 根工程 `package.json` 固定 Comet CLI，新增 `comet` / `comet:doctor` / `comet:dashboard` / `comet:status` 脚本
+- Cursor 与 Claude Code 双端配置：Comet 技能、`/comet-*` 命令、阶段守卫 Hook
+- README 优化：目录导航、15 个版本徽章、真实可执行的快速开始、默认管理员账号说明
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `6.3.0`
+- 新增 `@rpamis/comet`: `0.4.0-beta.18`（根 devDependencies）
+- 新增 Superpowers: obra/superpowers 技能集（14 个技能）
+
+### 配置与安全
+
+- Comet 会话状态（`.comet/*`，除 `config.yaml`）保持 gitignore，不入库
+- 无硬编码密钥；`.env.release.local` 不入库
+
+### 适用场景
+
+- 需要规范驱动、可恢复、可看板的 AI 研发流程的团队
+- 在 Cursor / Claude Code 中按五阶段推进需求的开发者
+
+---
+
 ## [6.2.0] - 2026-08-14
 
 **标题:** 依赖升级与 Pi Agent 0.84 引擎适配

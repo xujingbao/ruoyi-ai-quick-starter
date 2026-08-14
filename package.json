@@ -1,0 +1,24 @@
+{
+  "name": "ruoyi-ai-quick-starter",
+  "version": "6.3.0",
+  "private": true,
+  "description": "RuoYi AI Quick Starter - 基于 RuoYi 的 AI 原生产品",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "comet": "comet",
+    "comet:doctor": "comet doctor",
+    "comet:dashboard": "comet dashboard",
+    "comet:status": "comet status"
+  },
+  "devDependencies": {
+    "@rpamis/comet": "0.4.0-beta.18"
+  },
+  "allowScripts": {
+    "@rpamis/comet@0.4.0-beta.18": true,
+    "@fission-ai/openspec@1.9.0": true
+  }
+}

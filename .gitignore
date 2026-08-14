@@ -64,3 +64,9 @@ ruoyi-ai-agent/.ai-agent.log
 ai-quick-dev-website/
 .claude/settings.local.json
 .env.release.local
+node_modules/
+# >>> Comet managed project state >>>
+!/.comet/
+/.comet/*
+!/.comet/config.yaml
+# <<< Comet managed project state <<<

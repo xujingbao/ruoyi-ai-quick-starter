@@ -6,14 +6,14 @@
 	
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>6.2.0</version>
+    <version>6.3.0</version>
 
     <name>ruoyi-ai-quick-starter</name>
     <url>https://github.com/xujingbao/ruoyi-ai-quick-starter</url>
     <description>RuoYi AI Quick Starter - 基于 RuoYi 的 AI 原生产品，集成 Pi Agent 侧车、System Tool Bus 与 Agent Shell</description>
     
     <properties>
-        <ruoyi.version>6.2.0</ruoyi.version>
+        <ruoyi.version>6.3.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
