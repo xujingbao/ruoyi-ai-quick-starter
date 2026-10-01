@@ -2,7 +2,7 @@
 
 ## 后端
 
-- **RuoYi**: 6.3.0
+- **RuoYi**: 6.4.0
 - **Java**: 17
 - **Spring Boot**: 4.0.7
 - **MyBatis**: 4.0.1
@@ -66,13 +66,13 @@
 
 ## 开发环境
 
-- **Node.js**: 20.19+ 或 22.12+
+- **Node.js**: 22.19+（Pi Coding Agent 侧车要求；Comet CLI 要求 22.16+ 或 24+）
 - **pnpm**: 9.x（锁文件版本 9.0）
 - **Maven**: 3.9+（推荐使用项目根目录 `./mvnw`，锁定 3.9.16）
-- **OpenSpec CLI**: 1.9.0
-- **Comet CLI**: `@rpamis/comet` 0.4.0-beta.18（Classic 五阶段工作流）
+- **OpenSpec CLI**: 1.14.0
+- **Comet CLI**: `@rpamis/comet` 0.4.3（Classic 五阶段工作流）
 - **Superpowers**: obra/superpowers（14 个技能：brainstorming / writing-plans / executing-plans 等）
-- **Pi Coding Agent**: `@earendil-works/pi-coding-agent` 0.84.1（侧车 `ruoyi-ai-agent`，默认 `127.0.0.1:19090`）
+- **Pi Coding Agent**: `@earendil-works/pi-coding-agent` 0.99.2（侧车 `ruoyi-ai-agent`，默认 `127.0.0.1:19090`，Node >= 22.19.0）
 - **hono**: 4.13.2（侧车 HTTP 框架）
 - **typebox**: 1.3.13（侧车工具参数 schema）
 - **System Tool Bus**: `/ai/agent/tools/**`（只读：users / config / notices / jobs）

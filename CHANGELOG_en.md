@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
+## [6.4.0] - 2026-10-01
+
+**Title:** Comet Workflow and Pi Engine Upgrades
+
+**Release:** [v6.4.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release promotes the Comet workflow from beta to the stable 0.4.3 line, upgrades the underlying OpenSpec CLI to 1.14.0, and refreshes every phase skill, guard, and hook. The Pi Coding Agent engine moves from 0.84.1 to 0.99.2 with no sidecar code changes required.
+
+### Highlights
+
+- Comet CLI `0.4.0-beta.18` → `0.4.3`: full refresh of phase skills and hooks, plus personal memory (`comet-memory`), review (`comet-review`), and the phase self-check script (`comet-check.mjs`)
+- OpenSpec CLI `1.9.0` → `1.14.0`: instruction files regenerated for 1.14, and `openspec-propose` is now also installed for Cursor
+- Phase skills per platform grow from 57 to 62 files, with Claude Code and Cursor kept in sync
+- `AGENTS.md` and `CLAUDE.md` gain the `comet-ambient-resume` protocol for detecting resumable changes with a read-only probe
+- Pi Coding Agent `0.84.1` → `0.99.2`: session creation, tool registration, and the SSE streaming event pipeline verified end to end
+- Minimum runtime unified at Node.js 22.19+
+
+### Dependency Upgrades
+
+- Root project version bumped to `6.4.0`
+- `@rpamis/comet`: `0.4.0-beta.18` → `0.4.3`
+- OpenSpec CLI: `1.9.0` → `1.14.0`
+- `@earendil-works/pi-coding-agent`: `0.84.1` → `0.99.2`
+- `ruoyi-ai-agent` engines: `node >=20` → `node >=22.19.0`
+
+### Security and Configuration
+
+- `.comet/config.yaml` user values preserved; only new managed fields were filled in
+- No hardcoded credentials; `.env.release.local` and `ruoyi-ai-agent/.pi-agent/` stay gitignored
+- Heads-up: `.claude/settings.local.json` still whitelists a historical command containing a third-party API key. The file is gitignored and never committed, but the key should be rotated
+
+### Best For
+
+- Teams already on the Comet / OpenSpec flow that want the stable toolchain
+- Developers building business tools on the Pi Coding Agent sidecar
+- Projects standardizing on a Node 22+ runtime baseline
+
+---
+
 ## [6.3.0] - 2026-08-14
 
 **Title:** Comet Workflow Integration and README Polish

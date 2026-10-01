@@ -1,168 +1,71 @@
-# Subagent 驱动开发的 Comet 扩展
+# Comet 子代理开发规则
 
 规范路径：`comet-classic/reference/subagent-dispatch.md`
 
-本文档提供在 Superpowers `subagent-driven-development` 技能**之上**应用的 Comet 专属扩展。Superpowers `subagent-driven-development` 技能提供基础连续派发循环（每个 task 派发全新 implementer，并包含默认 task reviewer 节点）并强制连续执行。本文档添加 Comet 特有的子代理派发、任务追踪、状态验证、上下文恢复，以及审查/修复预算；Comet 的 `review_mode` 接管 reviewer 阶段，决定哪些任务需要 reviewer、需要几轮修复和最终审查。若 Superpowers 技能与本文档发生冲突时，以本文档中更具体的 Comet 约束为准。
+在 `build_mode: subagent-driven-development` 下，或 autonomous 需要委派任务、安排审查时，读取本文件。前者先加载同名 Superpowers Skill，再执行这里的规则；autonomous 直接执行，不要求加载外部执行 Skill。执行方式、任务验收、复查次数上限和五阶段收尾仍由 Classic 规定。外部 Skill 完成任务后返回 comet-build，不再自行追加 final review，也不调用 finishing-a-development-branch。
 
-> **⚠️ 关键约束 — 任务之间禁止暂停**
->
-> 当一个 task 按 `review_mode` 完成验收并被勾选后，**立即派发下一个 task**，不得停止、总结或询问用户是否继续。用户期望所有 task 按顺序自动执行，无需手动干预。任务之间暂停会中断工作流，导致用户每次都需要手动恢复。
->
-> 仅在以下情况才停止并等待用户输入：
-> - 任务处于 **BLOCKED** 状态（`review_mode: standard` 下风险任务 1 轮 review-fix 或最终轻量复查仍未通过，或 `review_mode: thorough` 下任务级/最终审查 2 轮审查-修复仍未通过）
-> - 存在无法从仓库、计划或既有上下文消除的真实歧义
-> - 用户**明确**要求暂停
->
-> 子代理派发操作失败属于运行停止条件，不自动构成新的用户决策点：将当前任务记录为 `BLOCKED` 并写明失败原因，停止派发循环，按当前 change 的阻塞与恢复流程处理；主会话不得接管实现。
->
-> 此规则适用于整个派发循环，而非单个任务。
+## 开始前核对任务
 
-## 开始前
+1. 读取一次计划、确认的设计和 `comet state check <name> build --json` 返回的配置。范围、文件或配置变化后刷新相应材料。
+2. 开始前检查计划：它不能与规格、验收要求或全局约束冲突。能通过查看仓库解决的疑问自行调查；涉及目标或授权变化的问题，集中向用户询问。
+3. 优先使用本轮入口返回的任务摘要；需要逐项需求和 ID 时，才运行 `comet state tasks <name> --json`。任务完成状态只以 `tasks.md` 为准。根据依赖关系选择 task ID，不用行号、顺序或可能变化的标题匹配任务。
+4. `needsIds: true` 时运行 `comet state tasks <name> --assign-ids --json`，更新受影响的交接文件和计划中的任务对应关系。保留已有 ID。旧计划中仍有复选框时，按 context-recovery.md 核对实际实现、检查结果和审查记录，明确 ID 对应关系后再同步。不能因为未勾选就重复实施，也不能擅自丢弃旧计划中额外存在的实际任务。
 
-1. 派发第一个 task 前，必须完成 Superpowers `subagent-driven-development` 技能的预检计划审查：扫描 plan 和全局约束中是否存在互相矛盾的要求，或 plan 明确要求但 reviewer 会判为缺陷的内容。若发现问题，实施前一次性向用户提出成组问题并附上冲突的 plan 原文；若没有问题，直接继续。
-2. 读取计划一次，按顺序提取所有未勾选 task 的完整文本。
-3. 为每个 task 保存唯一标识：plan 中 checkbox 后的完整任务文本，以及它映射的 OpenSpec task 完整文本（若存在）。若文本不唯一，停止并先修正计划，禁止依赖"第一个匹配项"。
-4. 尊重依赖关系；依赖尚未完成的 task 不得提前派发。
+主会话负责分配任务、整合改动和验收，不能与仍在工作的实现子代理（implementer）同时修改同一范围。subagent-driven-development 模式下，主会话不能代替子代理编写实现；autonomous 可以先明确收回已分配的任务、核对已有成果并保存检查点，再自行实施。确认改动已出现在当前工作区并验收通过后继续，不逐个任务询问。用户要求暂停、授权存在歧义，或出现下述阻塞情况时，停止受影响的工作。
 
-## 每个 Task 的 Comet 扩展
+## 如何分组和分配任务
 
-在每个 task 上应用这些扩展，叠加在 Superpowers 技能的派发循环之上：
+默认按可以独立验收的结果分配任务。同一模块中，使用相同局部上下文且依赖关系明确的关联任务，可以组成范围明确的一组任务，由同一个实现子代理连续完成。分配时明确 taskIds、允许修改的范围、执行顺序、验收要求和反馈时机。不要机械地限定为 2–3 个小任务，也不要向同一会话无限追加任务。
 
-### 0. 派发强制约束（关键）
+任务分组不会改变任务 ID。仍须逐 ID 报告、验收和勾选，不能因一项通过就把整组标为完成。thorough 允许同一个实现子代理继续工作，但每个任务仍须独立审查。出现范围变化、依赖冲突或新风险时，暂停受影响的任务，先核对已完成部分，再调整后续任务安排；不能擅自追加任务。
 
-主会话**仅负责协调**，禁止直接执行 task。主会话禁止修改源代码。协调者唯一允许的文件修改是 plan、OpenSpec task 和 subagent 进度检查点的持久化更新。不得把多个 task 打包给同一个 agent。通过已加载的 Superpowers `subagent-driven-development` 技能，为每个 task 派发一个全新的后台 implementer agent；当 `review_mode` 需要审查或修复时，分别派发全新的 task reviewer、修复 agent 和 final reviewer：
+同一组任务可以交给同一个实现子代理，修复优先返回原会话。出现以下任一情况时，先保存检查点，再停止复用该会话：任务跨模块或范围明显变化；上下文过多，无法可靠保留约束；会话无法恢复；连续两次反馈仍是同一阻塞，且没有新增实现或证据。恢复前先调查原因，只交接尚未完成的任务和反馈；不能无限新建会话反复审查。审查子代理（reviewer）始终独立于实现子代理，不能让负责实现的同一角色审查自己的代码。子代理不再向下派发任务，由主会话统一协调。
 
-- **禁止**跨 task 或角色复用 implementer、reviewer 或修复 agent。每个 agent 拥有全新的隔离上下文，并且只接收当前角色所需的单个 task 上下文。
-- 若子代理派发操作失败，不得继续派发或由主会话代写实现；将当前任务记录为 `BLOCKED` 并写明失败原因，按当前 change 的阻塞与恢复流程处理。
+## 交接与证据
 
-### 1. 派发 Prompt 与回报契约
+给子代理的说明只包含当前任务需要的内容：task ID 与完整需求、计划和设计的引用、允许修改的范围、依赖的接口、配置中的产物语言、必须执行的检查，以及反馈格式。较长的需求、报告和审查反馈，通过外部 Skill 支持的文件方式交接；主会话只保留路径和必要摘要，不反复粘贴累计对话。模型沿用用户与平台配置，根据可用能力分配角色，不要求固定的模型名称。
 
-每个 implementer 或修复 agent prompt 必须包含：
+实现子代理返回 `DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT`，并逐 task ID 列出修改的文件、提交引用、检查命令与实际结果、未完成内容和发现的风险。它只负责实现和自测，不勾选任务。主会话确认文件和提交已出现在当前工作区后，才能验收；在隔离副本中完成的改动，必须先整合回来。
 
-- 当前单个 task 的完整文本、架构背景和依赖上下文
-- `Language: 使用 comet state get <name> language 读取到的 Comet 配置产物语言输出`
-- 允许修改的文件范围和禁止修改的范围
-- 必须执行的测试命令和提交要求
-- 修复 agent 还必须收到对应 reviewer 的完整反馈
+若 `tdd_mode: tdd`，负责实现和修复的子代理必须提供实际执行的 RED 失败命令、GREEN 通过命令和结果摘要，并确认 RED 的失败原因正是待实现的行为。autonomous 无需加载外部 TDD Skill；其他策略在新的独立上下文中加载 test-driven-development，已有完整上下文时不重复加载。证据缺失时，只补充现在可以执行的验证，并如实说明历史证据缺口；不能回退代码伪造 RED。direct 不要求逐项提供 RED/GREEN，但仍须执行相关检查并保留缺陷回归证据。
 
-大型 task 文本、实现报告和审查材料必须通过已加载的 Superpowers `subagent-driven-development` 技能提供的文件交接机制传递，不得整段粘贴进主会话。派发 prompt 应指向这些交接产物，同时保留角色、允许范围、必跑测试、报告契约和 Comet 特有约束。Comet 可以记录 agent 回传的产物路径或短摘要用于恢复，但不得依赖这些产物的内部名称或目录布局。
+## 风险与复查次数
 
-agent 回报状态必须为 `DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT`，并包含或指向实现内容、测试结果、提交哈希、变更文件和顾虑。**implementer/修复 agent 还必须回报本任务是否命中任一风险信号**（见下方清单），命中则逐条列出；这是 `review_mode: standard` 下是否派发每任务 reviewer 的第一信号源。进入审查前，主会话必须确认提交和文件在当前工作树可见；若平台使用隔离副本，先拉取或合并变更。
+以下情况需要进一步检查风险：跨模块协调；认证、授权、加密、SQL、外部输入或凭证；并发、锁、共享可变状态；数据/schema 迁移；公共 API 变化；子代理返回 DONE_WITH_CONCERNS。主会话必须同时核对实际 diff 和子代理报告。改动超过 200 行时进一步检查复杂度，不能只凭行数判断风险。机械性改动或生成文件本身不导致升级，但其对应源码、安装行为和运行时接口要求仍须审查。
 
-**风险信号清单**（命中任一即视为风险任务）：
+| `review_mode` | Build 任务审查                                                         | 修复后复查上限 |
+| ------------- | ---------------------------------------------------------------------- | -------------- |
+| `off`         | 不自动分配审查子代理                                                   | 0              |
+| `standard`    | 仅审查有风险的任务，由同一个审查子代理检查是否符合规格以及代码质量     | 1 轮           |
+| `thorough`    | 每个任务都由独立的审查子代理检查是否符合规格以及代码质量，并逐 ID 验收 | 2 轮           |
 
-- 跨模块/跨子系统协调改动
-- 安全敏感面：认证、授权、加解密、SQL、外部输入处理、密钥/凭证
-- 并发、锁、共享可变状态
-- 数据或 schema 迁移
-- 公共 API 契约或对外接口变更
-- implementer 返回 `DONE_WITH_CONCERNS`
-- 单任务 diff 超过 200 行
+这里的安排取代外部 Skill 默认的审查步骤，不另外叠加一套审查。初审必须读取实际需求、diff 和证据，不能只看实现摘要。复查只覆盖未解决问题、修复及新增风险，不重新分析全部需求，也不重新计算已用复查次数。已经有可信检查结果时，先核对它是否仍适用；只有证据不足、输入发生变化或出现新风险时，才补充检查。
 
-当 `review_mode` 需要 reviewer 时，每个 reviewer prompt 必须包含或指向完整 task 需求、实现提交或差异以及 RED/GREEN 证据（`tdd_mode: tdd` 时）。reviewer 不得只依据 implementer 的总结进行审查。
+审查子代理应保持独立判断，不能预先要求它忽略某类问题。CRITICAL/IMPORTANT 问题必须解决；达到复查次数上限后仍未解决的，记录为 `BLOCKED`，请用户决定下一步。`off` 不允许忽略测试失败、异常调试协议或用户明确要求。只有实际核对并证明现有实现已经满足要求，才能记录理由后关闭该问题，不能凭乐观推断判定通过。
 
-reviewer prompt 必须保持中立：
+## 验收任务并保存进度
 
-- 不得要求 reviewer 重新运行 implementer 已经运行并报告的同一批测试；reviewer 负责核验已报告的证据和代码/diff。
-- 不得在 reviewer prompt 中预判、压低或禁止报告某个发现。若某个可能发现与 plan 冲突，让 reviewer 先报告，再询问用户以哪个要求为准。
-- 不得把之前 task 的累计历史粘贴进后续派发。只提供当前 task、相关接口/约束，以及已加载的 Superpowers `subagent-driven-development` 技能暴露的交接产物。
+主会话按 context-recovery.md 的 schemaVersion:1 JSON 示例，使用 `comet state checkpoint <name> --file <json-path>` 保存协调状态。Runtime 检查数据后生成 Markdown，不手工维护 subagent-progress.md。读取结果为 `{checkpoint, stale}`；stale 时先核对实际成果。分配任务前、取得会话 ID 后，以及审查、验收或遇到阻塞时，都要保存记录。普通反馈可以合并保存，已验收的任务不重复分配。检查点不能作为另一套任务完成清单。
 
-**Model 选择**：遵循 Superpowers `subagent-driven-development` 的 Model Selection 规则，为不同角色选择合适的 model：
+不超出规格、可以撤回的实现决定可自主处理。把影响后续工作的决定、依据和关联 task ID 保存到 `<classic-change-dir>/.comet/rulings.md`，在外部 Skill 的临时文件被清理前，保存必要结论和证据引用。扩大范围、修改规格或验收要求、接受重要缺陷、安全例外，以及会改变外部系统的操作，仍需用户授权。不能仅依靠临时会话或外部 Skill 的内部目录恢复工作。
 
-- **implementer / 修复 agent**：用 prose 描述的实现任务至少使用中档；多文件集成、需要模式匹配或调试 → 中档；需要设计判断或广泛理解代码库 → 高档。只有当 plan 文本已含完整待写代码（转写+测试），或只是单文件机械修复时，才用最便宜档。
-- **reviewer（任务级/最终）**：按 diff 大小、复杂度和风险缩放。小机械 diff 不需要最高档；微妙并发改动才上高档。
-- **final whole-branch review**：使用可用的最高档 model，不用会话默认档。
-
-
-### 2. Implementer 范围限制
-
-implementer 只负责实现、测试和提交代码。**implementer 不得勾选 plan 或 OpenSpec task**，也不得只更新内置 Todo 或对话 checklist。
-
-### 3. TDD 硬约束
-
-若 `tdd_mode: tdd`，每个 implementer 和修复 agent 必须先使用 Skill 工具加载 Superpowers `test-driven-development` 技能，并在 prompt 中同时注入：
-
-```text
-You MUST follow TDD: write a failing test first, watch it fail, then write minimal code to pass. No production code without a failing test first.
-```
-
-implementer 或修复 agent 回报必须提供 **RED 失败命令与失败摘要**、**GREEN 通过命令与通过摘要**；缺少任一证据不得进入审查。当 `review_mode` 需要 task reviewer 时，该 reviewer 必须核验 RED/GREEN 证据与测试覆盖，并同时检查 spec compliance 与 code quality。
-
-### 4. 持久进度检查点
-
-主会话必须维护 `<classic-change-dir>/.comet/subagent-progress.md`，并在每次派发、agent 回报、审查结果、修复轮次变化和 task 勾选后立即更新。检查点至少记录：
-
-- 当前 plan task 唯一文本及映射的 OpenSpec task 文本
-- 当前阶段：`implementing | task-review | checkoff | done | blocked | final-review | final-fix`
-- 本次派发使用的 model（可以识别时）
-- 实现提交哈希、变更文件和 RED/GREEN 证据
-- 已选择的 `review_mode`
-- 已通过的审查阶段及尚未解决的 reviewer 反馈
-- 当前 task 或 final review 的审查-修复轮次（`standard` 最多 1 轮，`thorough` 最多 2 轮，`off` 为 0 轮）
-- `review_mode: standard` 时，本 task 是否已触发风险任务级 review 及命中的风险信号（恢复时不得重复派发已完成的任务级 review）
-
-该文件只保存恢复所需的协调状态，不替代 plan 或 OpenSpec checkbox。当前 task 完成后保留其最终记录，开始下一个 task 时用下一 task 的记录替换。
-
-Comet 不读取、不写入、也不要求任何 Superpowers `subagent-driven-development` 内部脚本或工作区路径。如果当前安装的 Superpowers `subagent-driven-development` 技能维护自己的临时产物、审查材料、任务需求文件或进度记录，这些都由 Superpowers 自行管理。Comet 的持久事实来源只限于 Comet workflow 状态、plan/OpenSpec checkbox 和本协调检查点。
-
-### 5. 代码审查模式与轮次限制
-
-> **⚠️ CRITICAL — review_mode 接管 Superpowers 默认流程，禁止双重审查**
->
-> Superpowers `subagent-driven-development` 的 Process 流程图把"每个 task 后派发 task reviewer"设为必经节点。**Comet 的 `review_mode` 接管这一环节，决定哪些任务派发每任务 reviewer**（见下表每任务 reviewer 列）。**不得在 review_mode 已规定的每任务 reviewer 之外，额外按 Superpowers 默认派发 reviewer**。未派发 reviewer 的任务（`off` 全部、`standard` 非风险任务）必须直接进入 task 勾选与下一个 task 的派发。
->
-> 一个 change 的审查次数由下表唯一决定，不得自行追加。
-
-**build 阶段审查次数预算**（仅这些，不得额外增加）。本表只覆盖 build 阶段；verify 阶段有自己的审查处理（见下方说明）：
-
-| `review_mode` | build 阶段每任务 reviewer | build 阶段最终审查 |
-|---------------|--------------------------|-------------------|
-| `off` | 0 | 0 |
-| `standard` | 仅风险任务（见下方规则） | 1（轻量） |
-| `thorough` | 每个任务（spec + quality） | 1（完整） |
-
-**verify 阶段的审查不在此表内。** verify 阶段的审查由 `verify_mode`（light/full）驱动规模，`review_mode` 只决定是否触发自动代码审查（`off` 跳过；`standard`/`thorough` 在轻量验证下做一次轻量代码审查，在全量验证下依赖 `openspec-verify-change`）。verify 阶段没有按 `review_mode` 区分的独立"完整"代码审查——verify 阶段的权威行为见 `comet-verify`。
-
-当 `review_mode: standard` 时，默认不为每个 task 派发 reviewer，而是按**风险触发**决定：implementer 自测、提交并回报证据（含风险信号自报）后，协调者读取自报信号并复核该 task 的 diff。**仅当 implementer 自报命中任一风险信号、或协调者复核 diff 发现命中任一风险信号时**，为该 task 单独派发一个每任务 reviewer，同时检查 spec compliance 与 code quality，发现 CRITICAL/IMPORTANT 问题进入一轮 review-fix（最多 1 轮），复查未通过则标记 **BLOCKED**。未命中风险信号的 task 直接做定向勾选验证后放行。所有 task 完成后仍派发一次最终轻量 code reviewer（范围：正确性、安全、边界）。若最终轻量审查发现 CRITICAL 或 IMPORTANT 问题，最多自动派发一轮修复 agent 并复查一次；复查仍未通过时标记 **BLOCKED**，暂停并把反馈交给用户。非 CRITICAL 发现可记录接受理由后继续。
-
-当 `review_mode: thorough` 时，**每个 task 派发一个每任务 reviewer，同时检查 spec compliance 与 code quality**：implementer 自测、提交并回报证据后，协调者为该 task 派发一个全新后台 reviewer。reviewer 发现 CRITICAL/IMPORTANT 问题进入审查-修复（最多 2 轮），仍未通过则标记 **BLOCKED**，暂停并把反馈交给用户。所有 task 完成后再派发一次最终完整 reviewer。thorough 不做批次合并审查——高风险 change 要求每个任务即时、专注的审查，等批次边界才抓到问题代价过大。
-
-当 reviewer 返回无法仅从审查材料验证的发现时，协调者必须在 task 勾选前自行核对。若直接检查仓库后确认是真实缺口，按失败的 spec/quality review 处理，进入对应修复与复查流程；若该项已由未改动代码或跨任务约束满足，在检查点记录理由后继续。
-
-当 `review_mode: off` 时，不自动派发 task reviewer、final reviewer 或审查修复 agent。任务完成依据 implementer 的测试/构建证据、当前工作树确认、任务唯一文本勾选验证和用户显式要求。若执行过程中出现测试失败、构建失败或异常行为，仍必须按异常调试协议处理，不得用 `off` 跳过真实问题。
-
-### 6. Task 勾选与验证
-
-**按 `review_mode` 完成验收后**，主会话：
-
-1. 将 plan 中保存的唯一 task 文本从 `- [ ]` 改为 `- [x]`
-2. 若存在映射，再同步勾选 OpenSpec task
-3. 提交这次进度更新
-4. 运行定向验证：
+逐项按配置验收后，使用本次读取的 revision 记录完成：
 
 ```bash
-comet state task-checkoff "<plan-file>" "<plan-task-text>"
-comet state task-checkoff "<classic-change-dir>/tasks.md" "<openspec-task-text>"
+comet state task-complete <name> <task-id> --expect <revision> --json
 ```
 
-仅在对应映射存在时运行第二条。脚本会要求任务文本恰好出现一次且该项已勾选；验证失败时不得进入下一个 task。
+此命令只记录完成状态，不能替代验收。因需求变更而被拒绝时，重新读取任务和受影响的设计，核对实现是否仍符合要求，不能只换成新 revision 就盲目重试。仅更新完成状态不会改变 revision；命令支持幂等重试。按已有提交策略保存进度，不要求每个小任务都单独创建一次进度提交。
 
-## 收尾
+所有任务验收完成后，立即返回 `comet-build` 执行退出检查。Build 不追加覆盖整个分支的审查；由 `comet-verify` 按 `review_mode` 完成唯一一次最终集成审查，再由 Archive 收尾。
 
-- **自动继续**：按 `review_mode` 完成验收并勾选 task 后，立即派发下一个未勾选的 task。禁止总结、禁止询问用户是否继续、禁止在任务之间等待用户输入。这是不可协商的 —— Superpowers 技能强制连续执行，文档顶部的关键约束进一步强化此规则。
-- 所有 task 完成后，若 `review_mode: standard`，将检查点切换为 `final-review`，只派发一次最终轻量 code reviewer。CRITICAL 或 IMPORTANT 问题最多自动修复和复查一轮；仍未通过则暂停交给用户。通过或接受非 CRITICAL 发现后继续返回 `comet-build`。
-- 所有 task 完成后，若 `review_mode: thorough`，将检查点切换为 `final-review`，派发一次最终完整 reviewer。CRITICAL 或 IMPORTANT 问题最多自动修复和复查两轮；仍未通过则暂停交给用户。通过或接受非 CRITICAL 发现后继续返回 `comet-build`。
-- 所有 task 完成后，若 `review_mode: off`，不进入 `final-review` 或 `final-fix`，但必须在持久产物中记录跳过自动代码审查的原因，然后返回 `comet-build`。
-- final review 通过后，结束的只是 subagent 派发循环，不是 Comet workflow。不得加载 `finishing-a-development-branch`，不得停下来询问用户下一步；必须返回 `comet-build` 继续执行退出条件、阶段守卫和后续阶段衔接。
+## 中断恢复
 
-## 上下文恢复
+按 context-recovery.md 获取入口返回的最新状态信息；coordination 摘要不足时，才用 `comet state checkpoint <name>` 读取详情，必要时按引用读取 rulings。核对 revision、实际提交、文件和证据后，从原阶段继续，保留有效审查结果和已用复查次数。
 
-重新加载 Superpowers `subagent-driven-development` 技能并重新阅读本文档。先读取 `<classic-change-dir>/.comet/subagent-progress.md`，再与第一个未勾选 task 和当前工作树核对：
-
-- 检查点与未勾选 task 匹配时，从记录的精确阶段恢复，保留实现提交、RED/GREEN 证据、`review_mode`、已通过的审查阶段、未解决反馈和当前审查-修复轮次；不得重置轮次或重复已经通过的阶段。
-- 若已加载的 Superpowers `subagent-driven-development` 技能通过自己的进度记录报告某个 task 已完成，先对照 git 历史和 Comet plan/OpenSpec checkbox 完成恢复判断。若提交和任务身份匹配，更新 Comet 检查点/勾选状态，不得重复派发已完成工作。
-- 检查点缺失或与未勾选 task 不匹配时，为第一个未勾选 task 创建新检查点并从 implementer 派发开始。
-- 检查点中的提交或文件在当前工作树不可见时，先拉取、合并或恢复对应变更；不得假定实现已存在。
-- 所有 task 已勾选且检查点处于 `final-review` 或 `final-fix` 时，从最终审查的精确阶段恢复，并保留最终反馈和审查-修复轮次；不得重新进入已完成的 task。
-
-已提交但未按 `review_mode` 完成验收的 task 保持未勾选，并按检查点重新进入对应的验证、审查或修复流程。
+- 未勾选但已有实现的任务，先核对验收，不重复实现；已提交但未验收的任务保持未完成。
+- 一组任务中只恢复尚未验收的任务；已完成任务以 tasks.md 为准，旧计划中的对应复选框只同步显示状态。
+- 任务被删、改名或需求变化时先重新映射和判断影响；缺少映射不能猜成第一个未勾选任务。
+- 检查点缺失时先调查当前工作树和历史；仅对确认未实现的任务新建派发，不能把“无检查点”当作“无实现”。
+- 任务分配失败或会话不可用时，记录实际原因，停止对应任务的执行与审查，并按恢复流程处理；不能擅自改变用户选定的执行方式。
+- 全部任务完成时返回 `comet-build`，不恢复旧的 Build final-review/final-fix 状态。

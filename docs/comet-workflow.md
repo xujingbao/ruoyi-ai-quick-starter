@@ -6,10 +6,10 @@ Comet 是本仓库 OpenSpec 研发流程的编排层，把 `open → design → 
 
 | 组件 | 版本 | 作用 |
 |------|------|------|
-| Comet CLI | `@rpamis/comet` 0.4.0-beta.18 | 阶段编排、`.comet.yaml`、dashboard |
-| OpenSpec | 1.9.0 | 需求 / 规格 / 任务 / 归档 |
+| Comet CLI | `@rpamis/comet` 0.4.3 | 阶段编排、`.comet.yaml`、dashboard |
+| OpenSpec | 1.14.0 | 需求 / 规格 / 任务 / 归档 |
 | Superpowers | obra/superpowers（14 个技能） | TDD / 计划 / 审查等 HOW |
-| Node.js | >= 22 | Comet CLI 要求 |
+| Node.js | >= 22.16（24+ 亦可） | Comet CLI 要求；Pi 侧车需 22.19+ |
 
 ## 落点
 

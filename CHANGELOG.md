@@ -2,6 +2,47 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [6.4.0] - 2026-10-01
+
+**标题:** Comet 工作流与 Pi 引擎双升级
+
+**发布地址:** [v6.4.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本把 Comet 工作流从 beta 推进到 0.4.3 稳定版，底层 OpenSpec 同步升级到 1.14.0，阶段技能、守则与 Hook 全部重刷到最新；同时把 Pi Coding Agent 引擎从 0.84.1 升级到 0.99.2，侧车代码无需改动即完成适配。
+
+### 主要亮点
+
+- Comet CLI `0.4.0-beta.18` → `0.4.3`：阶段技能与 Hook 全量刷新，新增个人记忆（`comet-memory`）、审查（`comet-review`）与阶段自检脚本（`comet-check.mjs`）
+- OpenSpec CLI `1.9.0` → `1.14.0`：指令文件按 1.14 重新生成，并补齐 Cursor 侧此前缺失的 `openspec-propose`
+- 双端阶段技能由 57 个文件提升至 62 个文件（Claude Code / Cursor 一致）
+- `AGENTS.md` 与 `CLAUDE.md` 新增 `comet-ambient-resume` 恢复协议：进入任务前可用只读探针判断是否需要恢复活跃 change
+- Pi Coding Agent `0.84.1` → `0.99.2`：会话创建、工具注册与 SSE 流式事件链路经端到端验证通过
+- 运行时最低要求统一为 Node.js 22.19+
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `6.4.0`
+- `@rpamis/comet`: `0.4.0-beta.18` → `0.4.3`
+- OpenSpec CLI: `1.9.0` → `1.14.0`
+- `@earendil-works/pi-coding-agent`: `0.84.1` → `0.99.2`
+- `ruoyi-ai-agent` engines: `node >=20` → `node >=22.19.0`
+
+### 配置与安全
+
+- `.comet/config.yaml` 用户取值全部保留，仅补齐新版本受管字段
+- 无硬编码密钥；`.env.release.local` 与 `ruoyi-ai-agent/.pi-agent/` 保持 gitignore，不入库
+- 提醒：`.claude/settings.local.json` 的权限白名单中存在一条含第三方 API Key 的历史命令，该文件已 gitignore 不会入库，建议尽快吊销并重建该 Key
+
+### 适用场景
+
+- 已接入 Comet / OpenSpec 流程，需要升级到稳定版工具链的团队
+- 依赖 Pi Coding Agent 侧车做业务工具编排的二次开发者
+- 需要 Node 22 及以上运行时基线的项目
+
+---
+
 ## [6.3.0] - 2026-08-14
 
 **标题:** 集成 Comet 工作流与 README 优化
