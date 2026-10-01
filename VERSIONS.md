@@ -2,7 +2,7 @@
 
 ## 后端
 
-- **RuoYi**: 6.4.0
+- **RuoYi**: 7.0.0
 - **Java**: 21
 - **Spring Boot**: 4.1.1
 - **MyBatis**: 4.1.0

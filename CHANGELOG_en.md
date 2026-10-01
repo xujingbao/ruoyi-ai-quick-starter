@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.0.0] - 2026-10-01
+
+**Title:** Major Upgrade — Java 21 / Spring Boot 4.1 / React 19
+
+**Release:** [v7.0.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### Summary
+
+This release moves all three tiers onto current stable lines at once: the backend baseline goes from Java 17 to 21 with Spring Boot 4.1.1, the web frontend jumps from React 18 to React 19 with React Router 7 and ECharts 6, and the React Native app moves from Expo 54 to Expo 57 / React Native 0.86.3. It also fixes the RN project's long-standing unbundleable state caused by a missing asset.
+
+> ⚠️ **Breaking change**: this version **requires JDK 21+**. Spring Boot 4.1.x itself still targets Java 17; raising to 21 is a deliberate project-level decision.
+
+### Highlights
+
+- **Java 17 → 21 (LTS)**: `maven.compiler.release` follows, every module rebuilt with `release 21`
+- **Spring Boot 4.0.7 → 4.1.1**: brings Spring Framework 7.0.9, Spring Security 7.1.1, Tomcat 11.0.24, Hibernate Validator 9.1.3
+- **React 18.3.1 → 19.3.0**: `react-dom` and `@types` upgraded in step
+- **Rich text editor replaced**: `react-quill` 2.0.0 → `react-quill-new` 3.8.3. `react-quill` calls `ReactDOM.findDOMNode`, removed in React 19, making it the hard blocker for this upgrade
+- **React Router 6.30.3 → 7.18.4**: the now-default `v7_startTransition` future flag was dropped
+- **ECharts 5.6.0 → 6.1.0** and `react-markdown` 9 → 10
+- **RN app Expo 54.0.27 → 57.0.26**: React Native 0.81.5 → 0.86.3, expo-router → 57.0.24, React 19.2.3
+- **Fixed the unbundleable RN project**: `src/app/login.js` had always required a `src/assets/logo.png` that was never committed; the asset is now in place
+- **`app.json` adapted for SDK 57**: the deprecated top-level `splash` moved into the `expo-splash-screen` plugin config, keeping the brand background color
+
+### Dependency Upgrades
+
+- Root project version bumped to `7.0.0`
+- Java: `17` → `21`
+- `spring-boot`: `4.0.7` → `4.1.1`
+- `mybatis-spring-boot-starter`: `4.0.1` → `4.1.0`
+- `springdoc-openapi`: `3.0.3` → `3.1.1`
+- `fastjson2`: `2.0.64` → `2.0.65`
+- `react` / `react-dom`: `18.3.1` → `19.3.0`
+- `react-router-dom`: `6.30.3` → `7.18.4`
+- `react-quill` `2.0.0` → `react-quill-new` `3.8.3`
+- `echarts`: `5.6.0` → `6.1.0`; `react-markdown`: `9.1.0` → `10.1.0`
+- `antd`: `6.6.0` → `6.6.5`; `vite`: `8.2.1` → `8.3.1`; `axios`: `1.19.0` → `1.20.0`
+- `expo`: `54.0.27` → `57.0.26`; `react-native`: `0.81.5` → `0.86.3`; `expo-router`: `6.0.17` → `57.0.24`
+
+### Security and Configuration
+
+- **JDK 21 is mandatory**: point `JAVA_HOME` at a JDK 21 install, or pin it in `~/.zshrc`
+- No hardcoded credentials; `.env.release.local` and `ruoyi-ai-agent/.pi-agent/` stay gitignored
+- Heads-up: `.claude/settings.local.json` still whitelists a historical command containing a third-party API key. The file is gitignored and never committed, but the key should be rotated
+
+### Verification
+
+- Backend: `mvn clean package` under JDK 21 with all modules on `release 21`; started against real PostgreSQL/Redis, then login → JWT → `/getInfo` → user/notice lists → `/v3/api-docs` all returned 200 with 121 OpenAPI 3.1.0 paths
+- Web: `vite build` passed; Playwright regression covered login, the dashboard (3 ECharts canvases), the notice list, the Quill editor, and the Agent Shell drawer with no new runtime errors
+- Mobile: `expo-doctor` 21/21; `expo export` produced Hermes bundles for both iOS and Android
+
+### Best For
+
+- Teams moving their runtime baseline to Java 21
+- Frontend projects that need React 19 / React Router 7 / ECharts 6
+- React Native apps that need Expo 57
+- Upgrading from an older version? Read the breaking-change note above first
+
+---
+
 ## [6.4.0] - 2026-10-01
 
 **Title:** Comet Workflow and Pi Engine Upgrades

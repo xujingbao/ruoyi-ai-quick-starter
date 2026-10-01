@@ -2,6 +2,66 @@
 
 项目所有重要变更都将记录在此文件中。
 
+## [7.0.0] - 2026-10-01
+
+**标题:** 主版本升级 —— Java 21 / Spring Boot 4.1 / React 19
+
+**发布地址:** [v7.0.0 Release](https://gitee.com/xujingbao/ruoyi-ai-quick-starter/releases)
+
+### 发行摘要
+
+本版本一次性把三端核心框架推到当前稳定线：后端 Java 基线由 17 提升到 21、Spring Boot 升到 4.1.1；Web 前端由 React 18 跨到 React 19 并同步 React Router 7 与 ECharts 6；移动端 RN 应用由 Expo 54 升到 Expo 57 / React Native 0.86.3。升级过程中修复了 RN 工程长期无法打包的资源缺失问题。
+
+> ⚠️ **破坏性变更**：运行本版本**必须使用 JDK 21+**。Spring Boot 4.1.x 自身仍以 Java 17 为基线，Java 21 是本项目主动抬升的运行时要求。
+
+### 主要亮点
+
+- **Java 17 → 21（LTS）**：`maven.compiler.release` 同步为 21，全模块以 `release 21` 重新编译
+- **Spring Boot 4.0.7 → 4.1.1**：随版本获得 Spring Framework 7.0.9、Spring Security 7.1.1、Tomcat 11.0.24、Hibernate Validator 9.1.3
+- **React 18.3.1 → 19.3.0**：包含 `react-dom` 与 `@types` 同步升级
+- **富文本编辑器替换**：`react-quill` 2.0.0 → `react-quill-new` 3.8.3。`react-quill` 内部依赖 React 19 已移除的 `ReactDOM.findDOMNode`，是本次升级的硬阻塞点
+- **React Router 6.30.3 → 7.18.4**：移除已内置为默认行为的 `v7_startTransition` future 标记
+- **ECharts 5.6.0 → 6.1.0**、`react-markdown` 9 → 10
+- **RN 应用 Expo 54.0.27 → 57.0.26**：React Native 0.81.5 → 0.86.3，expo-router → 57.0.24，React 19.2.3
+- **修复 RN 工程无法打包**：`src/app/login.js` 长期 `require` 一个从未入库的 `src/assets/logo.png`，已补齐该资源
+- **`app.json` 适配 SDK 57**：移除已废弃的顶层 `splash`，迁移到 `expo-splash-screen` 插件配置并保留品牌背景色
+
+### 依赖与版本升级
+
+- 根项目版本升级至 `7.0.0`
+- Java: `17` → `21`
+- `spring-boot`: `4.0.7` → `4.1.1`
+- `mybatis-spring-boot-starter`: `4.0.1` → `4.1.0`
+- `springdoc-openapi`: `3.0.3` → `3.1.1`
+- `fastjson2`: `2.0.64` → `2.0.65`
+- `react` / `react-dom`: `18.3.1` → `19.3.0`
+- `react-router-dom`: `6.30.3` → `7.18.4`
+- `react-quill` `2.0.0` → `react-quill-new` `3.8.3`
+- `echarts`: `5.6.0` → `6.1.0`；`react-markdown`: `9.1.0` → `10.1.0`
+- `antd`: `6.6.0` → `6.6.5`；`vite`: `8.2.1` → `8.3.1`；`axios`: `1.19.0` → `1.20.0`
+- `expo`: `54.0.27` → `57.0.26`；`react-native`: `0.81.5` → `0.86.3`；`expo-router`: `6.0.17` → `57.0.24`
+
+### 配置与安全
+
+- **JDK 21 为强制要求**：请将 `JAVA_HOME` 指向 JDK 21，或在 `~/.zshrc` 中固化
+- 无硬编码密钥；`.env.release.local` 与 `ruoyi-ai-agent/.pi-agent/` 保持 gitignore，不入库
+- 提醒：`.claude/settings.local.json` 权限白名单中仍有一条含第三方 API Key 的历史命令，该文件已 gitignore 不会入库，建议尽快吊销并重建该 Key
+
+### 验证记录
+
+- 后端：JDK 21 下 `mvn clean package` 全模块 `release 21` 编译通过；连接真实 PostgreSQL/Redis 启动，登录 → JWT → `/getInfo` → 用户/公告列表 → `/v3/api-docs` 全部 200，OpenAPI 3.1.0 共 121 个路径
+- Web：`vite build` 通过；Playwright 回归登录、首页（ECharts 渲染 3 个图表）、通知公告列表、Quill 富文本编辑器可编辑、Agent Shell 抽屉，无新增运行时错误
+- 移动端：`expo-doctor` 21/21 通过；`expo export` 的 iOS 与 Android Hermes bundle 均正常产出
+
+### 适用场景
+
+- 计划把运行时基线上移到 Java 21 的团队
+- 需要使用 React 19 / React Router 7 / ECharts 6 的前端项目
+- 需要 Expo 57 新特性的 React Native 应用
+- 从旧版本升级的用户：请先阅读上文破坏性变更说明
+
+---
+
 ## [6.4.0] - 2026-10-01
 
 **标题:** Comet 工作流与 Pi 引擎双升级
