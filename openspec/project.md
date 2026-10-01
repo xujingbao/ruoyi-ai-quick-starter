@@ -12,10 +12,10 @@ RuoYi AI Quick Starter 是基于 RuoYi 的 **AI 原生产品**：以 Pi Agent �
 ## Tech Stack
 
 ### Backend
-- **Java 17** - 编程语言
-- **Spring Boot 4.0.7** - 核心框架
+- **Java 21** - 编程语言
+- **Spring Boot 4.1.1** - 核心框架
 - **Spring Security** - 安全框架
-- **MyBatis 4.0.1** - ORM 框架
+- **MyBatis 4.1.0** - ORM 框架
 - **Redis 6.0+** - 缓存数据库
 - **PostgreSQL 15+** - 关系型数据库
 - **Quartz** - 定时任务调度
@@ -26,7 +26,7 @@ RuoYi AI Quick Starter 是基于 RuoYi 的 **AI 原生产品**：以 Pi Agent �
 - **`ruoyi-ai-agent`** - Node 侧车（本机 `127.0.0.1:19090`，沙箱工作区）
 
 ### Frontend
-- **React 18** - 用于构建用户界面的 JavaScript 库
+- **React 19** - 用于构建用户界面的 JavaScript 库
 - **Ant Design** - React UI 组件库
 - **Vite** - 前端构建工具
 - **pnpm 9+** - 包管理器
@@ -208,8 +208,8 @@ git push github main
 ## Important Constraints
 
 ### 技术约束
-- **JDK 版本**：必须使用 JDK 17+
-- **Spring Boot 版本**：4.0.7（Spring Boot 4.0.x 系列）
+- **JDK 版本**：必须使用 JDK 21+
+- **Spring Boot 版本**：4.1.1（Spring Boot 4.1.x 系列）
 - **数据库**：PostgreSQL 15+，不支持其他数据库
 - **前端构建**：必须使用 pnpm 作为包管理器
 - **前端页面限制**：单文件不超过 800 行，超过需组件化

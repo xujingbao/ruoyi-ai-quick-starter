@@ -1,6 +1,6 @@
 # RuoYi AI Quick Starter
 
-![version](https://img.shields.io/badge/version-6.4.0-blue) ![JDK](https://img.shields.io/badge/JDK-17%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.0.7-green) ![React](https://img.shields.io/badge/React-18.3.1-61dafb) ![Ant%20Design](https://img.shields.io/badge/Ant%20Design-6.6.0-1677ff) ![Vite](https://img.shields.io/badge/Vite-8.2.1-646cff) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15%2B-336791) ![Redis](https://img.shields.io/badge/Redis-6%2B-dc382d)
+![version](https://img.shields.io/badge/version-6.4.0-blue) ![JDK](https://img.shields.io/badge/JDK-21%2B-orange) ![Spring%20Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-green) ![React](https://img.shields.io/badge/React-19.3.0-61dafb) ![Ant%20Design](https://img.shields.io/badge/Ant%20Design-6.6.5-1677ff) ![Vite](https://img.shields.io/badge/Vite-8.3.1-646cff) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15%2B-336791) ![Redis](https://img.shields.io/badge/Redis-6%2B-dc382d)
 ![Node.js](https://img.shields.io/badge/Node.js-22%2B-339933) ![Maven](https://img.shields.io/badge/Maven-3.9%2B-c71a36) ![pnpm](https://img.shields.io/badge/pnpm-9%2B-f69220) ![Pi%20Agent](https://img.shields.io/badge/Pi%20Agent-0.99.2-000000) ![OpenSpec](https://img.shields.io/badge/OpenSpec-1.14.0-4f46e5) ![Comet](https://img.shields.io/badge/Comet-0.4.3-0ea5e9) ![license](https://img.shields.io/badge/license-MIT-green)
 
 基于 RuoYi 的 **AI 原生产品**：Pi Agent 作为核心引擎，Spring 提供鉴权与 System Tool Bus，前端全局 Agent Shell（⌘/Ctrl+K）为主交互。装好即得一套带 AI 助手的多端企业后台：既能用自然语言查询系统数据、分析沙箱文件，也能按传统 Spring Boot 后台的方式继续开发业务模块。
@@ -47,13 +47,13 @@ System Tool Bus 是 Spring 侧一组受权限约束的只读 API（`/ai/agent/to
 
 ### 📱 一套代码多端交付
 
-Web（React 18 + Ant Design）、uni-app、React Native（Expo）、HarmonyOS 示例工程共享同一套后端 API，覆盖主流端场景。
+Web（React 19 + Ant Design 6）、uni-app、React Native（Expo）、HarmonyOS 示例工程共享同一套后端 API，覆盖主流端场景。
 
 ## 技术栈
 
-**后端：** Spring Boot 4.0.7 + MyBatis + Redis + PostgreSQL + Quartz  
+**后端：** Spring Boot 4.1.1 + MyBatis + Redis + PostgreSQL + Quartz  
 **Agent 引擎：** Pi Coding Agent SDK（`ruoyi-ai-agent`）+ System Tool Bus（`/ai/agent/tools/**`）  
-**前端：** React 18 + Ant Design + Vite + pnpm + Zustand + Agent Shell  
+**前端：** React 19 + Ant Design + Vite + pnpm + Zustand + Agent Shell  
 **移动端：** uni-app、React Native（Expo）、HarmonyOS  
 **开发流程：** OpenSpec 1.14.0 + Comet Classic（open → design → build → verify → archive）
 
@@ -61,7 +61,7 @@ Web（React 18 + Ant Design）、uni-app、React Native（Expo）、HarmonyOS �
 
 ### 环境要求
 
-JDK 17+ | Maven 3.9+（推荐 `./mvnw`） | Node.js 22.19+（Comet 需 22.16+） | pnpm 9+ | PostgreSQL 15+ | Redis 6.0+
+JDK 21+ | Maven 3.9+（推荐 `./mvnw`） | Node.js 22.19+（Comet 需 22.16+） | pnpm 9+ | PostgreSQL 15+ | Redis 6.0+
 
 ### 启动步骤
 
@@ -120,7 +120,7 @@ ruoyi-ai-quick-starter/
 ├── ruoyi-common/         # 通用工具模块
 ├── ruoyi-quartz/         # 定时任务模块
 ├── ruoyi-ai-agent/       # Pi Agent Node 侧车
-├── ruoyi-react-web/      # Web 前端（React 18 + Ant Design + Vite）
+├── ruoyi-react-web/      # Web 前端（React 19 + Ant Design + Vite）
 ├── ruoyi-uni-app/        # 移动端项目（uni-app + Vue3 + Pinia）
 ├── ruoyi-rn-app/         # 移动端项目（React Native + Expo）
 ├── ruoyi-harmony-app/    # HarmonyOS/OpenHarmony ArkTS 示例工程

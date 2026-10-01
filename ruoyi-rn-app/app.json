@@ -5,10 +5,6 @@
     "version": "4.2.1",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#67C23A"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -27,7 +23,14 @@
     "plugins": [
       "expo-asset",
       "expo-router",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#67C23A",
+          "resizeMode": "contain"
+        }
+      ]
     ]
   }
 }

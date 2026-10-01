@@ -1,10 +1,10 @@
 # RuoYi Frontend (React)
 
-基于 React 18 + Ant Design + Vite 的前端项目。
+基于 React 19 + Ant Design + Vite 的前端项目。
 
 ## 技术栈
 
-- **React 18** - 用于构建用户界面的 JavaScript 库
+- **React 19** - 用于构建用户界面的 JavaScript 库
 - **Ant Design** - React UI 组件库
 - **Vite** - 前端构建工具
 - **pnpm** - 包管理器
@@ -87,7 +87,7 @@ API 基础地址配置在 `src/utils/request.js` 中，可通过环境变量进�
 
 ## 说明
 
-本仓库 Web 前端实现为 `ruoyi-react-web`（React 18 + Ant Design）。
+本仓库 Web 前端实现为 `ruoyi-react-web`（React 19 + Ant Design）。
 
 ## 开发规范
 

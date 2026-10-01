@@ -4,8 +4,8 @@
 
 ## 技术栈
 
-- **框架**: Expo ~51.0.0
-- **路由**: expo-router ~3.5.0
+- **框架**: Expo ~57.0.26（React Native 0.86.3 / React 19.2.3）
+- **路由**: expo-router ~57.0.24
 - **状态管理**: Redux Toolkit
 - **HTTP 客户端**: Axios
 - **存储**: AsyncStorage + Expo SecureStore
@@ -88,6 +88,5 @@ export default {
 2. 确保后端 API 地址配置正确
 3. iOS 需要配置 Info.plist 允许 HTTP 请求（开发环境）
 4. Android 需要配置网络安全策略（开发环境）
-
 
 

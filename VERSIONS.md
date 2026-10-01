@@ -3,15 +3,15 @@
 ## 后端
 
 - **RuoYi**: 6.4.0
-- **Java**: 17
-- **Spring Boot**: 4.0.7
-- **MyBatis**: 4.0.1
+- **Java**: 21
+- **Spring Boot**: 4.1.1
+- **MyBatis**: 4.1.0
 - **PostgreSQL JDBC**: 42.7.13
 - **PostgreSQL**: 15+ (数据库)
 - **Redis**: 6.0+ (Lettuce 客户端)
 - **Druid**: 1.2.28
-- **FastJSON2**: 2.0.64
-- **SpringDoc**: 3.0.3
+- **FastJSON2**: 2.0.65
+- **SpringDoc**: 3.1.1
 - **PageHelper**: 4.1.1
 - **JWT**: 0.13.0
 - **Apache POI**: 5.5.1
@@ -23,26 +23,27 @@
 
 ### Web（React）
 
-- **React**: 18.3.1
-- **React DOM**: 18.3.1
-- **Ant Design**: 6.6.0
+- **React**: 19.3.0
+- **React DOM**: 19.3.0
+- **Ant Design**: 6.6.5
 - **Ant Design X**: 2.9.0
-- **React Router**: 6.30.3
+- **React Router**: 7.18.4
 - **Zustand**: 5.0.15
-- **Vite**: 8.2.1
-- **@vitejs/plugin-react**: 6.0.5
-- **Axios**: 1.19.0
-- **ECharts**: 5.6.0
+- **Vite**: 8.3.1
+- **@vitejs/plugin-react**: 6.1.1
+- **Axios**: 1.20.0
+- **ECharts**: 6.1.0
+- **富文本编辑器**: react-quill-new 3.8.3（替代已停止维护的 react-quill）
 
 ## 移动端
 
 ### React Native / Expo
 
-- **React**: 19.1.0
-- **React Native**: 0.81.5
-- **Expo**: 54.0.27
-- **Expo Router**: 6.0.17
-- **React DOM**: 19.1.0
+- **React**: 19.2.3
+- **React Native**: 0.86.3
+- **Expo**: 57.0.26
+- **Expo Router**: 57.0.24
+- **React DOM**: 19.2.3
 - **React Native Web**: 0.21.2
 - **Redux Toolkit**: 2.11.0
 - **React Navigation**: 7.1.25
