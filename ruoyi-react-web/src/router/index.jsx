@@ -230,14 +230,10 @@ function filterChildren(childrenMap, lastRouter = false) {
 // 创建路由
 export function createRouter(routes) {
   const finalRoutes = routes && routes.length > 0 ? routes : constantRoutes
-  return createBrowserRouter(finalRoutes, {
-    future: {
-      v7_startTransition: true
-    }
-  })
+  // React Router 7 起 v7_startTransition 已是默认行为，不再需要 future 标记
+  return createBrowserRouter(finalRoutes)
 }
 
 // 默认路由（仅常量路由）
 const router = createRouter(constantRoutes)
 export default router
-

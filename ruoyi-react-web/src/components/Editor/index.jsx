@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
+import ReactQuill from 'react-quill-new'
+import 'react-quill-new/dist/quill.snow.css'
 import { Upload } from 'antd'
 import axios from 'axios'
 import { getToken } from '@/utils/auth'

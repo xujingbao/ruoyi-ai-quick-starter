@@ -17,15 +17,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
-        <spring-boot.version>4.0.7</spring-boot.version>
+        <spring-boot.version>4.1.1</spring-boot.version>
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
-        <mybatis-spring-boot.version>4.0.1</mybatis-spring-boot.version>
+        <mybatis-spring-boot.version>4.1.0</mybatis-spring-boot.version>
         <druid.version>1.2.28</druid.version>
         <bitwalker.version>1.21</bitwalker.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <pagehelper.boot.version>4.1.1</pagehelper.boot.version>
-        <fastjson.version>2.0.64</fastjson.version>
+        <fastjson.version>2.0.65</fastjson.version>
         <oshi.version>6.8.3</oshi.version>
         <commons.io.version>2.22.0</commons.io.version>
         <poi.version>5.5.1</poi.version>
@@ -34,7 +34,7 @@
         <postgresql.version>42.7.13</postgresql.version>
 
         <jakarta.version>6.1.0</jakarta.version>
-        <springdoc.version>3.0.3</springdoc.version>
+        <springdoc.version>3.1.1</springdoc.version>
     </properties>
 
     <!-- 依赖声明 -->
